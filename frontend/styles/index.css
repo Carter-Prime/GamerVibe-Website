@@ -7,6 +7,19 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Goldman", cursive;
+  /* light theme palette*/
+  --primaryThemeColor: #026670;
+  --contrastThemeColor: #9fedd7;
+  --primaryAccentColor: #fce181;
+  --secondaryAccentColor: #fef9c7;
+  --neutralColor: #edeae5;
+
+  /* dark theme palette
+  --primaryThemeColor: #474b4f;
+  --contrastThemeColor: #61892f;
+  --primaryAccentColor: #86c232;
+  --secondaryAccentColor: #6b6e70;
+  --neutralColor: #222629;*/
 }
 
 /* html page layout*/
@@ -16,35 +29,16 @@
   grid-gap: 5%;
 }
 
-header {
-  grid-row-start: 1;
-  background-color: blue;
-  height: 5vh;
-  min-height: 45px;
-}
-
-main {
-  grid-row-start: 2;
-  height: 90vh;
-}
-
-footer {
-  display: flex;
-  grid-row-start: 3;
-  background-color: blueviolet;
-  height: 5vh;
-  min-height: 35px;
-  place-items: center;
-  justify-content: center;
-}
-
 /* navigation styling*/
 
 .nav_wrapper {
   grid-row-start: 1;
   display: flex;
-  background-color: blue;
   overflow: hidden;
+  background: rgb(2, 102, 112);
+  background: linear-gradient(348deg, rgba(2, 102, 112, 1) 0%, rgba(105, 185, 162, 1) 100%);
+  box-shadow: 12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+    -8px -8px 12px 0 rgba(0, 0, 0, 0.25) inset;
 }
 
 .nav_menu {
@@ -57,8 +51,19 @@ footer {
 
 .nav_menu > li {
   white-space: nowrap;
-  padding: 3px;
-  margin-right: 10px;
+  padding: 5px;
+  margin-right: 15px;
+  color: var(--contrastThemeColor);
+  cursor: pointer;
+}
+
+.nav_menu > li:hover {
+  border: 2px solid var(--primaryAccentColor);
+  border-radius: 4px;
+}
+
+.nav_menu > li:active {
+  color: var(--primaryAccentColor);
 }
 
 .nav_links {
@@ -90,14 +95,38 @@ footer {
 
 #search {
   width: 25vw;
+  border: 2px solid var(--primaryThemeColor);
+  border-radius: 4px;
   min-width: 100px;
   max-width: 300px;
   padding: 3px;
+  outline: none;
 }
 
 #searchBtn {
-  margin-left: 1vw;
-  padding: 3px;
+  background-color: var(--primaryThemeColor);
+  display: inline-block;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-left: 10px;
+  padding: 5px;
+  outline: none;
+  background-color: var(--primaryThemeColor);
+  color: var(--contrastThemeColor);
+  box-shadow: 12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+    -8px -8px 12px 0 rgba(0, 0, 0, 0.25) inset;
+}
+
+#searchBtn:hover {
+  border: 2px solid var(--primaryAccentColor);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+#searchBtn:active {
+  color: var(--primaryAccentColor);
 }
 
 /* website logo style*/
@@ -122,6 +151,7 @@ footer {
 #logo > p {
   text-align: end;
   margin-left: 10px;
+  color: black;
 }
 
 #title_logo {
@@ -144,31 +174,47 @@ footer {
   padding-top: 1vh;
   padding-bottom: 1vh;
   overflow: hidden;
-  background-color: cornflowerblue;
+  background-color: var(--neutralColor);
+  height: 93vh;
 }
 
 main > div {
   display: flex;
   width: 95%;
   height: 100%;
-  background-color: cadetblue;
+  background-color: var(--contrastThemeColor);
 }
 
 /*footer content of web page*/
 
+footer {
+  display: flex;
+  grid-row-start: 3;
+  height: 2vh;
+  min-height: 35px;
+  place-items: center;
+  justify-content: center;
+  background: rgb(2, 102, 112);
+  background: linear-gradient(348deg, rgba(2, 102, 112, 1) 0%, rgba(105, 185, 162, 1) 100%);
+  box-shadow: 12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+    -8px -8px 12px 0 rgba(0, 0, 0, 0.25) inset;
+}
+
 footer > p {
   width: fit-content;
   height: fit-content;
+  color: var(--contrastThemeColor);
 }
 
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 
 @media screen and (min-width: 480px) {
   main > div {
-    background-color: lightcoral;
     width: 75%;
   }
 }
+
+/* helps transition the navbar without clashing elements*/
 
 @media screen and (min-width: 700px) {
   .nav_menu {
@@ -190,11 +236,6 @@ footer > p {
 /* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
 
 @media screen and (min-width: 900px) {
-  main > div {
-    background-color: orange;
-    width: 75%;
-  }
-
   .searchBox {
     display: flex;
   }
@@ -206,17 +247,9 @@ footer > p {
 /* for screens greater than 1200px wide - laptops and desktops*/
 
 @media screen and (min-width: 1200px) {
-  main > div {
-    background-color: green;
-    width: 75%;
-  }
 }
 
 /* for screens greater than 1600px wide - desktops and large screens*/
 
 @media screen and (min-width: 1600px) {
-  main > div {
-    background-color: chocolate;
-    width: 75%;
-  }
 }
