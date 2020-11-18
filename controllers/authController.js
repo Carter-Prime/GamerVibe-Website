@@ -1,9 +1,13 @@
 'use strict';
 const {validationResult} = require('express-validator');
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
 const bcrypt = require('bcryptjs');
+const userModel = require('../models/usermodel');
+const {messageJson} = require('../utils/json_messages');
 
 const signup = async (req, res, next) => {
-  //console.log('authController signup', req.body);
+  // console.log('authController signup', req.body);
 
   const errors = validationResult(req);
   // If there is errors in login parameters, then return errors
@@ -22,29 +26,42 @@ const signup = async (req, res, next) => {
     hash,
   ];
 
-  //console.log('authController params', params);
+  // console.log('authController params', params);
 
-  // TODO: SQL query
-  //const query = await userModel.addUser(params);
+  const query = await userModel.addUser(params);
 
   // If query return no errors then continue
   // else send error message
-  if (/* query */ true) {
-    next();
-  } else {
-    res.status(400).json({error: 'Add some useful error message here please'});
+  if (query['error']) {
+    return res.status(400).json(query['error']);
   }
+  next();
 };
 
 const login = (req, res) => {
-  console.log('authController login', req.body);
+  // console.log('authController login', req.body);
   // TODO: login using passport authenticator
+  passport.authenticate('local', {session: false}, (err, user, info) => {
+    // console.log('authController user', user);
+    if (err || !user) {
+      // console.error('authController error', err);
+      return res.status(400).json(messageJson('Something is not right'));
+    }
 
+    req.login(user, {session: false}, (err) => {
+      if (err) {
+        // console.error('authController error', err);
+        return res.send(err);
+      }
+      const token = jwt.sign(user, 'your_jwt_secret');
+      return res.json({user, token});
+    });
+  })(req, res);
 };
 
 const logout = (req, res) => {
   req.logout();
-  res.json({message: 'Logged out successfully'});
+  res.json(messageJson('Logged out successfully'));
 };
 
 module.exports = {
