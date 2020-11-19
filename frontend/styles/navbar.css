@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap");
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Goldman", cursive;
+  --primaryThemeColor: #02575f;
+  --contrastThemeColor: #cbf6e7;
+  --primaryAccentColor: #fce181;
+}
+
+.navbar {
+  display: flex;
+  flex-direction: row;
+  font-size: 1rem;
+  background-color: var(--primaryThemeColor);
+  box-shadow: 12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+    -8px -8px 12px 0 rgba(0, 0, 0, 0.25) inset;
+  color: var(--contrastThemeColor);
+}
+
+.main-nav {
+  list-style-type: none;
+  display: none;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.nav-links {
+  text-decoration: none;
+}
+
+.main-nav li {
+  margin: 15px auto;
+  padding: 5px;
+}
+
+.main-nav li:hover {
+  color: var(--primaryAccentColor);
+  border-radius: 4px;
+  cursor: pointer;
+  opacity: 80%;
+  background-color: #fce18131;
+  opacity: 80%;
+}
+
+.logo-img {
+  width: 36px;
+  height: 36px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  margin: 15px auto;
+  margin-left: 10px;
+  align-content: center;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+  font-size: 1rem;
+  margin-left: 10px;
+  align-content: center;
+  justify-content: center;
+  height: 36px;
+}
+
+#logo-subtext {
+  display: none;
+}
+
+.navbar-toggle {
+  align-self: flex-start;
+  margin-left: auto;
+  margin-right: 10px;
+  margin-top: 15px;
+  padding: 5px;
+  border: 2px solid #00000000;
+}
+
+.navbar-toggle:hover {
+  border: 2px solid var(--primaryAccentColor);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.show {
+  display: flex;
+}
+
+/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 480px) {
+}
+
+@media screen and (min-width: 700px) {
+  .main-nav {
+    font-size: 1.2rem;
+  }
+}
+
+/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
+
+@media screen and (min-width: 900px) {
+  .main-nav {
+    font-size: 1.4rem;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .navbar-toggle {
+    display: none;
+  }
+
+  .logo-text {
+    white-space: nowrap;
+    font-size: 1.5rem;
+    height: 48px;
+    margin: 7px;
+  }
+
+  .logo-img {
+    margin: 7px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* for screens greater than 1200px wide - laptops and desktops*/
+
+@media screen and (min-width: 1300px) {
+}
+
+/* for screens greater than 1600px wide - desktops and large screens*/
+
+@media screen and (min-width: 1600px) {
+}

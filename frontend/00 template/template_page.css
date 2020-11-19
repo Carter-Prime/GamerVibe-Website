@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap");
+@import "./navbar.css";
+/* select all elements reset and common styles*/
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Goldman", cursive;
+  /* light theme palette*/
+  --primaryThemeColor: #02575f;
+  --contrastThemeColor: #cbf6e7;
+  --primaryAccentColor: #fce181;
+  --secondaryAccentColor: #fef9c7;
+  --neutralColor: #edeae5;
+
+  /* dark theme palette
+  --primaryThemeColor: #474b4f;
+  --contrastThemeColor: #61892f;
+  --primaryAccentColor: #86c232;
+  --secondaryAccentColor: #6b6e70;
+  --neutralColor: #222629;*/
+}
+
+/* html page layout*/
+
+.body_wrapper {
+  grid-template-rows: auto 1fr auto;
+  grid-gap: 5%;
+}
+
+/*main body content of webpage*/
+
+.main_wrapper {
+  display: grid;
+  grid-template-columns: 0.2fr 1fr 0.2fr;
+  grid-template-rows: 0.5fr 1fr;
+  align-items: stretch;
+  overflow: hidden;
+  background-color: var(--neutralColor);
+  height: 93vh;
+  margin: 0.5rem;
+  grid-gap: 0.5rem;
+}
+
+main > div {
+  display: flex;
+  background-color: lightgray;
+}
+
+#box4 {
+  grid-column-start: 1;
+  grid-column-end: span col4-start;
+}
+
+#box3 {
+  grid-column-start: 3;
+  grid-column-end: span col4-start;
+}
+
+/*footer content of web page*/
+
+footer {
+  display: flex;
+  grid-row-start: 3;
+  height: 2vh;
+  min-height: 35px;
+  place-items: center;
+  justify-content: center;
+  background: var(--primaryThemeColor);
+  box-shadow: 12px 12px 16px 0 rgba(255, 255, 255, 0.3) inset,
+    -8px -8px 12px 0 rgba(0, 0, 0, 0.25) inset;
+}
+
+footer > p {
+  width: fit-content;
+  height: fit-content;
+  color: var(--contrastThemeColor);
+}
+
+/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 480px) {
+}
+
+@media screen and (min-width: 700px) {
+}
+
+/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
+
+@media screen and (min-width: 900px) {
+  .searchBox {
+    display: flex;
+  }
+
+  .search_nav_link {
+    display: none;
+  }
+}
+/* for screens greater than 1200px wide - laptops and desktops*/
+
+@media screen and (min-width: 1300px) {
+  .dropBtn {
+    display: none;
+  }
+
+  .dropdown {
+    display: flex;
+  }
+  .nav_menu {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-self: center;
+  }
+  .nav_menu > a {
+    flex-direction: row;
+  }
+}
+
+/* for screens greater than 1600px wide - desktops and large screens*/
+
+@media screen and (min-width: 1600px) {
+}
