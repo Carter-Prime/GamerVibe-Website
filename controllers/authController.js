@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../models/usermodel');
 const {messageJson} = require('../utils/json_messages');
 
-const signup = async (req, res, next) => {
+const register = async (req, res, next) => {
   // console.log('authController signup', req.body);
 
   const errors = validationResult(req);
@@ -66,6 +66,6 @@ const logout = (req, res) => {
 
 module.exports = {
   login,
-  signup,
+  register,
   logout,
 };

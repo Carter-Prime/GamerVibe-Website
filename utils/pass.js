@@ -16,11 +16,12 @@ passport.use(new Strategy(async (email, password, done) => {
     const [user] = await userModel.getUserLogin(params);
     if (user === undefined) {
       // No user with given email found
+      // TODO: Add random timeout
       return done(null, false);
     }
 
     // Use bcrypt to compare passwords
-    if (!bcrypt.compareSync(password, user.password)) {
+    if (!await bcrypt.compare(password, user.password)) {
       // Passwords don't match
       return done(null, false);
     }
