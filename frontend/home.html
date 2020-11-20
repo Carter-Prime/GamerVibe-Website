@@ -3,14 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./00 template/template_page.css" />
+    <link rel="stylesheet" href="./styles/navigation.css" />
     <link rel="stylesheet" href="./styles/home.css" />
     <title>GamerVibe Home</title>
   </head>
-  <body class="body_wrapper">
+  <body class="body-wrapper">
     <nav class="navbar">
       <div class="logo">
-        <img class="logo-img" src="./resources/images/tiger_snow.jpg" alt="tigerpic" />
+        <img class="logo-img" src="./resources/images/puppy_picture.jpg" alt="tigerpic" />
         <div class="logo-text">
           <p id="logo-title">GamerVibe</p>
         </div>
@@ -19,15 +19,27 @@
         <li class="nav-links" id="Search">Search</li>
         <li class="nav-links" id="Home">Home</li>
         <li class="nav-links" id="Discover">Discover</li>
-        <li class="nav-links" id="Login">Login</li>
+        <li class="nav-links login-btn" id="Login">Login</li>
       </ul>
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>
-    <main class="main_wrapper"></main>
+    <main class="main-wrapper">
+      <div class="title-wrapper">
+        <img src="./resources/images/puppy_picture.jpg" alt="main page image" id="main-img" />
+        <div class="text-wrapper">
+          <p class="title-text">GamerVibe</p>
+          <p class="subtitle-text">Share your second life</p>
+          <div class="button-wrpper">
+            <button class="button login-btn">Login</button>
+            <button class="button signUp-btn">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>
     </footer>
   </body>
-  <script src="./navigation.js"></script>
+  <script src="./scripts/navigation.js"></script>
   <script src="./scripts/home.js"></script>
 </html>

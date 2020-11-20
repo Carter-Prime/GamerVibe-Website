@@ -1,0 +1,107 @@
+/*main body content of webpage*/
+
+* {
+  --primaryThemeColor: #e6e9f0;
+  --contrastThemeColor: #cbf6e7;
+  --primaryAccentColor: #e05915;
+  --textColor: #431c5d;
+  --neutralColor: #e2eff3;
+}
+.main-wrapper {
+  display: flex;
+  flex: 1;
+  background-color: var(--neutralColor);
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+}
+
+.title-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  align-self: center;
+  text-align: end;
+  margin: 10px;
+}
+.text-wrapper {
+  margin-left: 20px;
+  margin-right: 10px;
+  color: var(--textColor);
+  font-weight: 700;
+}
+
+.title-text {
+  font-size: clamp(3rem, 2rem + 5vw, 8rem);
+  white-space: nowrap;
+}
+
+.subtitle-text {
+  font-size: clamp(1rem, 0.6rem + 2vw, 3rem);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.button-wrpper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button {
+  margin-top: 30px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
+  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25), -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  border: 1px var(--textColor) solid;
+  background-color: var(--primaryThemeColor);
+  color: var(--textColor);
+
+  position: relative;
+  text-align: center;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+}
+
+.button:after {
+  content: "";
+  background: var(--primaryAccentColor);
+  display: block;
+  position: absolute;
+  padding-top: 300%;
+  padding-left: 350%;
+  margin-left: -20px !important;
+  margin-top: -120%;
+  opacity: 0;
+  transition: all 0.8s;
+}
+
+.button:active:after {
+  padding: 0;
+  margin: 0;
+  opacity: 1;
+  transition: 0s;
+}
+
+.button:active {
+  box-shadow: -8px -8px 12px 0 rgba(0, 0, 0, 0.3), 12px 12px 16px rgba(255, 255, 255, 0.25) inset;
+}
+
+#main-img {
+  box-sizing: border-box;
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (min-width: 1600px) {
+  .title-wrapper {
+    flex-direction: row;
+  }
+}
