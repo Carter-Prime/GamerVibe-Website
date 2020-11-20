@@ -31,19 +31,19 @@ const fetchAccount = () => {
 };
 
 const loggedIn = () => {
-  const friendLink = document.createElement("li");
-  friendLink.classList.add("nav-links");
-  friendLink.id = "Friends";
-  friendLink.textContent = "Friends";
-
-  const accountLink = document.createElement("li");
-  accountLink.classList.add("nav-links");
-  accountLink.id = "Account";
-  accountLink.textContent = "Account";
-
   const linksExist = document.getElementById("Friends");
 
   if (linksExist == null) {
+    const friendLink = document.createElement("li");
+    friendLink.classList.add("nav-links");
+    friendLink.id = "Friends";
+    friendLink.textContent = "Friends";
+
+    const accountLink = document.createElement("li");
+    accountLink.classList.add("nav-links");
+    accountLink.id = "Account";
+    accountLink.textContent = "Account";
+
     mainNav.insertBefore(friendLink, mainNav.childNodes[3]);
     mainNav.insertBefore(accountLink, mainNav.childNodes[4]);
     document.querySelector("#Friends").addEventListener("click", fetchFriends);
