@@ -4,42 +4,50 @@
   --primaryThemeColor: #e6e9f0;
   --contrastThemeColor: #cbf6e7;
   --primaryAccentColor: #e05915;
+  --primaryAccentColor50: #e0591599;
   --textColor: #431c5d;
   --neutralColor: #e2eff3;
 }
-.main-wrapper {
-  display: flex;
-  flex: 1;
-  background-color: var(--neutralColor);
-  justify-content: center;
-  align-content: center;
-  overflow: hidden;
-}
 
-.title-wrapper {
+#main-img {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
   justify-self: center;
   align-self: center;
-  text-align: end;
-  margin: 10px;
+  padding: 30px;
+  transition: all 1s;
+}
+
+#title-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: fit-content;
+  height: fit-content;
+  justify-self: center;
+  align-self: center;
+  padding: 30px;
 }
 .text-wrapper {
-  margin-left: 20px;
-  margin-right: 10px;
+  width: 100%;
   color: var(--textColor);
   font-weight: 700;
+  display: flex;
+  flex-direction: column;
 }
 
 .title-text {
   font-size: clamp(3rem, 2rem + 5vw, 8rem);
   white-space: nowrap;
+  width: 100%;
+  text-align: end;
 }
 
 .subtitle-text {
   font-size: clamp(1rem, 0.6rem + 2vw, 3rem);
   white-space: nowrap;
   font-weight: 600;
+  text-align: end;
 }
 
 .button-wrpper {
@@ -47,61 +55,30 @@
   justify-content: flex-end;
 }
 
-.button {
-  margin-top: 30px;
-  margin-left: 20px;
-  margin-bottom: 10px;
-  padding: 10px;
-  font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
-  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25), -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
-  border-radius: 4px;
-  border: 1px var(--textColor) solid;
-  background-color: var(--primaryThemeColor);
-  color: var(--textColor);
+/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 
-  position: relative;
-  text-align: center;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  text-decoration: none;
-  overflow: hidden;
-  cursor: pointer;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
+@media screen and (min-width: 480px) {
 }
 
-.button:after {
-  content: "";
-  background: var(--primaryAccentColor);
-  display: block;
-  position: absolute;
-  padding-top: 300%;
-  padding-left: 350%;
-  margin-left: -20px !important;
-  margin-top: -120%;
-  opacity: 0;
-  transition: all 0.8s;
+/* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 700px) {
 }
 
-.button:active:after {
-  padding: 0;
-  margin: 0;
-  opacity: 1;
-  transition: 0s;
+/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
+
+@media screen and (min-width: 900px) {
+}
+/* for screens greater than 1200px wide - laptops and desktops*/
+
+@media screen and (min-width: 1300px) {
 }
 
-.button:active {
-  box-shadow: -8px -8px 12px 0 rgba(0, 0, 0, 0.3), 12px 12px 16px rgba(255, 255, 255, 0.25) inset;
-}
-
-#main-img {
-  box-sizing: border-box;
-  max-width: 100%;
-  height: auto;
-}
+/* for screens greater than 1600px wide - desktops and large screens*/
 
 @media screen and (min-width: 1600px) {
-  .title-wrapper {
-    flex-direction: row;
+  #main-img {
+    max-width: 900px;
+    transition: all 1s;
   }
 }

@@ -3,14 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./styles/navigation.css" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/home.css" />
     <link rel="stylesheet" href="./styles/signUp.css" />
     <title>GamerVibe Sign Up</title>
   </head>
-  <body class="body_wrapper">
+  <body class="body-wrapper">
     <nav class="navbar">
       <div class="logo">
-        <img class="logo-img" src="./resources/images/tiger_snow.jpg" alt="tigerpic" />
+        <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
         <div class="logo-text">
           <p id="logo-title">GamerVibe</p>
         </div>
@@ -19,11 +20,31 @@
         <li class="nav-links" id="Search">Search</li>
         <li class="nav-links" id="Home">Home</li>
         <li class="nav-links" id="Discover">Discover</li>
-        <li class="nav-links" id="Login">Login</li>
+        <li class="nav-links active-page" id="Login">Login</li>
       </ul>
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>
-    <main class="main_wrapper"></main>
+    <main class="main-wrapper">
+      <img src="./resources/images/Title Image.png" alt="main page image" id="main-img" />
+      <div id="title-wrapper">
+        <div class="text-wrapper">
+          <p class="title-text">GamerVibe</p>
+          <p class="subtitle-text">Share your second life</p>
+          <form class="signup-wrapper" id="signup-form">
+            <h1>Login</h1>
+            <div>
+              <label>Email:</label>
+              <input class="input" type="text" name="email" />
+            </div>
+            <div>
+              <label>Password:</label>
+              <input class="input" type="text" name="password" />
+            </div>
+            <button class="button signup-btn" type="button">Sign Up</button>
+          </form>
+        </div>
+      </div>
+    </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>
     </footer>
