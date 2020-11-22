@@ -29,6 +29,7 @@ const register = async (req, res, next) => {
   // console.log('authController params', params);
 
   const query = await userModel.addUser(params);
+  console.log('query', query);
 
   // If query return no errors then continue
   // else send error message

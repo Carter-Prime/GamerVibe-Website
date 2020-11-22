@@ -44,16 +44,15 @@ const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params);
-    console.log('addUser rows', rows);
+    // console.log('addUser rows', rows);
 
     return await getUser(rows['insertId']);
   } catch (e) {
     console.error('addUser error', e.message);
-    if(e.code === 'ER_DUP_ENTRY'){
-      const str = e.message;
-      const test = str.split('\'')
-      console.log('test', test[test.length - 2])
-      return errorJson('Username or email already in use')
+    if (e.code === 'ER_DUP_ENTRY') {
+      const sliced = e.message.split('\'');
+      const key = sliced[sliced.length - 2];
+      return errorJson(`${key} already in use`);
     }
     return errorJson(e.message);
   }
