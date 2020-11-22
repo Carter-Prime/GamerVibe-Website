@@ -36,6 +36,7 @@ const register = async (req, res) => {
     console.error('authController register error', query['error']);
     return res.status(400).json(query['error']);
   }
+  return res.json(query);
 };
 
 const login = (req, res) => {
