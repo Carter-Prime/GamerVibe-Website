@@ -42,13 +42,13 @@ const getUserLogin = async (email) => {
 // TODO: Add correct information to user table
 const addUser = async (params) => {
   try {
-    const rows = await promisePool.execute(
+    const [rows] = await promisePool.execute(
         'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params);
     console.log('addUser rows', rows);
 
     return await getUser(rows['insertId']);
   } catch (e) {
-    console.error('addUser error', e.message);
+    console.error('addUser error', e);
     return errorJson(e.message);
   }
 };
