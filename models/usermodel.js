@@ -19,7 +19,7 @@ const getAllUsers = async () => {
 const getUser = async (id) => {
   try {
     const [user] = await promisePool.execute(
-        'SELECT username, email FROM User WHERE userid = ?', id,
+        'SELECT username, email FROM User WHERE userid = ?', [id],
     );
     return user[0] || errorJson(`No users found with id: ${id}`);
   } catch (e) {
@@ -31,7 +31,7 @@ const getUser = async (id) => {
 const getUserLogin = async (email) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM User WHERE email = ?', email,
+        'SELECT * FROM User WHERE email = ?', [email],
     );
     return rows;
   } catch (e) {
