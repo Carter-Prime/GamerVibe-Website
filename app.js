@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoute = require('./routes/authRoute');
 const app = express();
+const passport = require('./utils/pass')
 
 app.use(cors());
 app.use(bodyParser.json());

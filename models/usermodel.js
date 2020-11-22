@@ -31,12 +31,13 @@ const getUser = async (id) => {
 };
 
 // TODO: Get correct information for login
+// TODO: Get latest user
 const getUserLogin = async (email) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM User WHERE email = ?', [email],
     );
-    console.log('userModel getUserLogin rows', rows);
+    // console.log('userModel getUserLogin rows', rows);
     return rows;
   } catch (e) {
     return errorJson(e.message);

@@ -33,7 +33,7 @@ const register = async (req, res) => {
   // If query return no errors then continue
   // else send error message
   if (query['error']) {
-    console.error('authController register error', query['error']);
+    // console.error('authController register error', query['error']);
     return res.status(400).json(query['error']);
   }
   return res.json(query);
@@ -43,15 +43,16 @@ const login = (req, res) => {
   console.log('authController login', req.body);
   // TODO: login using passport authenticator
   passport.authenticate('local', {session: false}, (err, user, info) => {
-    console.log('authController user', user);
+    // console.log('authController info', info);
+    // console.log('authController user', user);
     if (err || !user) {
-      console.error('authController error', err);
+      // console.error('authController error', err);
       return res.status(400).json(messageJson('Something is not right'));
     }
 
     req.login(user, {session: false}, (err) => {
       if (err) {
-        // console.error('authController error', err);
+        // console.error('authController req.login error', err);
         return res.send(err);
       }
       const token = jwt.sign(user, 'your_jwt_secret');
