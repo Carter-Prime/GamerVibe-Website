@@ -47,7 +47,7 @@ const addUser = async (params) => {
 
     return await getUser(status['insertId']);
   } catch (e) {
-    console.error('addUser error', e.message)
+    console.error('addUser error', e.code)
     return errorJson(e.message);
   }
 };
