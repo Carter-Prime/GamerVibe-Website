@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/home.css" />
-    <link rel="stylesheet" href="./styles/signUp.css" />
-    <title>GamerVibe Sign Up</title>
+    <title>GamerVibe Home</title>
   </head>
   <body class="body-wrapper">
     <nav class="navbar">
@@ -18,9 +17,9 @@
       </div>
       <ul class="main-nav" id="js-menu">
         <li class="nav-links" id="Search">Search</li>
-        <li class="nav-links" id="Home">Home</li>
+        <li class="nav-links active-page" id="Home">Home</li>
         <li class="nav-links" id="Discover">Discover</li>
-        <li class="nav-links active-page" id="Login">Login</li>
+        <li class="nav-links login-btn" id="Login">Login</li>
       </ul>
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>
@@ -30,18 +29,10 @@
         <div class="text-wrapper">
           <p class="title-text">GamerVibe</p>
           <p class="subtitle-text">Share your second life</p>
-          <form class="signup-wrapper" id="signup-form">
-            <h1>Login</h1>
-            <div>
-              <label>Email:</label>
-              <input class="input" type="text" name="email" />
-            </div>
-            <div>
-              <label>Password:</label>
-              <input class="input" type="text" name="password" />
-            </div>
-            <button class="button signup-btn" type="button">Sign Up</button>
-          </form>
+          <div class="button-wrpper">
+            <button class="button login-btn">Login</button>
+            <button class="button signUp-btn">Sign Up</button>
+          </div>
         </div>
       </div>
     </main>
@@ -50,5 +41,5 @@
     </footer>
   </body>
   <script src="./scripts/navigation.js"></script>
-  <script src="./scripts/signUp.js"></script>
+  <script src="./scripts/home.js"></script>
 </html>

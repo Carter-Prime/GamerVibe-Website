@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/home.css" />
-    <link rel="stylesheet" href="./styles/signUp.css" />
-    <title>GamerVibe Sign Up</title>
+    <link rel="stylesheet" href="./styles/login.css" />
+    <title>GamerVibe Login</title>
   </head>
   <body class="body-wrapper">
     <nav class="navbar">
@@ -30,7 +30,7 @@
         <div class="text-wrapper">
           <p class="title-text">GamerVibe</p>
           <p class="subtitle-text">Share your second life</p>
-          <form class="signup-wrapper" id="signup-form">
+          <form class="login-wrapper" id="login-form">
             <h1>Login</h1>
             <div>
               <label>Email:</label>
@@ -40,7 +40,11 @@
               <label>Password:</label>
               <input class="input" type="text" name="password" />
             </div>
-            <button class="button signup-btn" type="button">Sign Up</button>
+            <button class="button login-btn" type="button">Login</button>
+            <p id="create-account">
+              If you do not have an account click
+              <a href="http://127.0.0.1:50278/GamerVibe-Website/frontend/home.html">here.</a>
+            </p>
           </form>
         </div>
       </div>
@@ -50,5 +54,5 @@
     </footer>
   </body>
   <script src="./scripts/navigation.js"></script>
-  <script src="./scripts/signUp.js"></script>
+  <script src="./scripts/login.js"></script>
 </html>

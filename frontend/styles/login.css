@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700;800&display=swap");
+
+* {
+  --primaryThemeColor: #e6e9f0;
+  --contrastThemeColor: #cbf6e7;
+  --primaryAccentColor: #e05915;
+  --primaryAccentColor50: #e059156c;
+  --textColor: #431c5d;
+  --lightBorderColor: #431c5d46;
+  --contrastBackground: #e0e5fc;
+  --neutralColor: #e2eff3;
+}
+
+.login-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: fit-content;
+  height: fit-content;
+  flex-direction: column;
+  align-self: flex-end;
+  margin-top: 3vh;
+  padding: 10px;
+  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  background-color: var(--contrastBackground);
+  border: 1px solid var(--lightBorderColor);
+}
+
+.login-wrapper > h1 {
+  text-align: center;
+  margin-bottom: 3vh;
+}
+
+.login-wrapper > div {
+  display: flex;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.input {
+  font-family: "Oxanium", cursive;
+  font-size: clamp(0.5rem, 0.3667rem + 0.6667vw, 1.2rem);
+  color: var(--textColor);
+  width: 60%;
+  min-width: 134px;
+  margin: 10px;
+  padding: 5px;
+}
+
+label {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+  align-self: center;
+  padding: 5px;
+  margin: 10px;
+  font-size: clamp(0.7rem, 0.6048rem + 0.4762vw, 1.2rem);
+  font-weight: 700;
+}
+
+#create-account {
+  font-size: 0.8rem;
+  padding: 5px;
+  margin: 10px;
+  text-align: end;
+}
+
+a {
+  background: linear-gradient(
+    to bottom,
+    var(--primaryAccentColor) 0%,
+    var(--primaryAccentColor50) 100%
+  );
+  background-position: 0 100%;
+  background-repeat: repeat-x;
+  background-size: 2px 2px;
+  color: #000;
+  text-decoration: none;
+  font-weight: 800;
+  transition: background-size 0.2s;
+}
+
+a:hover {
+  background-size: 4px 50px;
+}
+
+/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 480px) {
+  .input {
+    min-width: 200px;
+  }
+}
+
+/* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 700px) {
+}
+
+/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
+
+@media screen and (min-width: 900px) {
+}
+/* for screens greater than 1200px wide - laptops and desktops*/
+
+@media screen and (min-width: 1300px) {
+}
+
+/* for screens greater than 1600px wide - desktops and large screens*/
+
+@media screen and (min-width: 1600px) {
+}
