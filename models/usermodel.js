@@ -6,7 +6,7 @@ const {errorJson} = require('../utils/json_messages');
 const getAllUsers = async () => {
   try {
     const [rows] = await connection.execute(
-        'SELECT username, email FROM users',
+        'SELECT username, email FROM User',
     );
     return rows;
   } catch (e) {
@@ -18,7 +18,7 @@ const getAllUsers = async () => {
 const getUser = async (id) => {
   try {
     const [user] = await connection.execute(
-        'SELECT username, email FROM user WHERE userid = ?', id,
+        'SELECT username, email FROM User WHERE userid = ?', id,
     );
     return user[0] || errorJson(`No users found with id: ${id}`);
   } catch (e) {
@@ -30,7 +30,7 @@ const getUser = async (id) => {
 const getUserLogin = async (email) => {
   try {
     const [rows] = await connection.execute(
-        'SELECT * FROM user WHERE email = ?', email,
+        'SELECT * FROM User WHERE email = ?', email,
     );
     return rows;
   } catch (e) {
@@ -42,7 +42,7 @@ const getUserLogin = async (email) => {
 const addUser = async (params) => {
   try {
     const [status] = await connection.execute(
-        'INSERT INTO User(email, username, password) VALUES(?,?,?)', params,
+        'INSERT INTO User(email, username, passwd) VALUES(?,?,?)', params,
     );
     return await getUser(status['insertId']);
   } catch (e) {
