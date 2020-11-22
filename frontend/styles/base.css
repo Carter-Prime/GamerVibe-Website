@@ -230,10 +230,6 @@ footer > p {
     font-size: 1.4rem;
   }
 
-  .navbar-toggle {
-    display: none;
-  }
-
   .logo {
     margin-top: 0;
     align-self: center;
@@ -250,6 +246,11 @@ footer > p {
     width: 48px;
     height: 48px;
   }
+
+  .navbar-toggle {
+    font-size: 1.3rem;
+    margin-top: 10px;
+  }
 }
 
 /* for screens greater than 1200px wide - laptops and desktops*/
@@ -262,6 +263,10 @@ footer > p {
   .main-wrapper {
     flex-direction: row;
     align-content: space-around;
+  }
+
+  .navbar-toggle {
+    display: none;
   }
 }
 

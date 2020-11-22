@@ -42,7 +42,7 @@
   font-size: clamp(0.5rem, 0.3667rem + 0.6667vw, 1.2rem);
   color: var(--textColor);
   width: 60%;
-  min-width: 134px;
+  min-width: 130px;
   margin: 10px;
   padding: 5px;
 }
@@ -100,6 +100,9 @@ a:hover {
 /* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
 
 @media screen and (min-width: 900px) {
+  .input {
+    min-width: 300px;
+  }
 }
 /* for screens greater than 1200px wide - laptops and desktops*/
 
