@@ -9,6 +9,7 @@ const getAllUsers = async () => {
     const [rows] = await promisePool.execute(
         'SELECT username, email FROM User',
     );
+    console.log('userModel getAllUsers rows', rows)
     return rows;
   } catch (e) {
     return errorJson(e.message);
@@ -18,10 +19,11 @@ const getAllUsers = async () => {
 // TODO: Get correct information from user
 const getUser = async (id) => {
   try {
-    const [user] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
         'SELECT username, email FROM User WHERE user_id = ?', [id],
     );
-    return user[0] || errorJson(`No users found with id: ${id}`);
+    console.log('userModel getUser user', rows)
+    return rows[0] || errorJson(`No users found with id: ${id}`);
   } catch (e) {
     return errorJson(e.message);
   }
@@ -33,6 +35,7 @@ const getUserLogin = async (email) => {
     const [rows] = await promisePool.execute(
         'SELECT * FROM User WHERE email = ?', [email],
     );
+    console.log('userModel getUserLogin rows', rows)
     return rows;
   } catch (e) {
     return errorJson(e.message);
