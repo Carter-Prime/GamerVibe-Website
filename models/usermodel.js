@@ -41,9 +41,8 @@ const getUserLogin = async (email) => {
 // TODO: Add correct information to user table
 const addUser = async (params) => {
   try {
-    const [status] = await connection.execute(
-        'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params,
-    );
+    const status = await connection.execute(
+        'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params);
 
     console.log('addUser status', status);
     console.log('addUser blank');
