@@ -44,7 +44,7 @@ const addUser = async (params) => {
     const [users] = await connection.execute('SELECT * FROM User');
     console.log('users', users);
 
-    const [status] = await connection.execute(
+    const status = await connection.execute(
         'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params);
 
     console.log('addUser status', status);
