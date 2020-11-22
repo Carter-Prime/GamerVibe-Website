@@ -41,7 +41,7 @@ const getUserLogin = async (email) => {
 // TODO: Add correct information to user table
 const addUser = async (params) => {
   try {
-    const [rows] = await connection.execute(
+    const [rows] = await connection.query(
         'SELECT username, email FROM User',
     );
     console.log('rows', rows)
