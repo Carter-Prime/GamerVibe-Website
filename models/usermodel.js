@@ -44,6 +44,9 @@ const addUser = async (params) => {
     const [status] = await connection.execute(
         'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params,
     );
+
+    console.log('addUser status', status)
+
     return await getUser(status['insertId']);
   } catch (e) {
     return errorJson(e.message);
