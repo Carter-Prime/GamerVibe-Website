@@ -22,8 +22,9 @@ const getUser = async (id) => {
     const [rows] = await promisePool.execute(
         'SELECT username, email FROM User WHERE user_id = ?', [id],
     );
-    console.log('userModel getUser user', rows)
-    return rows[0] || errorJson(`No users found with id: ${id}`);
+    const user = {...rows[0]}
+    console.log('userModel getUser user', user)
+    return user || errorJson(`No users found with id: ${id}`);
   } catch (e) {
     return errorJson(e.message);
   }
