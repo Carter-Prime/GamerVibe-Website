@@ -20,7 +20,7 @@ const getUser = async (id) => {
     const [user] = await connection.execute(
         'SELECT username, email FROM user WHERE userid = ?', id,
     );
-    return user[0] || {error: `No users found with id: ${id}`};
+    return user[0] || errorJson(`No users found with id: ${id}`);
   } catch (e) {
     return errorJson(e.message);
   }
