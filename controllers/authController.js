@@ -29,11 +29,11 @@ const register = async (req, res, next) => {
   // console.log('authController params', params);
 
   const query = await userModel.addUser(params);
-  console.log('query', query);
 
   // If query return no errors then continue
   // else send error message
   if (query['error']) {
+    console.error('authController register error', query['error']);
     return res.status(400).json(query['error']);
   }
   next();
@@ -42,7 +42,7 @@ const register = async (req, res, next) => {
 const login = (req, res) => {
   // console.log('authController login', req.body);
   // TODO: login using passport authenticator
-  passport.authenticate('local', {session: false}, (err, user, info) => {
+  passport.authenticate('local', {session: false}, (err, user) => {
     // console.log('authController user', user);
     if (err || !user) {
       // console.error('authController error', err);
