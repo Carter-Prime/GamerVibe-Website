@@ -116,6 +116,10 @@
   cursor: pointer;
 }
 
+.hide {
+  display: none;
+}
+
 .show {
   display: flex;
 }
