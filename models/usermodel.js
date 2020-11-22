@@ -51,7 +51,7 @@ const addUser = async (params) => {
     console.error('addUser error', e.message);
     if(e.code === 'ER_DUP_ENTRY'){
       const str = e.message;
-      const test = str.substring(str.indexOf('for key \'') + 1, str.length - 1)
+      const test = str.split('\'')
       console.log('test', test)
       return errorJson('Username or email already in use')
     }
