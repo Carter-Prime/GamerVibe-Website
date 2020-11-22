@@ -46,6 +46,7 @@ const addUser = async (params) => {
     );
 
     console.log('addUser status', status);
+    console.log('addUser blank');
 
     return await getUser(status['insertId']);
   } catch (e) {
