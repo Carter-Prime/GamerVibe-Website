@@ -41,14 +41,11 @@ const getUserLogin = async (email) => {
 // TODO: Add correct information to user table
 const addUser = async (params) => {
   try {
-    console.log('addUser', params);
-    const [user] = await connection.execute(
-        'SELECT * FROM User WHERE email = ?', [params[1]]);
-    console.log('user', user);
-
     const [status] = await connection.execute(
         'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params,
     );
+
+    console.log('addUser status', status);
 
     return await getUser(status['insertId']);
   } catch (e) {
