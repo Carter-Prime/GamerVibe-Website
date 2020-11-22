@@ -45,9 +45,9 @@ const addUser = async (params) => {
         'INSERT INTO User(username, email, passwd) VALUES(?,?,?)', params);
     console.log('addUser rows', rows)
 
-    return await getUser(status['insertId']);
+    return await getUser(rows['insertId']);
   } catch (e) {
-    console.error('addUser error', e)
+    console.error('addUser error', e.message)
     return errorJson(e.message);
   }
 };
