@@ -10,17 +10,20 @@
   </head>
   <body class="body-wrapper">
     <nav class="navbar">
-      <div class="logo">
+      <div class="logo" id="js-logo">
         <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
         <div class="logo-text">
           <p id="logo-title">GamerVibe</p>
         </div>
       </div>
       <ul class="main-nav" id="js-menu">
-        <li class="nav-links" id="Search">Search</li>
-        <li class="nav-links" id="Home">Home</li>
-        <li class="nav-links" id="Discover">Discover</li>
-        <li class="nav-links active-page" id="Login">Login</li>
+        <li class="nav-tab nav-links" id="js-search-tab">Search</li>
+        <li class="nav-tab nav-links hide" id="js-home-tab">Home</li>
+        <li class="nav-tab nav-links" id="js-discover-tab">Discover</li>
+        <li class="nav-tab nav-links hide" id="js-friends-tab">Friends</li>
+        <li class="nav-tab nav-links hide" id="js-account-tab">Account</li>
+        <li class="nav-tab nav-links login-btn" id="js-login-tab">Login</li>
+        <li class="nav-tab nav-links signup-btn active-page" id="js-signup-tab">Sign Up</li>
       </ul>
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>
@@ -44,7 +47,9 @@
               <label>Password:</label>
               <input class="input" type="text" name="password" />
             </div>
-            <button class="button signup-btn" type="button">Sign Up</button>
+            <button class="button signup-btn" type="button" id="js-authenticate-signup">
+              Sign Up
+            </button>
           </form>
         </div>
       </div>
