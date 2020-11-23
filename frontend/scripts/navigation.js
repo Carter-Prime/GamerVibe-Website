@@ -1,64 +1,66 @@
 "use strict";
+const url = "http://127.0.0.1:61909/GamerVibe-Website/frontend/";
 
 const mainNav = document.getElementById("js-menu");
+const navTabs = document.querySelectorAll(".nav-tab");
+const loginBtn = document.querySelectorAll(".login-btn");
+const logo = document.getElementById("js-logo");
+const signupBtn = document.querySelectorAll(".signUp-btn");
+const friendsTab = document.getElementById("js-friends-tab");
+const accountTab = document.getElementById("js-account-tab");
+const homeTab = document.getElementById("js-home-tab");
+const loginTab = document.getElementById("js-login-tab");
+const signupTab = document.getElementById("js-signup-tab");
 
 const toggleMenu = () => {
   mainNav.classList.toggle("show");
 };
 
-const fetchHome = () => {
-  console.log("Home called");
-};
-
-const fetchLogin = () => {
-  console.log("Login called");
-};
-
-const fetchDiscover = () => {
-  console.log("Discover called");
-};
-
-const fetchSearch = () => {
-  console.log("Search called");
-};
-
-const fetchFriends = () => {
-  console.log("Friends called");
-};
-
-const fetchAccount = () => {
-  console.log("Account called");
-};
-
-const loggedIn = () => {
-  const linksExist = document.getElementById("Friends");
-
-  if (linksExist == null) {
-    const friendLink = document.createElement("li");
-    friendLink.classList.add("nav-links");
-    friendLink.id = "Friends";
-    friendLink.textContent = "Friends";
-
-    const accountLink = document.createElement("li");
-    accountLink.classList.add("nav-links");
-    accountLink.id = "Account";
-    accountLink.textContent = "Account";
-
-    mainNav.insertBefore(friendLink, mainNav.childNodes[3]);
-    mainNav.insertBefore(accountLink, mainNav.childNodes[4]);
-    document.querySelector("#Friends").addEventListener("click", fetchFriends);
-    document.querySelector("#Account").addEventListener("click", fetchAccount);
-  } else {
-    console.log("these links already exist");
+const openTab = (event) => {
+  console.log(event.target.id);
+  switch (event.target.id) {
+    case "js-search-tab":
+      window.open(`${url}` + "search.html", "_self", false);
+      break;
+    case "logo-title":
+      window.open(`${url}` + "home.html", "_self", false);
+      break;
+    case "js-home-tab":
+      window.open(`${url}` + "userProfile.html", "_self", false);
+      break;
+    case "js-discover-tab":
+      window.open(`${url}` + "discover.html", "_self", false);
+      break;
+    case "js-friends-tab":
+      window.open(`${url}` + "friends.html", "_self", false);
+      break;
+    case "js-account-tab":
+      window.open(`${url}` + "account.html", "_self", false);
+      break;
+    case "js-login-tab":
+      window.open(`${url}` + "login.html", "_self", false);
+      break;
+    case "js-signup-tab":
+      window.open(`${url}` + "signUp.html", "_self", false);
+      break;
+    case "js-signup-link":
+      window.open(`${url}` + "signUp.html", "_self", false);
+      break;
+    case "js-loginBtn":
+      window.open(`${url}` + "login.html", "_self", false);
+      break;
+    case "js-signupBtn":
+      window.open(`${url}` + "signUp.html", "_self", false);
+      break;
+    default:
+      console.log("default was called");
   }
 };
 
 document.getElementById("js-navbar-toggle").addEventListener("click", toggleMenu);
 
-document.querySelector("#Home").addEventListener("click", fetchHome);
+navTabs.forEach((link) => {
+  link.addEventListener("click", openTab);
+});
 
-document.querySelector("#Login").addEventListener("click", fetchLogin);
-
-document.querySelector("#Discover").addEventListener("click", fetchDiscover);
-
-document.querySelector("#Search").addEventListener("click", fetchSearch);
+logo.addEventListener("click", openTab);

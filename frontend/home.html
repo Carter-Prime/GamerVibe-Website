@@ -9,17 +9,20 @@
   </head>
   <body class="body-wrapper">
     <nav class="navbar">
-      <div class="logo">
+      <div class="logo" id="js-logo">
         <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
         <div class="logo-text">
           <p id="logo-title">GamerVibe</p>
         </div>
       </div>
       <ul class="main-nav" id="js-menu">
-        <li class="nav-links" id="Search">Search</li>
-        <li class="nav-links active-page" id="Home">Home</li>
-        <li class="nav-links" id="Discover">Discover</li>
-        <li class="nav-links login-btn" id="Login">Login</li>
+        <li class="nav-tab nav-links" id="js-search-tab">Search</li>
+        <li class="nav-tab nav-links hide" id="js-home-tab">Home</li>
+        <li class="nav-tab nav-links" id="js-discover-tab">Discover</li>
+        <li class="nav-tab nav-links hide" id="js-friends-tab">Friends</li>
+        <li class="nav-tab nav-links hide" id="js-account-tab">Account</li>
+        <li class="nav-tab nav-links login-btn" id="js-login-tab">Login</li>
+        <li class="nav-tab nav-links signup-btn" id="js-signup-tab">Sign Up</li>
       </ul>
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>
@@ -30,8 +33,8 @@
           <p class="title-text">GamerVibe</p>
           <p class="subtitle-text">Share your second life</p>
           <div class="button-wrpper">
-            <button class="button login-btn">Login</button>
-            <button class="button signUp-btn">Sign Up</button>
+            <button class="nav-tab button" id="js-loginBtn">Login</button>
+            <button class="nav-tab button" id="js-signupBtn">Sign Up</button>
           </div>
         </div>
       </div>

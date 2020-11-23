@@ -88,6 +88,7 @@
   margin-top: 5px;
   align-self: flex-start;
   justify-self: center;
+  cursor: pointer;
 }
 
 .logo-text {
@@ -114,6 +115,10 @@
   color: var(--primaryAccentColor);
   border-radius: 4px;
   cursor: pointer;
+}
+
+.hide {
+  display: none;
 }
 
 .show {
