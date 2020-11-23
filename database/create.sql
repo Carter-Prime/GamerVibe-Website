@@ -1,5 +1,5 @@
 CREATE TABLE User (
-    user_id INT,
+    user_id INT AUTO_INCREMENT,
     username VARCHAR(30) UNIQUE,
     fname VARCHAR(50),
     lname VARCHAR(50),
@@ -10,15 +10,16 @@ CREATE TABLE User (
     discord VARCHAR(100),
     youtube VARCHAR(100),
     twitch VARCHAR(100),
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL,
-    private_acc BOOLEAN,
-    blacklisted_at TIMESTAMP NULL,
-    unblacklisted_at TIMESTAMP NULL,
-    blacklisted_by INT,
-    blacklisted_reason VARCHAR(255),
+    private_acc BOOLEAN DEFAULT TRUE,
+    banned_at TIMESTAMP NULL,
+    unbanned_at TIMESTAMP NULL,
+    banned_by INT,
+    banned_reason VARCHAR(255),
     PRIMARY KEY(user_id)
 );
+
 CREATE TABLE Post (
     post_id INT,
     user_id INT,

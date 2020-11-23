@@ -27,10 +27,10 @@ SELECT * FROM Post WHERE deleted_at IS NULL;
 
 
 INSERT INTO wop_user(name, email, password) VALUES(?, ?, ?)
-INSERT INTO User (user_id,username,fname,lname,email,passwd,imagename,theme,discord,youtube,twitch,created_at,deleted_at,private_acc,blacklisted_at,unblacklisted_at,blacklisted_by,blacklisted_reason) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?,?,?, ?, ?);
+INSERT INTO User (user_id,username,fname,lname,email,passwd,imagename,theme,discord,youtube,twitch,created_at,deleted_at,private_acc,banned_at,unbanned_at,banned_by,banned_reason) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?,?,?, ?, ?);
 
 UPDATE wop_user SET name = ?, email = ?, passwd = ? WHERE user_id = ?;
-UPDATE User SET username = ?, fname ?, lname = ?, email ?, passwd = ?, imagename ?, theme ?, discord = ?, youtube = ?, twitch ?, created_at = ?, deleted_at = ?, private_acc = ?, blacklisted_at = ?, unblacklisted_at = ?, blacklisted_by = ?, blacklisted_reason = ? WHERE user_id = ?;
+UPDATE User SET username = ?, fname ?, lname = ?, email ?, passwd = ?, imagename ?, theme ?, discord = ?, youtube = ?, twitch ?, created_at = ?, deleted_at = ?, private_acc = ?, banned_at = ?, unbanned_at = ?, banned_by = ?, banned_reason = ? WHERE user_id = ?;
 
 DELETE FROM wop_user WHERE user_id = ?
 We should never use DELETE, instead, set the deleted time.
