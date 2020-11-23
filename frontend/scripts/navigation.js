@@ -23,7 +23,7 @@ const openTab = (event) => {
       window.open(`${url}` + "search.html", "_self", false);
       break;
     case "logo-title":
-      window.open(`${url}` + "home.html", "_self", false);
+      window.open(`${url}` + "index.html", "_self", false);
       break;
     case "js-home-tab":
       window.open(`${url}` + "userProfile.html", "_self", false);
