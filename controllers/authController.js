@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../models/usermodel');
 const {messageJson} = require('../utils/json_messages');
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   // console.log('authController signup', req.body);
 
   const errors = validationResult(req);
@@ -36,7 +36,7 @@ const register = async (req, res) => {
     // console.error('authController register error', query['error']);
     return res.status(400).json(query['error']);
   }
-  return res.json(query);
+  next();
 };
 
 const login = (req, res) => {
