@@ -7,3 +7,5 @@ const toggleHide = () => {
 };
 
 authenticateLogin.addEventListener("click", toggleHide);
+
+//Login submit form

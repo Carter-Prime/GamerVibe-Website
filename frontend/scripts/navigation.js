@@ -1,5 +1,7 @@
 "use strict";
+
 const url = "http://127.0.0.1:61909/GamerVibe-Website/frontend/";
+const url = "https://10.114.32.110/app/";
 
 const mainNav = document.getElementById("js-menu");
 const navTabs = document.querySelectorAll(".nav-tab");
