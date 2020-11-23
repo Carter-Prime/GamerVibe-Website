@@ -1,13 +1,9 @@
 "use strict";
 
+const authenticateLogin = document.getElementById("js-authenticate-login");
+
 const toggleHide = () => {
-  friendsTab.classList.toggle("hide");
-  accountTab.classList.toggle("hide");
-  if (showTabs) {
-    sessionStorage.setItem("showTabs", false);
-  } else {
-    sessionStorage.setItem("showTabs", true);
-  }
+  window.open(`${url}` + "userProfile.html", "_self", false);
 };
 
 authenticateLogin.addEventListener("click", toggleHide);
