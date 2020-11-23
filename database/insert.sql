@@ -7,24 +7,24 @@ INSERT INTO User (username,fname,lname,email,passwd,imagename,theme,discord,yout
 INSERT INTO User (username,fname,lname,email,passwd,imagename,theme,discord,youtube,twitch,created_at,deleted_at,private_acc,banned_at,unbanned_at,banned_by,banned_reason) VALUES ('Dummy6','Fool','User6','blah@blah.fn','1234','','','','','','2010-05-05 12:00:05',NULL,FALSE,NULL,NULL,NULL,'');
 
 
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00001','00001','Random text here','2020-11-19 12:00:00',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00002','00002','Random text here','2020-11-19 12:00:01',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00003','00003','Random text here','2020-11-19 12:00:02',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00004','00004','Random text here','2020-11-19 12:00:03',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00005','00005','Random text here','2020-11-19 12:00:04',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00006','00006','Random text here','2020-11-19 12:00:05',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00007','00001','Random text here','2020-11-19 12:00:06',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00008','00002','Random text here','2020-11-19 12:00:07',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00009','00003','Random text here','2020-11-19 12:00:08',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00010','00004','Random text here','2020-11-19 12:00:09',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00011','00005','Random text here','2020-11-19 12:00:10',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00012','00006','Random text here','2020-11-19 12:00:11',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00013','00001','Random text here','2020-11-19 12:00:12',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00014','00002','Random text here','2020-11-19 12:00:13',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00015','00003','Random text here','2020-11-19 12:00:14',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00016','00004','Random text here','2020-11-19 12:00:15',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00017','00005','Random text here','2020-11-19 12:00:16',NULL,'');
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00018','00006','Random text here','2020-11-19 12:00:17',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00001','Random text here','2020-11-19 12:00:00',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00002','Random text here','2020-11-19 12:00:01',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00003','Random text here','2020-11-19 12:00:02',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00004','Random text here','2020-11-19 12:00:03',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00005','Random text here','2020-11-19 12:00:04',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00006','Random text here','2020-11-19 12:00:05',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00001','Random text here','2020-11-19 12:00:06',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00002','Random text here','2020-11-19 12:00:07',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00003','Random text here','2020-11-19 12:00:08',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00004','Random text here','2020-11-19 12:00:09',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00005','Random text here','2020-11-19 12:00:10',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00006','Random text here','2020-11-19 12:00:11',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00001','Random text here','2020-11-19 12:00:12',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00002','Random text here','2020-11-19 12:00:13',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00003','Random text here','2020-11-19 12:00:14',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00004','Random text here','2020-11-19 12:00:15',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00005','Random text here','2020-11-19 12:00:16',NULL,'');
+INSERT INTO Post (user_id,caption,created_at,deleted_at,imgfilename) VALUES ('00006','Random text here','2020-11-19 12:00:17',NULL,'');
 
 
 INSERT INTO Comments (user_id,post_id,content,commented_at,edited_at,deleted_at,comment_id) VALUES ('00001','00001','Random comment','2020-11-19 12:00:41', NULL, NULL,'00001');
@@ -120,9 +120,9 @@ INSERT INTO Upvote (user_id,post_id,liked_at,unliked_at) VALUES ('00005','00001'
 INSERT INTO Upvote (user_id,post_id,liked_at,unliked_at) VALUES ('00006','00001','2020-11-19 12:01:19', NULL);
 
 
-INSERT INTO Moderator (moderator_id,moderator_since,moderator_until) VALUES ('00004','2010-05-05 13:00:02',NULL);
-INSERT INTO Moderator (moderator_id,moderator_since,moderator_until) VALUES ('00005','2010-05-05 13:00:03','2011-05-05 13:00:03');
-INSERT INTO Moderator (moderator_id,moderator_since,moderator_until) VALUES ('00006','2010-05-05 13:00:04',NULL);
+INSERT INTO Moderator (moderator_since,moderator_until) VALUES ('2010-05-05 13:00:02',NULL);
+INSERT INTO Moderator (moderator_since,moderator_until) VALUES ('2010-05-05 13:00:03','2011-05-05 13:00:03');
+INSERT INTO Moderator (moderator_since,moderator_until) VALUES ('2010-05-05 13:00:04',NULL);
 
 
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00001','00004','2010-05-06 13:00:04',NULL,NULL,NULL);

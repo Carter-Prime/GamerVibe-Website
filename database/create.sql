@@ -21,7 +21,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Post (
-    post_id INT,
+    post_id INT AUTO_INCREMENT,
     user_id INT,
     caption VARCHAR(255),
     created_at TIMESTAMP,
@@ -37,7 +37,7 @@ CREATE TABLE PostTag (
     PRIMARY KEY (post_id, tag)
 );
 CREATE TABLE Comments (
-    comment_id INT,
+    comment_id INT AUTO_INCREMENT,
     user_id INT,
     post_id INT,
     content VARCHAR(255),
@@ -61,7 +61,7 @@ CREATE TABLE UserTag (
     PRIMARY KEY (comment_id, user_id)
 );
 CREATE TABLE Moderator (
-    moderator_id INT,
+    moderator_id INT AUTO_INCREMENT,
     moderator_since TIMESTAMP,
     moderator_until TIMESTAMP NULL,
     PRIMARY KEY (moderator_id, moderator_since)
