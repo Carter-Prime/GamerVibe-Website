@@ -20,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Routes
-app.use(express.static('./frontend'));
+app.use(express.static('./frontend')); // For webpage
+app.use('/thumbnails', express.static('./thumbnails')); // For thumbnails
 app.use('/auth', authRoute);
 app.use('/post', passport.authenticate('jwt', {session: false}), postRoute);
