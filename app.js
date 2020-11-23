@@ -4,8 +4,9 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoute = require('./routes/authRoute');
+const postRoute = require('./routes/postRoute');
 const app = express();
-const passport = require('./utils/pass')
+const passport = require('./utils/pass');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -21,3 +22,4 @@ if (process.env.NODE_ENV === 'production') {
 // Routes
 app.use(express.static('./frontend'));
 app.use('/auth', authRoute);
+app.use('/post', passport.authenticate('jwt', {session: false}), postRoute);

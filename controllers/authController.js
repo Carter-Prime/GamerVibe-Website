@@ -40,8 +40,7 @@ const register = async (req, res) => {
 };
 
 const login = (req, res) => {
-  console.log('authController login', req.body);
-  // TODO: login using passport authenticator
+  // console.log('authController login', req.body);
   passport.authenticate('local', {session: false}, (err, user, info) => {
     // console.log('authController info', info);
     // console.log('authController user', user);
