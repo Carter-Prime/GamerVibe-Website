@@ -24,7 +24,7 @@ CREATE TABLE Post (
     post_id INT AUTO_INCREMENT,
     user_id INT,
     caption VARCHAR(255),
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL,
     imgfilename VARCHAR(255),
     PRIMARY KEY (post_id, user_id)
@@ -32,7 +32,7 @@ CREATE TABLE Post (
 CREATE TABLE PostTag (
     post_id INT,
     tag VARCHAR(100),
-    tagged_at TIMESTAMP,
+    tagged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     untagged_at TIMESTAMP NULL,
     PRIMARY KEY (post_id, tag)
 );
@@ -41,35 +41,35 @@ CREATE TABLE Comments (
     user_id INT,
     post_id INT,
     content VARCHAR(255),
-    commented_at TIMESTAMP,
-    edited_at TIMESTAMP,
+    commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    edited_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL,
     PRIMARY KEY (user_id, post_id, commented_at, comment_id)
 );
 CREATE TABLE Upvote (
     user_id INT,
     post_id INT,
-    liked_at TIMESTAMP,
+    liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     unliked_at TIMESTAMP NULL,
     PRIMARY KEY (user_id, post_id)
 );
 CREATE TABLE UserTag (
     comment_id INT,
     user_id INT,
-    tagged_at TIMESTAMP,
+    tagged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     untagged_at TIMESTAMP NULL,
     PRIMARY KEY (comment_id, user_id)
 );
 CREATE TABLE Moderator (
     moderator_id INT AUTO_INCREMENT,
-    moderator_since TIMESTAMP,
+    moderator_since TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     moderator_until TIMESTAMP NULL,
     PRIMARY KEY (moderator_id, moderator_since)
 );
 CREATE TABLE Following (
     follower_id INT,
     following_id INT,
-    requested_at TIMESTAMP,
+    requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     approved_at TIMESTAMP NULL,
     canceled_at TIMESTAMP NULL,
     approved BOOLEAN,
@@ -78,7 +78,7 @@ CREATE TABLE Following (
 CREATE TABLE Blocking (
     moderator_id INT,
     user_id INT,
-    blocked_at TIMESTAMP,
+    blocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     unblocked_at TIMESTAMP NULL,
     PRIMARY KEY (moderator_id, user_id, blocked_at)
 );
