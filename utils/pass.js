@@ -6,6 +6,7 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/usermodel');
+const {delay} = require('./delay')
 
 // Local strategy for email/ password login
 passport.use(new Strategy({
@@ -19,7 +20,7 @@ passport.use(new Strategy({
 
     if (user === undefined) {
       // No user with given email found
-      // TODO: Add random timeout
+      await delay(Math.random() * 1000);
       return done(null, false);
     }
 
