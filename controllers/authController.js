@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../models/usermodel');
 const {messageJson} = require('../utils/json_messages');
 
-const register = async (req, res, next) => {
+const register = async (req, res) => {
   // console.log('authController signup', req.body);
 
   const errors = validationResult(req);
@@ -33,15 +33,17 @@ const register = async (req, res, next) => {
   // If query return no errors then continue
   // else send error message
   if (query['error']) {
+    // console.error('authController register error', query['error']);
     return res.status(400).json(query['error']);
   }
-  next();
+  return res.json(query);
 };
 
 const login = (req, res) => {
-  // console.log('authController login', req.body);
+  console.log('authController login', req.body);
   // TODO: login using passport authenticator
   passport.authenticate('local', {session: false}, (err, user, info) => {
+    // console.log('authController info', info);
     // console.log('authController user', user);
     if (err || !user) {
       // console.error('authController error', err);
@@ -50,7 +52,7 @@ const login = (req, res) => {
 
     req.login(user, {session: false}, (err) => {
       if (err) {
-        // console.error('authController error', err);
+        // console.error('authController req.login error', err);
         return res.send(err);
       }
       const token = jwt.sign(user, 'your_jwt_secret');

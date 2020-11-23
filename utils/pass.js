@@ -8,12 +8,15 @@ const bcrypt = require('bcryptjs');
 const userModel = require('../models/usermodel');
 
 // Local strategy for email/ password login
-passport.use(new Strategy(async (email, password, done) => {
-  const params = [email];
+passport.use(new Strategy({
+      usernameField: 'email'
+    }, async (email, password, done) => {
   try {
     // TODO: getUserLogin query
     // Get user from database
-    const [user] = await userModel.getUserLogin(params);
+    const [user] = await userModel.getUserLogin(email);
+    // console.log('pass local user', user);
+
     if (user === undefined) {
       // No user with given email found
       // TODO: Add random timeout
@@ -21,12 +24,12 @@ passport.use(new Strategy(async (email, password, done) => {
     }
 
     // Use bcrypt to compare passwords
-    if (!await bcrypt.compare(password, user.password)) {
+    if (!await bcrypt.compare(password, user.passwd)) {
       // Passwords don't match
       return done(null, false);
     }
 
-    delete user.password; // Remove password property from user object
+    delete user.passwd; // Remove password property from user object
     return done(null, {...user});
   } catch (e) {
     return done(e);
