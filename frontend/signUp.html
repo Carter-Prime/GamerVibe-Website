@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/home.css" />
+    <link rel="stylesheet" href="./styles/signUp.css" />
+    <title>GamerVibe Sign Up</title>
+  </head>
+  <body class="body-wrapper">
+    <nav class="navbar">
+      <div class="logo" id="js-logo">
+        <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
+        <div class="logo-text">
+          <p id="logo-title">GamerVibe</p>
+        </div>
+      </div>
+      <ul class="main-nav" id="js-menu">
+        <li class="nav-tab nav-links" id="js-search-tab">Search</li>
+        <li class="nav-tab nav-links hide" id="js-home-tab">Home</li>
+        <li class="nav-tab nav-links" id="js-discover-tab">Discover</li>
+        <li class="nav-tab nav-links hide" id="js-friends-tab">Friends</li>
+        <li class="nav-tab nav-links hide" id="js-account-tab">Account</li>
+        <li class="nav-tab nav-links login-btn" id="js-login-tab">Login</li>
+        <li class="nav-tab nav-links signup-btn active-page" id="js-signup-tab">Sign Up</li>
+      </ul>
+      <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
+    </nav>
+    <main class="main-wrapper">
+      <img src="./resources/images/Title Image.png" alt="main page image" id="main-img" />
+      <div id="title-wrapper">
+        <div class="text-wrapper">
+          <p class="title-text">GamerVibe</p>
+          <p class="subtitle-text">Share your second life</p>
+          <form class="signup-wrapper" id="signup-form">
+            <h1>Sign Up</h1>
+            <div>
+              <label>Username:</label>
+              <input class="input" type="text" name="username" />
+            </div>
+            <div>
+              <label>Email:</label>
+              <input class="input" type="text" name="email" />
+            </div>
+            <div>
+              <label>Password:</label>
+              <input class="input" type="text" name="password" />
+            </div>
+            <button class="button signup-btn" type="button" id="js-authenticate-signup">
+              Sign Up
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>©Copyright to WebDev Team 2020</p>
+    </footer>
+  </body>
+  <script src="./scripts/navigation.js"></script>
+  <script src="./scripts/signUp.js"></script>
+</html>

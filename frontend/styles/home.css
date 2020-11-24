@@ -1,0 +1,84 @@
+/*main body content of webpage*/
+
+* {
+  --primaryThemeColor: #e6e9f0;
+  --contrastThemeColor: #cbf6e7;
+  --primaryAccentColor: #e05915;
+  --primaryAccentColor50: #e0591599;
+  --textColor: #431c5d;
+  --neutralColor: #e2eff3;
+}
+
+#main-img {
+  display: flex;
+  width: 100%;
+  max-width: 600px;
+  justify-self: center;
+  align-self: center;
+  padding: 30px;
+  transition: all 1s;
+}
+
+#title-wrapper {
+  display: flex;
+  width: 100%;
+  max-width: fit-content;
+  height: fit-content;
+  justify-self: center;
+  align-self: center;
+  padding: 30px;
+}
+.text-wrapper {
+  width: 100%;
+  color: var(--textColor);
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-text {
+  font-size: clamp(3rem, 2rem + 5vw, 8rem);
+  white-space: nowrap;
+  width: 100%;
+  text-align: end;
+}
+
+.subtitle-text {
+  font-size: clamp(1rem, 0.6rem + 2vw, 3rem);
+  white-space: nowrap;
+  font-weight: 600;
+  text-align: end;
+}
+
+.button-wrpper {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 480px) {
+}
+
+/* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
+
+@media screen and (min-width: 700px) {
+}
+
+/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
+
+@media screen and (min-width: 900px) {
+}
+/* for screens greater than 1200px wide - laptops and desktops*/
+
+@media screen and (min-width: 1300px) {
+}
+
+/* for screens greater than 1600px wide - desktops and large screens*/
+
+@media screen and (min-width: 1600px) {
+  #main-img {
+    max-width: 900px;
+    transition: all 1s;
+  }
+}
