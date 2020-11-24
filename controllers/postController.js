@@ -12,13 +12,13 @@ const new_post = async (req, res) => {
 
   // Checks if image is missing
   if (!req.file) {
-    return res.json(errorJson('Image must be JPEG or PNG'));
+    return res.status(400).json(errorJson('Image must be JPEG or PNG'));
   }
 
   // Checks for validation errors
   const valRes = validationResult(req);
   if (!valRes.isEmpty()) {
-    return res.json(errorJson(valRes['errors']));
+    return res.status(400).json(errorJson(valRes['errors']));
   }
 
   const user = await userModel.getUser(req.body.userid);
