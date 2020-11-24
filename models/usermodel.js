@@ -28,7 +28,6 @@ const getUser = async (id) => {
   }
 };
 
-// TODO: Get correct information for login
 // TODO: Get latest user
 const getUserLogin = async (email) => {
   try {
@@ -42,7 +41,6 @@ const getUserLogin = async (email) => {
   }
 };
 
-// TODO: Add correct information to user table
 const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(

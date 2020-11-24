@@ -3,19 +3,19 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson} = require('../utils/json_messages');
 
-const get_post_comments = async (postId) => {
+const get_tags = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM Comments WHERE post_id = ? AND deleted_at IS NULL', [postId],
+        'SELECT * FROM PostTag WHERE post_id = ?', [postId],
     );
-    // console.log('commentModel get_post_comments rows', rows);
+    // console.log('followingModel get_following rows', rows);
     return rows;
   } catch (e) {
-    // console.error('commentModel get_post_comments error', e.message);
+    // console.error('followingModel get_following error', e.message)
     return errorJson(e.message);
   }
 };
 
 module.exports = {
-  get_post_comments,
+  get_tags,
 };

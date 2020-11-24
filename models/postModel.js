@@ -20,7 +20,7 @@ const get_post = async (id) => {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Post WHERE post_id = ?', [id],
     );
-    return rows[0] ? {...rows[0]} : errorJson('No posts found');
+    return rows[0] ? rows[0] : errorJson('No posts found');
   } catch (e) {
     // console.error('postModel get_post error', e.message);
     return errorJson(e.message);

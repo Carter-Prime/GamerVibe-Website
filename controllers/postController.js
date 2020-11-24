@@ -4,6 +4,8 @@ const {validationResult} = require('express-validator');
 const {errorJson} = require('../utils/json_messages');
 const userModel = require('../models/usermodel');
 const commentModel = require('../models/commentModel');
+const tagModel = require('../models/tagModel');
+const upvoteModel = require('../models/upvoteModel');
 const resize = require('../utils/resize');
 const fs = require('fs');
 
@@ -55,16 +57,20 @@ const new_post = async (req, res) => {
 };
 
 const fetch_post = async (req, res) => {
-  const post = {}
-  const content = await postModel.get_post(req.params.id);
-  // console.log('postController fetch_post post', post);
+  const post = {};
+  const postId = req.params.id;
 
-  if (post['error']) {
-    return res.status(400).json(post);
+  const content = await postModel.get_post(postId);
+  // console.log('postController fetch_post content', content);
+
+  if (content['error']) {
+    return res.status(400).json(content);
   }
 
   post.content = content;
-  post.comments = await commentModel.get_post_comments(req.params.id);
+  post.comments = await commentModel.get_post_comments(postId);
+  post.tags = await tagModel.get_tags(postId);
+  post.upvotes = await upvoteModel.get_upvotes(postId);
 
   res.json(post);
 };
@@ -88,5 +94,5 @@ const make_thumbnail = async (req) => {
 
 module.exports = {
   new_post,
-  fetch_post
+  fetch_post,
 };
