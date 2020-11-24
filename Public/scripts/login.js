@@ -6,6 +6,7 @@ const loginForm = document.getElementById("login-form");
 const toggleHide = async (event) => {
   event.preventDefault();
   const data = serializeJson(loginForm);
+  console.log(data);
   const fetchOptions = {
     method: "POST",
     headers: {
@@ -14,7 +15,7 @@ const toggleHide = async (event) => {
     body: JSON.stringify(data),
   };
 
-  const response = await fetch(url + "auth/login", fetchOptions);
+  const response = await fetch(url + "/auth/login", fetchOptions);
   const json = await response.json();
   console.log("login response", json);
   if (!json.user) {
@@ -22,11 +23,9 @@ const toggleHide = async (event) => {
   } else {
     // save token
     sessionStorage.setItem("token", json.token);
-    sessionStorage.setItem("user", json.user.email);
-    console.log(sessionStorage.getItem("token"));
-    console.log(json.user.email);
+    sessionStorage.setItem("user", JSON.stringify(json.user));
     //open user profile
-    window.open(`${url}` + "userProfile.html", "_self", false);
+    window.open(url + "/home.html", "_self", false);
   }
 };
 

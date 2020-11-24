@@ -21,6 +21,4 @@ router
     authController.login
   );
 
-router.get(`/user`, authController.user_get);
-
 module.exports = router;

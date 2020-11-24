@@ -13,17 +13,18 @@
       <div class="logo" id="js-logo">
         <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
         <div class="logo-text">
-          <p id="logo-title">GamerVibe</p>
+          <a id="logo-title" href="./index.html">GamerVibe</a>
         </div>
       </div>
       <ul class="main-nav" id="js-menu">
-        <li class="nav-tab nav-links" id="js-search-tab">Search</li>
-        <li class="nav-tab nav-links hide" id="js-home-tab">Home</li>
-        <li class="nav-tab nav-links" id="js-discover-tab">Discover</li>
-        <li class="nav-tab nav-links hide" id="js-friends-tab">Friends</li>
-        <li class="nav-tab nav-links hide" id="js-account-tab">Account</li>
-        <li class="nav-tab nav-links login-btn active-page" id="js-login-tab">Login</li>
-        <li class="nav-tab nav-links signup-btn" id="js-signup-tab">Sign Up</li>
+        <li id="js-search-tab"><a href="./search.html">Search</a></li>
+        <li class="loggedInTab hide" id="js-home-tab"><a href="./home.html">Home</a></li>
+        <li id="js-discover-tab"><a href="./discover.html">Discover</a></li>
+        <li class="loggedInTab hide" id="js-friends-tab"><a href="./friends.html">Friends</a></li>
+        <li class="loggedInTab hide" id="js-account-tab"><a href="./account.html">Account</a></li>
+        <li class="loggedInTab active-page" id="js-login-tab"><a href="./login.html">Login</a></li>
+        <li class="loggedInTab hide" id="js-logout-tab"><a href="./index.html">Logout</a></li>
+        <li class="loggedInTab" id="js-signup-tab"><a href="./signUp.html">Sign Up</a></li>
       </ul>
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>

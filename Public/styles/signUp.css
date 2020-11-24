@@ -64,7 +64,7 @@ label {
   text-align: end;
 }
 
-a {
+/* a {
   background: linear-gradient(
     to bottom,
     var(--primaryAccentColor) 0%,
@@ -81,7 +81,7 @@ a {
 
 a:hover {
   background-size: 4px 50px;
-}
+} */
 
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 

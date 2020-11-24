@@ -36,10 +36,10 @@ const register = async (req, res, next) => {
 };
 
 const login = (req, res) => {
-  // console.log('authController login', req.body);
+  //console.log("authController login", req.body);
   passport.authenticate("local", { session: false }, (err, user, info) => {
-    // console.log('authController info', info);
-    // console.log('authController user', user);
+    //console.log("authController info", info);
+    //console.log("authController user", user);
     if (err || !user) {
       // console.error('authController error', err);
       return res.status(400).json(messageJson("Something is not right"));
@@ -61,14 +61,8 @@ const logout = (req, res) => {
   res.json(messageJson("Logged out successfully"));
 };
 
-const user_get = async (req, res) => {
-  const users = await userModel.getAllUsers();
-  res.json(users);
-};
-
 module.exports = {
   login,
   register,
   logout,
-  user_get,
 };

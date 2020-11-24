@@ -58,8 +58,15 @@
   margin-bottom: 5px;
 }
 
-.nav-links {
+a {
+  color: var(--textColor);
   text-decoration: none;
+}
+
+a:hover {
+  color: var(--primaryAccentColor);
+  cursor: pointer;
+  opacity: 80%;
 }
 
 .main-nav li {
@@ -68,12 +75,6 @@
   height: fit-content;
   text-align: center;
   justify-self: center;
-}
-
-.main-nav li:hover {
-  color: var(--primaryAccentColor);
-  cursor: pointer;
-  opacity: 80%;
 }
 
 .logo-img {
