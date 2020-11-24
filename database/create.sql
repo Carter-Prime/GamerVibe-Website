@@ -29,9 +29,7 @@ CREATE TABLE Post (
     PRIMARY KEY (post_id)
 );
 ALTER TABLE Post
-ADD CONSTRAINT FK_PostUser
-FOREIGN KEY (user_id) REFERENCES User(user_id);
-
+ADD CONSTRAINT FK_PostUser FOREIGN KEY (user_id) REFERENCES User(user_id);
 CREATE TABLE Comments (
     comment_id INT AUTO_INCREMENT,
     user_id INT,
@@ -74,27 +72,26 @@ CREATE TABLE Moderator (
     PRIMARY KEY (moderator_since),
     FOREIGN KEY (moderator_id) REFERENCES User (user_id)
 );
-
--- TODO
 CREATE TABLE Following (
+    relationship_id INT AUTO_INCREMENT,
     follower_id INT,
     following_id INT,
     requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     approved_at TIMESTAMP NULL,
     canceled_at TIMESTAMP NULL,
     approved BOOLEAN,
-    PRIMARY KEY (requested_at),
-    FOREIGN KEY (follower_id) REFERENCES User (user_id),
-    FOREIGN KEY (following_id) REFERENCES user (user_id)
+    PRIMARY KEY (relationship_is),
+    FOREIGN KEY (follower_id) REFERENCES User (user_id)
 );
-
--- TODO
+ALTER TABLE Following
+ADD FOREIGN KEY (following_id) REFERENCES User(user_id);
 CREATE TABLE Blocking (
     blocker_id INT,
     blocking_id INT,
     blocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     unblocked_at TIMESTAMP NULL,
     PRIMARY KEY (blocked_at),
-    FOREIGN KEY (blocker_id) REFERENCES Blocking (user_id),
-    FOREIGN KEY (blocking_id) REFERENCES Blocking (user_id)
+    FOREIGN KEY (blocker_id) REFERENCES User (user_id)
 );
+ALTER TABLE Blocking
+ADD FOREIGN KEY (blocking_id) REFERENCES User (user_id);

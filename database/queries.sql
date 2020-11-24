@@ -14,8 +14,6 @@ UPDATE Post SET deleted_at = '2020-11-22 12:00:00' WHERE post_id = 13;
 SELECT * FROM User 
 --But to see only active users
 SELECT * FROM User WHERE deleted_at IS NULL;
-…
-
 
 -- See all active posts
 SELECT * FROM Post WHERE deleted_at IS NULL;
