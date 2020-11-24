@@ -6,14 +6,14 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/usermodel');
-const {delay} = require('./delay')
+const {delay} = require('./delay');
+const {messageJson} = require('./json_messages');
 
 // Local strategy for email/ password login
 passport.use(new Strategy({
-      usernameField: 'email'
-    }, async (email, password, done) => {
+  usernameField: 'email',
+}, async (email, password, done) => {
   try {
-    // TODO: getUserLogin query
     // Get user from database
     const [user] = await userModel.getUserLogin(email);
     // console.log('pass local user', user);
@@ -45,9 +45,9 @@ passport.use(new JWTStrategy({
   try {
     // console.log('util pass JWT', jwtPayload)
     if (jwtPayload === undefined) {
-      return done(null, false, {message: 'Incorrect id'});
+      return done(null, false, messageJson('Incorrect id'));
     }
-    return done(null, {...jwtPayload}, {message: 'Logged in successfully'});
+    return done(null, {...jwtPayload}, messageJson('Logged in successfully'));
   } catch (e) {
     return done(e);
   }

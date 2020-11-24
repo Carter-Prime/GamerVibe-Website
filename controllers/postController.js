@@ -55,7 +55,7 @@ const new_post = async (req, res) => {
 
 const fetch_post = async (req, res) => {
   const post = await postModel.get_post(req.params.id);
-  console.log('postController fetch_post post', post);
+  // console.log('postController fetch_post post', post);
 
   if (post['error']) {
     return res.status(400).json(post);
