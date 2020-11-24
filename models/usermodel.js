@@ -7,7 +7,7 @@ const {errorJson} = require('../utils/json_messages');
 const getAllUsers = async () => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT username, email FROM User',
+        'SELECT username, email FROM User WHERE deleted_at IS NULL AND banned_at IS NULL',
     );
     // console.log('userModel getAllUsers rows', rows);
     return rows;
@@ -19,7 +19,7 @@ const getAllUsers = async () => {
 const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM User WHERE user_id = ?', [id],
+        'SELECT * FROM User WHERE user_id = ? AND deleted_at IS NULL AND banned_at IS NULL', [id],
     );
     // console.log('userModel getUser user', rows[0])
     return rows[0] ? {...rows[0]} : errorJson(`No users found with id: ${id}`);
@@ -28,11 +28,10 @@ const getUser = async (id) => {
   }
 };
 
-// TODO: Get latest user
 const getUserLogin = async (email) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM User WHERE email = ?', [email],
+        'SELECT * FROM User WHERE email = ? AND deleted_at IS NULL AND banned_at IS NULL', [email],
     );
     // console.log('userModel getUserLogin rows', rows);
     return rows;

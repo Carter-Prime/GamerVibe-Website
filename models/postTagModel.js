@@ -6,7 +6,7 @@ const {errorJson} = require('../utils/json_messages');
 const get_tags = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM PostTag WHERE post_id = ?', [postId],
+        'SELECT * FROM PostTag WHERE post_id = ? AND untagged_at IS NULL', [postId],
     );
     // console.log('followingModel get_following rows', rows);
     return rows;

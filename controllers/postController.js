@@ -4,7 +4,7 @@ const {validationResult} = require('express-validator');
 const {errorJson, messageJson} = require('../utils/json_messages');
 const userModel = require('../models/usermodel');
 const commentModel = require('../models/commentModel');
-const tagModel = require('../models/tagModel');
+const tagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
 const resize = require('../utils/resize');
@@ -26,7 +26,7 @@ const new_post = async (req, res) => {
   }
 
   // Check if user exists
-  const user = await userModel.getUser(req.body.userid);
+  const user = await userModel.getUser(req.user.userid);
   // console.log('user', user);
   if (user['error']) {
     // User query returns error
@@ -34,7 +34,7 @@ const new_post = async (req, res) => {
   }
 
   // Add new post to database
-  const query = await postModel.add_new_post(req.body.userid, req.body.caption,
+  const query = await postModel.add_new_post(req.user.userid, req.body.caption,
       req.file.filename);
 
   // If query return error
