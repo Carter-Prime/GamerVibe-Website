@@ -14,7 +14,6 @@ CREATE TABLE User (
     deleted_at TIMESTAMP NULL,
     private_acc BOOLEAN DEFAULT TRUE,
     banned_at TIMESTAMP NULL,
-    unbanned_at TIMESTAMP NULL,
     banned_by INT,
     banned_reason VARCHAR(255),
     PRIMARY KEY(user_id)
