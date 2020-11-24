@@ -3,7 +3,7 @@ const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
-const userModel = require('../models/usermodel');
+const userModel = require('../models/userModel');
 const {messageJson} = require('../utils/json_messages');
 
 const register = async (req, res, next) => {
@@ -41,7 +41,7 @@ const register = async (req, res, next) => {
 
 const login = (req, res) => {
   // console.log('authController login', req.body);
-  passport.authenticate('local', {session: false}, (err, user, info) => {
+  passport.authenticate('local', {session: false}, (err, user) => {
     // console.log('authController info', info);
     // console.log('authController user', user);
     if (err || !user) {

@@ -49,6 +49,8 @@ const addUser = async (params) => {
     return await getUser(rows['insertId']);
   } catch (e) {
     // console.error('addUser error', e.message);
+
+    // Email or username is already in use
     if (e.code === 'ER_DUP_ENTRY') {
       const sliced = e.message.split('\'');
       const key = sliced[sliced.length - 2];

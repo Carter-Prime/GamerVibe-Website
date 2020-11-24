@@ -1,8 +1,8 @@
 'use strict';
 const postModel = require('../models/postModel');
 const {validationResult} = require('express-validator');
-const {errorJson, messageJson} = require('../utils/json_messages');
-const userModel = require('../models/usermodel');
+const {errorJson} = require('../utils/json_messages');
+const userModel = require('../models/userModel');
 const commentModel = require('../models/commentModel');
 const tagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
@@ -33,24 +33,12 @@ const new_post = async (req, res) => {
     return res.status(400).json(errorJson('Something went wrong'));
   }
 
-  // Add new post to database
-  const query = await postModel.add_new_post(req.user.userid, req.body.caption,
-      req.file.filename);
-
-  // If query return error
-  if (query['error']) {
-    return res.status(400).json(query['error']);
-  }
-
   // Makes thumbnail
   const thumb = await make_thumbnail(req);
   // console.log('postController new_post thumb', thumb);
 
   // If thumbnail return error
   if (thumb['error']) {
-    // Delete record from database if errors while making thumbnail
-    await postModel.delete_temp_post(query['insertId']);
-
     // Delete uploaded file from system
     try {
       fs.unlinkSync(`./uploads/${req.file.filename}`);
@@ -58,6 +46,15 @@ const new_post = async (req, res) => {
       // console.error('postController new_post fs.unlink', e.message);
     }
     return res.status(400).json(thumb);
+  }
+
+  // Add new post to database
+  const query = await postModel.add_new_post(req.user.userid, req.body.caption,
+      req.file.filename);
+
+  // If query return error
+  if (query['error']) {
+    return res.status(400).json(query['error']);
   }
 
   // Everything went fine
