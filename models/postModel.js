@@ -32,15 +32,16 @@ const delete_post = async (id) => {
     const [rows] = await promisePool.execute(
         'DELETE FROM Post WHERE post_id = ?', [id],
     );
+    // console.log('postModel delete_post rows', rows);
     return rows;
   } catch (e) {
     // console.error('postModel delete_post error', e.message);
     return errorJson(e.message);
   }
-}
+};
 
 module.exports = {
   add_new_post,
   get_post,
-  delete_post
+  delete_post,
 };

@@ -3,6 +3,7 @@ const postModel = require('../models/postModel');
 const {validationResult} = require('express-validator');
 const {errorJson} = require('../utils/json_messages');
 const userModel = require('../models/usermodel');
+const commentModel = require('../models/commentModel');
 const resize = require('../utils/resize');
 const fs = require('fs');
 
@@ -54,12 +55,16 @@ const new_post = async (req, res) => {
 };
 
 const fetch_post = async (req, res) => {
-  const post = await postModel.get_post(req.params.id);
+  const post = {}
+  const content = await postModel.get_post(req.params.id);
   // console.log('postController fetch_post post', post);
 
   if (post['error']) {
     return res.status(400).json(post);
   }
+
+  post.content = content;
+  post.comments = await commentModel.get_post_comments(req.params.id);
 
   res.json(post);
 };
