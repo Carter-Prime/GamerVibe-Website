@@ -18,6 +18,8 @@ CREATE TABLE User (
     banned_reason VARCHAR(255),
     PRIMARY KEY(user_id)
 );
+ALTER TABLE User
+ADD FOREIGN KEY (banned_by) REFERENCES Moderator(moderator_id);
 CREATE TABLE Post (
     post_id INT AUTO_INCREMENT,
     user_id INT,
