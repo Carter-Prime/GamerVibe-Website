@@ -50,6 +50,13 @@ const new_post = async (req, res) => {
   if (thumb['error']) {
     // Delete record from database if errors while making thumbnail
     await postModel.delete_temp_post(query['insertId']);
+
+    // Delete uploaded file from system
+    try {
+      fs.unlinkSync(`./uploads/${req.file.filename}`);
+    } catch (e) {
+      // console.error('postController new_post fs.unlink', e.message);
+    }
     return res.status(400).json(thumb);
   }
 
@@ -98,7 +105,7 @@ const delete_post = async (req, res) => {
     }
 
     return res.status(400).
-        json(errorJson('User don\'t have permission to delete this post'))
+        json(errorJson('User don\'t have permission to delete this post'));
   }
 
   // User can delete post
