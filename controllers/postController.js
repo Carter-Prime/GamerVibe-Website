@@ -1,11 +1,12 @@
 'use strict';
 const postModel = require('../models/postModel');
 const {validationResult} = require('express-validator');
-const {errorJson} = require('../utils/json_messages');
+const {errorJson, messageJson} = require('../utils/json_messages');
 const userModel = require('../models/usermodel');
 const commentModel = require('../models/commentModel');
 const tagModel = require('../models/tagModel');
 const upvoteModel = require('../models/upvoteModel');
+const moderatorModel = require('../models/moderatorModel');
 const resize = require('../utils/resize');
 const fs = require('fs');
 
@@ -48,7 +49,7 @@ const new_post = async (req, res) => {
   // If thumbnail return error
   if (thumb['error']) {
     // Delete record from database if errors while making thumbnail
-    await postModel.delete_post(query['insertId']);
+    await postModel.delete_temp_post(query['insertId']);
     return res.status(400).json(thumb);
   }
 
@@ -75,6 +76,38 @@ const fetch_post = async (req, res) => {
   res.json(post);
 };
 
+const delete_post = async (req, res) => {
+  const user = req.user;
+  // console.log('postController delete_post user', user)
+
+  const post = await postModel.get_post(req.params.id);
+  console.log('postController delete_post post', post);
+
+  if (post['error']) {
+    // Post not exists
+    return res.status(400).json(post);
+  } else if (post.user_id !== user.user_id) {
+    // This is not current users posted post
+    const mod = await moderatorModel.get_mod(user.user_id);
+    // console.log('postController delete_post mod', mod)
+
+    if (mod['error']) {
+      // User is not moderator
+      return res.status(400).
+          json(errorJson('User don\'t have permission to delete this post'));
+    }
+
+    return res.status(400).
+        json(errorJson('User don\'t have permission to delete this post'))
+  }
+
+  // User can delete post
+  const query = await postModel.delete_post(req.params.id);
+  return query['error'] ?
+      res.status(400).json(query) :
+      res.json(query);
+};
+
 const make_thumbnail = async (req) => {
   try {
     // Creates thumbnails directory if it not exists
@@ -95,4 +128,5 @@ const make_thumbnail = async (req) => {
 module.exports = {
   new_post,
   fetch_post,
+  delete_post,
 };
