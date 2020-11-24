@@ -25,7 +25,7 @@ const new_post = async (req, res) => {
   const user = await userModel.getUser(req.body.userid);
   // console.log('user', user);
   if (user['error']) {
-    // User not exists
+    // User query returns error
     return res.status(400).json(errorJson('Something went wrong'));
   }
 
@@ -42,6 +42,8 @@ const new_post = async (req, res) => {
   const thumb = await make_thumbnail(req);
   // If thumbnail return error
   if (thumb['error']) {
+    // Delete record from database if errors while making thumbnail
+    await postModel.delete_post(query['insertId']);
     return res.status(400).json(thumb);
   }
 
