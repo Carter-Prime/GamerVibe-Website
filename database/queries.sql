@@ -1,8 +1,8 @@
 -- INSERT INTO wop_cat (name, age, weight, owner, filename, coords) VALUES (?, ?, ?, ?, ?, ?);
-INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename) VALUES ( ?, ?,?,?,?, ?);
+INSERT INTO Post (post_id,user_id,caption,created_at,deleted_at,imgfilename,,banned_at,banned_by,banned_reason) VALUES (?,?,?,?,?,?,?,?,?);
 
 --UPDATE wop_cat SET name = ?, age = ?, weight = ?, owner = ? WHERE cat_id = ?;
-UPDATE Post SET user_id = ?, caption,created_at = ?, deleted_at = ?, imgfilename = ? WHERE post_id = ?;
+UPDATE Post SET user_id = ?, caption,created_at = ?, deleted_at = ?, imgfilename = ?,banned_at = ?,banned_by = ?,banned_reason = ? WHERE post_id = ?;
 
 --DELETE FROM wop_cat WHERE cat_id = ?
 --We should never use DELETE, instead, set the deleted time.

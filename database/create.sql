@@ -39,10 +39,15 @@ CREATE TABLE Comments (
     commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     edited_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL,
+    banned_at TIMESTAMP NULL,
+    banned_by INT,
+    banned_reason VARCHAR(255),
     PRIMARY KEY (comment_id),
     FOREIGN KEY (user_id) REFERENCES User (user_id),
     FOREIGN KEY (post_id) REFERENCES Post (post_id)
 );
+ALTER TABLE Post
+ADD FOREIGN KEY (banned_by) REFERENCES Moderator(moderator_id);
 CREATE TABLE PostTag (
     post_id INT,
     tag VARCHAR(100),
