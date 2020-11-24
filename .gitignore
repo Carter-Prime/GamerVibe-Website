@@ -222,3 +222,4 @@ thumbnails/
 /certrequest.csr
 /ssl-cert.pem
 /ssl-key.pem
+/.idea/
