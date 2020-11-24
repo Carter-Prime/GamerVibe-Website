@@ -40,6 +40,8 @@ const new_post = async (req, res) => {
 
   // Makes thumbnail
   const thumb = await make_thumbnail(req);
+  // console.log('postController new_post thumb', thumb);
+
   // If thumbnail return error
   if (thumb['error']) {
     // Delete record from database if errors while making thumbnail
@@ -49,6 +51,17 @@ const new_post = async (req, res) => {
 
   // Everything went fine
   res.json(await postModel.get_post(query['insertId']));
+};
+
+const fetch_post = async (req, res) => {
+  const post = await postModel.get_post(req.params.id);
+  console.log('postController fetch_post post', post);
+
+  if (post['error']) {
+    return res.status(400).json(post);
+  }
+
+  res.json(post);
 };
 
 const make_thumbnail = async (req) => {
@@ -70,4 +83,5 @@ const make_thumbnail = async (req) => {
 
 module.exports = {
   new_post,
+  fetch_post
 };
