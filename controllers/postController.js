@@ -85,7 +85,7 @@ const delete_post = async (req, res) => {
   // console.log('postController delete_post user', user)
 
   const post = await postModel.get_post(req.params.id);
-  console.log('postController delete_post post', post);
+  // console.log('postController delete_post post', post);
 
   if (post['error']) {
     // Post not exists
