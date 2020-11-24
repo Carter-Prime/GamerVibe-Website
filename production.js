@@ -1,7 +1,15 @@
 'use strict';
 
 module.exports = (app, port) => {
-  // TODO: Redirect to https
+  app.enable('trust proxy');
+  app.use((req, res, next) => {
+    if (req.secure) {
+      next();
+    } else {
+      const proxypath = process.env.PROXY_PASS || '';
+      res.redirect(301, `https://${req.headers.host}${proxypath}${req.url}`);
+    }
+  });
 
   app.listen(port,
       () => console.log(`Production app is listening port ${port}`));

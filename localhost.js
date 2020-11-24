@@ -1,6 +1,23 @@
 'use strict';
 
-module.exports = (app, port) => {
-  app.listen(port,
-      () => console.log(`Localhost app is listening port ${port}`));
+const https = require('https');
+const http = require('http');
+const fs = require('fs');
+
+const sslkey = fs.readFileSync('ssl-key.pem');
+const sslcert = fs.readFileSync('ssl-cert.pem');
+
+const options = {
+  key: sslkey,
+  cert: sslcert,
+};
+
+const httpsRedirect = (req, res) => {
+  res.writeHead(301, {'Location': 'https://localhost:8000' + req.url});
+  res.end();
+};
+
+module.exports = (app, httpsPort, httpPort) => {
+  https.createServer(options, app).listen(httpsPort, () => console.log(`Localhost app listening https port ${httpsPort}`));
+  http.createServer(httpsRedirect).listen(httpPort, () => console.log(`Localhost app listening http port ${httpPort}`));
 };

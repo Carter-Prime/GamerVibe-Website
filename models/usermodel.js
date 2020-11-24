@@ -16,11 +16,10 @@ const getAllUsers = async () => {
   }
 };
 
-// TODO: Get latest user
 const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT username, email FROM User WHERE user_id = ?', [id],
+        'SELECT * FROM User WHERE user_id = ?', [id],
     );
     // console.log('userModel getUser user', rows[0])
     return rows[0] ? {...rows[0]} : errorJson(`No users found with id: ${id}`);
@@ -29,7 +28,6 @@ const getUser = async (id) => {
   }
 };
 
-// TODO: Get correct information for login
 // TODO: Get latest user
 const getUserLogin = async (email) => {
   try {
@@ -43,7 +41,6 @@ const getUserLogin = async (email) => {
   }
 };
 
-// TODO: Add correct information to user table
 const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(

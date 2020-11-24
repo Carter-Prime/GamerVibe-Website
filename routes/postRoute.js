@@ -21,4 +21,6 @@ router.route('/').post(upload.single('gameImage'), [
   body('caption').trim().notEmpty().isLength({max: 255}),
 ], postController.new_post);
 
+router.route('/:id').get(postController.fetch_post);
+
 module.exports = router;
