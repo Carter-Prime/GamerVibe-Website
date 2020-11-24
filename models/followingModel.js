@@ -6,7 +6,7 @@ const {errorJson} = require('../utils/json_messages');
 const get_following = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM Following WHERE follower_id = ?', [userid],
+        'SELECT follower_id FROM Following WHERE following_id = ? AND canceled_at IS NULL', [userid],
     );
     // console.log('followingModel get_following rows', rows);
     return rows;
