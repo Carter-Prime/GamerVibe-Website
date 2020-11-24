@@ -19,7 +19,6 @@ CREATE TABLE User (
     banned_reason VARCHAR(255),
     PRIMARY KEY(user_id)
 );
-
 CREATE TABLE Post (
     post_id INT AUTO_INCREMENT,
     user_id INT,
@@ -27,15 +26,12 @@ CREATE TABLE Post (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL,
     imgfilename VARCHAR(255),
-    PRIMARY KEY (post_id, user_id)
+    PRIMARY KEY (post_id)
 );
-CREATE TABLE PostTag (
-    post_id INT,
-    tag VARCHAR(100),
-    tagged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    untagged_at TIMESTAMP NULL,
-    PRIMARY KEY (post_id, tag)
-);
+ALTER TABLE Post
+ADD CONSTRAINT FK_PostUser
+FOREIGN KEY (user_id) REFERENCES User(user_id);
+
 CREATE TABLE Comments (
     comment_id INT AUTO_INCREMENT,
     user_id INT,
@@ -44,28 +40,42 @@ CREATE TABLE Comments (
     commented_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     edited_at TIMESTAMP NULL,
     deleted_at TIMESTAMP NULL,
-    PRIMARY KEY (user_id, post_id, commented_at, comment_id)
+    PRIMARY KEY (comment_id),
+    FOREIGN KEY (user_id) REFERENCES User (user_id),
+    FOREIGN KEY (post_id) REFERENCES Post (post_id)
+);
+CREATE TABLE PostTag (
+    post_id INT,
+    tag VARCHAR(100),
+    tagged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    untagged_at TIMESTAMP NULL,
+    FOREIGN KEY (post_id) REFERENCES Post (post_id)
 );
 CREATE TABLE Upvote (
     user_id INT,
     post_id INT,
     liked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     unliked_at TIMESTAMP NULL,
-    PRIMARY KEY (user_id, post_id)
+    FOREIGN KEY (post_id) REFERENCES Post (post_id),
+    FOREIGN KEY (user_id) REFERENCES User (user_id)
 );
 CREATE TABLE UserTag (
     comment_id INT,
     user_id INT,
     tagged_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     untagged_at TIMESTAMP NULL,
-    PRIMARY KEY (comment_id, user_id)
+    FOREIGN KEY (user_id) REFERENCES User (user_id),
+    FOREIGN KEY (comment_id) REFERENCES Comments (comment_id)
 );
 CREATE TABLE Moderator (
-    moderator_id INT AUTO_INCREMENT,
+    moderator_id INT,
     moderator_since TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     moderator_until TIMESTAMP NULL,
-    PRIMARY KEY (moderator_id, moderator_since)
+    PRIMARY KEY (moderator_since),
+    FOREIGN KEY (moderator_id) REFERENCES User (user_id)
 );
+
+-- TODO
 CREATE TABLE Following (
     follower_id INT,
     following_id INT,
@@ -73,13 +83,18 @@ CREATE TABLE Following (
     approved_at TIMESTAMP NULL,
     canceled_at TIMESTAMP NULL,
     approved BOOLEAN,
-    PRIMARY KEY (follower_id, following_id, requested_at)
-);
-CREATE TABLE Blocking (
-    moderator_id INT,
-    user_id INT,
-    blocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    unblocked_at TIMESTAMP NULL,
-    PRIMARY KEY (moderator_id, user_id, blocked_at)
+    PRIMARY KEY (requested_at),
+    FOREIGN KEY (follower_id) REFERENCES User (user_id),
+    FOREIGN KEY (following_id) REFERENCES user (user_id)
 );
 
+-- TODO
+CREATE TABLE Blocking (
+    blocker_id INT,
+    blocking_id INT,
+    blocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    unblocked_at TIMESTAMP NULL,
+    PRIMARY KEY (blocked_at),
+    FOREIGN KEY (blocker_id) REFERENCES Blocking (user_id),
+    FOREIGN KEY (blocking_id) REFERENCES Blocking (user_id)
+);

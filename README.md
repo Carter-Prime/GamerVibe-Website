@@ -2,4 +2,4 @@
 Basics in web development project
 
 Database design
-![database deisgn](./database/database.svg)
+![database deisgn](./database/database.png)

@@ -124,7 +124,7 @@ INSERT INTO Moderator (moderator_since,moderator_until) VALUES ('2010-05-05 13:0
 INSERT INTO Moderator (moderator_since,moderator_until) VALUES ('2010-05-05 13:00:03','2011-05-05 13:00:03');
 INSERT INTO Moderator (moderator_since,moderator_until) VALUES ('2010-05-05 13:00:04',NULL);
 
-
+--TODO
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00001','00004','2010-05-06 13:00:04',NULL,NULL,NULL);
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00002','00001','2010-05-06 13:00:05',NULL,NULL,NULL);
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00003','00002','2010-05-06 13:00:06',NULL,NULL,'1');
