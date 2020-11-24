@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');
+const userRoute = require('./routes/userRoute');
 const app = express();
 const passport = require('./utils/pass');
 
@@ -24,3 +25,4 @@ app.use(express.static('./frontend')); // For webpage
 app.use('/thumbnails', express.static('./thumbnails')); // For thumbnails
 app.use('/auth', authRoute);
 app.use('/post', passport.authenticate('jwt', {session: false}), postRoute);
+app.use('/user', passport.authenticate('jwt', {session: false}), userRoute)
