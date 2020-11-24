@@ -48,7 +48,7 @@ const new_post = async (req, res) => {
   }
 
   // Everything went fine
-  res.json(query['insertId']);
+  res.json(await postModel.get_post(query['insertId']));
 };
 
 const make_thumbnail = async (req) => {
