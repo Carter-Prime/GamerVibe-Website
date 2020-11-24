@@ -63,6 +63,7 @@ const login = (req, res) => {
 const logout = (req, res) => {
   req.logout();
   res.json(messageJson('Logged out successfully'));
+  res.redirect('/');
 };
 
 module.exports = {
