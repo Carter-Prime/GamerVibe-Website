@@ -3,7 +3,8 @@
 const authenticateLogin = document.getElementById("js-authenticate-login");
 const loginForm = document.getElementById("login-form");
 
-const loginUser = async () => {
+loginForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
   const data = serializeJson(loginForm);
   console.log(data);
   const fetchOptions = {
@@ -26,8 +27,6 @@ const loginUser = async () => {
     //open user profile
     window.open(url + "/home.html", "_self", false);
   }
-};
-
-authenticateLogin.addEventListener("click", loginUser);
+});
 
 //Login submit form
