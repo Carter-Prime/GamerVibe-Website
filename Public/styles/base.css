@@ -58,12 +58,12 @@
   margin-bottom: 5px;
 }
 
-a {
+.nav-links {
   color: var(--textColor);
   text-decoration: none;
 }
 
-a:hover {
+.nav-links:hover {
   color: var(--primaryAccentColor);
   cursor: pointer;
   opacity: 80%;
@@ -128,7 +128,7 @@ a:hover {
 
 .active-page {
   text-decoration: underline;
-  text-decoration-color: var(--primaryAccentColor);
+  text-decoration-color: red;
 }
 
 /* standard main body css formating*/
