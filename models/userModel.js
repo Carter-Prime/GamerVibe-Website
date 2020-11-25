@@ -31,7 +31,17 @@ const getUser = async (id) => {
 const getUserLogin = async (email) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM User WHERE email = ? AND deleted_at IS NULL AND banned_at IS NULL', [email],
+        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.passwd, ' +
+        'u.imagename, u.theme, u.discord, u.youtube, u.twitch, u.created_at, ' +
+        'u.private_acc, m.moderator_since ' +
+        'FROM User AS u ' +
+        'LEFT JOIN Moderator AS m ' +
+        'ON u.user_id = m.moderator_id ' +
+        'AND (m.moderator_until IS NULL ' +
+        'OR TIMESTAMPDIFF(MINUTE, m.moderator_until, NOW()) < 0) ' +
+        'WHERE u.email = ? ' +
+        'AND u.deleted_at IS NULL ' +
+        'AND u.banned_at IS NULL', [email],
     );
     // console.log('userModel getUserLogin rows', rows);
     return rows;
