@@ -62,18 +62,18 @@
   text-decoration: none;
 }
 
+.nav-links:hover {
+  color: var(--primaryAccentColor);
+  cursor: pointer;
+  opacity: 80%;
+}
+
 .main-nav li {
   margin: 5px auto;
   padding: 5px;
   height: fit-content;
   text-align: center;
   justify-self: center;
-}
-
-.main-nav li:hover {
-  color: var(--primaryAccentColor);
-  cursor: pointer;
-  opacity: 80%;
 }
 
 .logo-img {
@@ -127,7 +127,7 @@
 
 .active-page {
   text-decoration: underline;
-  text-decoration-color: var(--primaryAccentColor);
+  text-decoration-color: red;
 }
 
 /* standard main body css formating*/
