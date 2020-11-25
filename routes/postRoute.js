@@ -17,10 +17,11 @@ const upload = multer({
 const postController = require('../controllers/postController');
 
 router.route('/').post(upload.single('gameImage'), [
-  body('userid').trim().isNumeric(),
   body('caption').trim().notEmpty().isLength({max: 255}),
 ], postController.new_post);
 
-router.route('/:id').get(postController.fetch_post).delete(postController.delete_post);
+router.route('/:id')
+  .get(postController.fetch_post)
+  .delete(postController.delete_post);
 
 module.exports = router;

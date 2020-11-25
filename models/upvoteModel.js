@@ -6,12 +6,12 @@ const {errorJson} = require('../utils/json_messages');
 const get_upvotes = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM Upvote WHERE post_id = ? WHERE unliked_at IS NULL', [postId],
+        'SELECT * FROM Upvote WHERE post_id = ? AND unliked_at IS NULL', [postId],
     );
-    // console.log('followingModel get_following rows', rows);
+    console.log('upvoteModel get_upvotes rows', rows);
     return rows;
   } catch (e) {
-    // console.error('followingModel get_following error', e.message)
+    console.error('upvoteModel get_upvotes error', e.message)
     return errorJson(e.message);
   }
 };

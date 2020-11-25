@@ -13,6 +13,7 @@ const fs = require('fs');
 const new_post = async (req, res) => {
   // console.log('postController new_post body', req.body);
   // console.log('postController new_post file', req.file);
+  // console.log('postController new_post user', req.user);
 
   // Checks if image is missing
   if (!req.file) {
@@ -26,7 +27,7 @@ const new_post = async (req, res) => {
   }
 
   // Check if user exists
-  const user = await userModel.getUser(req.user.userid);
+  const user = await userModel.getUser(req.user.user_id);
   // console.log('user', user);
   if (user['error']) {
     // User query returns error
@@ -49,12 +50,12 @@ const new_post = async (req, res) => {
   }
 
   // Add new post to database
-  const query = await postModel.add_new_post(req.user.userid, req.body.caption,
+  const query = await postModel.add_new_post(req.user.user_id, req.body.caption,
       req.file.filename);
 
   // If query return error
   if (query['error']) {
-    return res.status(400).json(query['error']);
+    return res.status(400).json(query);
   }
 
   // Everything went fine
@@ -83,7 +84,34 @@ const fetch_post = async (req, res) => {
   res.json(post);
 };
 
+const get_n_posts = async (req, res) => {
+  // console.log('postController get_n_posts body', req.body);
 
+  const valRes = validationResult(req);
+  if (!valRes.isEmpty()) {
+    return res.status(400).json(errorJson(valRes['errors']));
+  }
+
+  let time = Date.parse(req.body.beginTime);
+  console.log('postController get_n_posts time', time);
+  if(isNaN(time)) {
+    time = new Date().toISOString().replace('T', ' ').replace('Z', '')
+  } else {
+    time = new Date(req.body.beginTime).toISOString().replace('T', ' ').replace('Z', '')
+  }
+
+  const posts = await postModel.get_posts(
+      req.body.amount,
+      req.user ? req.user.user_id : 0,
+      time
+  );
+  // console.log('postController get_n_posts posts', posts)
+  if (posts['error']) {
+    return res.status(400).json(posts);
+  }
+
+  res.json(posts);
+};
 
 const delete_post = async (req, res) => {
   const user = req.user;
@@ -146,4 +174,5 @@ module.exports = {
   new_post,
   fetch_post,
   delete_post,
+  get_n_posts,
 };
