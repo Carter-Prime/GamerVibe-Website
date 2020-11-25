@@ -1,8 +1,5 @@
 "use strict";
 
-const url = "https://localhost:8000";
-//const url = "https://10.114.32.110/app/";
-
 const mainNav = document.getElementById("js-menu");
 const navToggleBtn = document.getElementById("js-navbar-toggle");
 const searchTab = document.getElementById("js-search-tab");
@@ -15,8 +12,7 @@ const logoutTab = document.getElementById("js-logout-tab");
 const signupTab = document.getElementById("js-signup-tab");
 const loggedInTab = document.querySelectorAll(".loggedInTab");
 
-const token = sessionStorage.getItem("token");
-const user = JSON.parse(sessionStorage.getItem("user"));
+//console.log(user);
 
 // selects navigation tabs to be toggled if a user is logged in.
 const toggleLoggedInTabs = () => {
@@ -40,7 +36,7 @@ const logout = async () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
     alert(json.message);
-    window.location.href = "/"
+    window.location.href = "/";
   } catch (e) {
     console.log(e.message);
   }
@@ -48,10 +44,13 @@ const logout = async () => {
 
 //test to see if users are logged in
 if (user) {
-  console.log("you are logged in and can see everything");
-  toggleLoggedInTabs();
-} else {
-  console.log("you are not logged in");
+  if (user.moderator_since == null) {
+    console.log("you are logged in as regular user ");
+    toggleLoggedInTabs();
+  } else {
+    console.log("you are logged in as moderator user and can see everything");
+    toggleLoggedInTabs();
+  }
 }
 
 // Toggle function for mobiles and smaller screens
