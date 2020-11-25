@@ -5,9 +5,8 @@ const { body } = require("express-validator");
 const authController = require("../controllers/authController");
 
 router.route("/login").post(authController.login);
-router.route("/logout").post(authController.logout);
-router
-  .route("/register")
+router.route("/logout").get(authController.logout);
+router.route("/register")
   .post(
     [
       body("username", "Min 3 characters, max 30 characters").trim().isLength({ min: 3, max: 30 }),

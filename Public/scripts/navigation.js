@@ -29,7 +29,6 @@ const toggleLoggedInTabs = () => {
 const logout = async () => {
   try {
     const options = {
-      method: "Get",
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -41,6 +40,7 @@ const logout = async () => {
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("user");
     alert(json.message);
+    window.location.href = "/"
   } catch (e) {
     console.log(e.message);
   }

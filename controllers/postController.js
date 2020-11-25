@@ -72,6 +72,9 @@ const fetch_post = async (req, res) => {
     return res.status(400).json(content);
   }
 
+  // TODO: user can only get post if moderator or user is allowed to see that
+  const user = req.user;
+
   post.content = content;
   post.comments = await commentModel.get_post_comments(postId);
   post.tags = await tagModel.get_tags(postId);
@@ -80,6 +83,8 @@ const fetch_post = async (req, res) => {
   res.json(post);
 };
 
+
+
 const delete_post = async (req, res) => {
   const user = req.user;
   // console.log('postController delete_post user', user)
@@ -87,20 +92,28 @@ const delete_post = async (req, res) => {
   const post = await postModel.get_post(req.params.id);
   // console.log('postController delete_post post', post);
 
+  let allowed = true;
+
   if (post['error']) {
     // Post not exists
     return res.status(400).json(post);
-  } else if (post.user_id !== user.user_id) {
-    // This is not current users posted post
+  }
+
+  if (post.user_id !== user.user_id) {
+    // User is not posts original poster
+    allowed = false;
+
     const mod = await moderatorModel.get_mod(user.user_id);
     // console.log('postController delete_post mod', mod)
 
-    if (mod['error']) {
-      // User is not moderator
-      return res.status(400).
-          json(errorJson('User don\'t have permission to delete this post'));
+    if (!mod['error']) {
+      // User is moderator
+      allowed = true;
     }
+  }
 
+  if (!allowed) {
+    // User is not allowed to delete post
     return res.status(400).
         json(errorJson('User don\'t have permission to delete this post'));
   }
