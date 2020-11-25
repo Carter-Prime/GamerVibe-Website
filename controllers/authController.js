@@ -1,20 +1,10 @@
-<<<<<<< HEAD
-'use strict';
-const {validationResult} = require('express-validator');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-const bcrypt = require('bcryptjs');
-const userModel = require('../models/userModel');
-const {messageJson} = require('../utils/json_messages');
-=======
 "use strict";
 const { validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
-const userModel = require("../models/usermodel");
+const userModel = require("../models/userModel");
 const { messageJson } = require("../utils/json_messages");
->>>>>>> mike_development
 
 const register = async (req, res, next) => {
   // console.log('authController signup', req.body);
@@ -46,17 +36,10 @@ const register = async (req, res, next) => {
 };
 
 const login = (req, res) => {
-<<<<<<< HEAD
   // console.log('authController login', req.body);
-  passport.authenticate('local', {session: false}, (err, user) => {
+  passport.authenticate("local", { session: false }, (err, user) => {
     // console.log('authController info', info);
     // console.log('authController user', user);
-=======
-  //console.log("authController login", req.body);
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    //console.log("authController info", info);
-    //console.log("authController user", user);
->>>>>>> mike_development
     if (err || !user) {
       // console.error('authController error', err);
       return res.status(400).json(messageJson("Something is not right"));
@@ -75,12 +58,8 @@ const login = (req, res) => {
 
 const logout = (req, res) => {
   req.logout();
-<<<<<<< HEAD
-  res.json(messageJson('Logged out successfully'));
-  res.redirect('/');
-=======
   res.json(messageJson("Logged out successfully"));
->>>>>>> mike_development
+  res.redirect("/");
 };
 
 module.exports = {
