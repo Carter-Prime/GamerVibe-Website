@@ -4,7 +4,7 @@ const {validationResult} = require('express-validator');
 const {errorJson} = require('../utils/json_messages');
 const userModel = require('../models/userModel');
 const commentModel = require('../models/commentModel');
-const tagModel = require('../models/postTagModel');
+const postTagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
 const resize = require('../utils/resize');
@@ -78,7 +78,7 @@ const fetch_post = async (req, res) => {
 
   post.content = content;
   post.comments = await commentModel.get_post_comments(postId);
-  post.tags = await tagModel.get_tags(postId);
+  post.tags = await postTagModel.get_tags(postId);
   post.upvotes = await upvoteModel.get_upvotes(postId);
 
   res.json(post);
@@ -93,21 +93,33 @@ const get_n_posts = async (req, res) => {
   }
 
   let time = Date.parse(req.body.beginTime);
-  console.log('postController get_n_posts time', time);
+  // console.log('postController get_n_posts time', time);
   if(isNaN(time)) {
     time = new Date().toISOString().replace('T', ' ').replace('Z', '')
   } else {
     time = new Date(req.body.beginTime).toISOString().replace('T', ' ').replace('Z', '')
   }
 
-  const posts = await postModel.get_posts(
+  const fetchedPosts = await postModel.get_posts(
       req.body.amount,
       req.user ? req.user.user_id : 0,
       time
   );
   // console.log('postController get_n_posts posts', posts)
-  if (posts['error']) {
-    return res.status(400).json(posts);
+  if (fetchedPosts['error']) {
+    return res.status(400).json(fetchedPosts);
+  }
+
+  const posts = []
+  for(let i = 0; i < fetchedPosts.length; i++) {
+    const post = fetchedPosts[i]
+    // console.log('post', post, 'index', i)
+    const postObj = {}
+    postObj.content = post
+    postObj.comments = await commentModel.get_post_comments(post.post_id)
+    postObj.tags = await postTagModel.get_tags(post.post_id)
+    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id)
+    posts.push(postObj)
   }
 
   res.json(posts);

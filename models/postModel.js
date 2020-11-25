@@ -20,7 +20,7 @@ const add_new_post = async (uid, caption, imgFilename) => {
 
 const get_posts = async (n, uid, beginTime) => {
   try {
-    console.log('n', n, 'beginTime', beginTime, 'uid', uid)
+    // console.log('n', n, 'beginTime', beginTime, 'uid', uid)
     const [rows] = await promisePool.execute(
         'SELECT p.post_id, p.user_id, p.caption, p.created_at, p.imgfilename ' +
         'FROM Post AS p, User AS u ' +
