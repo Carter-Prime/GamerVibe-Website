@@ -3,8 +3,7 @@
 const authenticateLogin = document.getElementById("js-authenticate-login");
 const loginForm = document.getElementById("login-form");
 
-const toggleHide = async (event) => {
-  event.preventDefault();
+const loginUser = async () => {
   const data = serializeJson(loginForm);
   console.log(data);
   const fetchOptions = {
@@ -29,6 +28,6 @@ const toggleHide = async (event) => {
   }
 };
 
-authenticateLogin.addEventListener("click", toggleHide);
+authenticateLogin.addEventListener("click", loginUser);
 
 //Login submit form
