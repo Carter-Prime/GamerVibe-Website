@@ -4,16 +4,16 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const bcrypt = require("bcryptjs");
 const userModel = require("../models/userModel");
-const { messageJson } = require("../utils/json_messages");
+const {errorJson, messageJson } = require("../utils/json_messages");
 
 const register = async (req, res, next) => {
   // console.log('authController signup', req.body);
 
-  const errors = validationResult(req);
+  const valRes = validationResult(req);
   // If there is errors in login parameters, then return errors
   // else continue
-  if (!errors.isEmpty()) {
-    return res.send(errors.array());
+  if (!valRes.isEmpty()) {
+    return res.status(400).json(errorJson(valRes['errors']))
   }
 
   // Hashes password
