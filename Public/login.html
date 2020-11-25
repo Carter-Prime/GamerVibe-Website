@@ -50,16 +50,26 @@
             <h1>Login</h1>
             <div>
               <label>Email:</label>
-              <input class="input" type="text" name="email" placeholder="email" required />
+              <input
+                class="input"
+                type="email"
+                maxlength="255"
+                name="email"
+                placeholder="email"
+                autocomplete="on"
+                required
+              />
             </div>
             <div>
               <label>Password:</label>
               <input
                 class="input"
                 type="password"
+                maxlength="255"
                 name="password"
                 pattern="(?=.*[A-Z]).{8,}"
                 placeholder="Password"
+                autocomplete="on"
                 required
               />
             </div>

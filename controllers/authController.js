@@ -42,7 +42,7 @@ const login = (req, res) => {
     // console.log('authController user', user);
     if (err || !user) {
       // console.error('authController error', err);
-      return res.status(400).json(messageJson("Something is not right"));
+      return res.status(400).json(messageJson("User was not found! Please try again."));
     }
 
     req.login(user, { session: false }, (err) => {
