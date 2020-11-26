@@ -113,8 +113,6 @@ WHERE user_id = 1;
 SELECT *
 FROM User
 WHERE email = ?;
-
-
 -- Get all posts that a user can see when not logged in--
 -- Posts that are not banned or deleted
 -- From Users that are not banned or deleted or private
@@ -135,8 +133,6 @@ WHERE p.deleted_at IS NULL
     AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0
 ORDER BY p.created_at DESC
 LIMIT 30;
-
-
 -- same as above but ordered by number of upvotes
 SELECT p.post_id,
     p.user_id,
@@ -147,6 +143,7 @@ SELECT p.post_id,
         SELECT count(post_id)
         FROM Upvote l
         WHERE p.post_id = l.post_id
+            AND l.unliked_at IS NULL
     ) Upvote
 FROM Post AS p,
     User AS u
@@ -157,16 +154,47 @@ WHERE p.deleted_at IS NULL
     AND u.deleted_at IS NULL
     AND u.banned_at IS NULL
     AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0
-ORDER BY Upvote DESC
+ORDER BY Upvotes DESC
 LIMIT 30;
-
 --TODO
--- Get all posts that a registered user can see--
+-- Get all posts that a logged-in user can see--
 -- Same as above
 -- + add posts from private account with accepted friendship
 -- + exclude posts from blocked accounts
-
-
-
--- Maybe TODO: showing posts from users thot your friends follow
--- https://www.glassdoor.com/Interview/Write-an-SQL-query-that-makes-recommendations-using-the-pages-that-your-friends-liked-Assume-you-have-two-tables-a-two-c-QTN_1413464.htm
+SELECT DISTINCT p.post_id,
+    p.user_id,
+    p.caption,
+    p.created_at,
+    p.imgfilename,
+    (
+        SELECT count(post_id)
+        FROM Upvote l
+        WHERE p.post_id = l.post_id
+            AND l.unliked_at IS NULL
+    ) Upvotes,
+    (
+        SELECT count(approved)
+        FROM Following f
+        WHERE f.following_id = u.user_id
+            AND f.approved = 1
+    ) PosterFollowers
+FROM Post AS p,
+    User AS u,
+    Following AS f
+WHERE p.deleted_at IS NULL
+    AND p.banned_at IS NULL
+    AND u.user_id != 3
+    AND u.user_id = p.user_id
+    AND (
+        u.private_acc = 0
+        OR (
+            f.follower_id = 3 
+            AND f.following_id = u.user_id
+            AND f.approved = 1
+        )
+    )
+    AND u.deleted_at IS NULL
+    AND u.banned_at IS NULL
+    AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0
+ORDER BY Upvotes DESC
+LIMIT 30;
