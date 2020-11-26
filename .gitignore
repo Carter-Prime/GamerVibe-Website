@@ -225,3 +225,7 @@ fabric.properties
 /.idea/
 /profilePics/
 /profileThumbs/
+
+# Allow
+!/profilePics/default.png
+!/profileThumbs/default.png
