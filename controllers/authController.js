@@ -20,7 +20,7 @@ const register = async (req, res, next) => {
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(req.body.password, salt);
 
-  const params = [req.body.username, req.body.email, hash];
+  const params = [req.body.username, req.body.email, hash, 'default.png'];
 
   // console.log('authController params', params);
 
