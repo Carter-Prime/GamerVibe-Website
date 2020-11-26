@@ -143,3 +143,6 @@ INSERT INTO Following (follower_id,following_id,requested_at,approved_at,cancele
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00004','00001','2010-05-06 13:00:19',NULL,NULL,NULL);
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00005','00002','2010-05-06 13:00:20',NULL,NULL,NULL);
 INSERT INTO Following (follower_id,following_id,requested_at,approved_at,canceled_at,approved) VALUES ('00006','00003','2010-05-06 13:00:21',NULL,NULL,NULL);
+
+
+INSERT INTO Blocking (blocker_id,blocking_id,blocked_at,unblocked_at) VALUES ('3','1','2010-05-06 13:00:21',NULL);
