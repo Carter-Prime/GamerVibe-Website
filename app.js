@@ -34,7 +34,7 @@ app.use('/thumbnails', express.static('./thumbnails')); // For thumbnails
 app.use('/uploads', express.static('./uploads')); // For full size images
 app.use('/auth', authRoute);
 app.use('/post', passport.authenticate('jwt', passportOptions), postRoute);
-app.use('/posts', passport.authenticate('jwt', passportOptions), postsRoute);
+app.use('/posts', postsRoute);
 app.use('/user', passport.authenticate('jwt', passportOptions), userRoute);
 app.use('/following', passport.authenticate('jwt', passportOptions),
     followingRoute);
