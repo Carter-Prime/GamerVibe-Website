@@ -82,7 +82,7 @@ const updateUser = async (params) => {
 const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
-        'INSERT INTO User(username, email, passwd, imagename) VALUES(?,?,?)', params);
+        'INSERT INTO User(username, email, passwd, imagename) VALUES(?,?,?,?)', params);
     // console.log('addUser rows', rows);
 
     return await getUser(rows['insertId']);
