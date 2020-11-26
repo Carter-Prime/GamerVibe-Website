@@ -32,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.static('./Public/')); // For webpage
 app.use('/thumbnails', express.static('./thumbnails')); // For thumbnails
 app.use('/uploads', express.static('./uploads')); // For full size images
+app.use('/profile-pics', express.static('./profilePics')); // For full size images
 app.use('/auth', authRoute);
 app.use('/post', passport.authenticate('jwt', passportOptions), postRoute);
 app.use('/posts', postsRoute);

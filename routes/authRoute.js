@@ -10,7 +10,7 @@ router.route("/register")
   .post(
     [
       body("username", "Min 3 characters, max 30 characters").trim().isLength({ min: 3, max: 30 }),
-      body("email", "Email is not valid").trim().isEmail(),
+      body("email", "Email is not valid").trim().isEmail().normalizeEmail(),
       body(
         "password",
         `Password must match following requirements: 1 uppercase letter, minimum of 8 characters`

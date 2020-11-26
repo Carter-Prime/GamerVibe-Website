@@ -9,6 +9,7 @@ const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
 const resize = require('../utils/resize');
 const fs = require('fs');
+const {delete_file} = require('../utils/delete_file')
 
 const new_post = async (req, res) => {
   // console.log('postController new_post body', req.body);
@@ -40,12 +41,7 @@ const new_post = async (req, res) => {
 
   // If thumbnail return error
   if (thumb['error']) {
-    // Delete uploaded file from system
-    try {
-      fs.unlinkSync(`./uploads/${req.file.filename}`);
-    } catch (e) {
-      // console.error('postController new_post fs.unlink', e.message);
-    }
+    delete_file(`./uploads/${req.file.filename}`)
     return res.status(400).json(thumb);
   }
 

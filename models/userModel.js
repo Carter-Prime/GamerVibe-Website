@@ -19,7 +19,13 @@ const getAllUsers = async () => {
 const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT * FROM User WHERE user_id = ? AND deleted_at IS NULL AND banned_at IS NULL', [id],
+        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
+        'u.theme, u.discord, u.youtube, u.twitch, u.private_acc, u.created_at ' +
+        'FROM User AS u ' +
+        'WHERE user_id = ? ' +
+        'AND deleted_at IS NULL ' +
+        'AND banned_at IS NULL',
+        [id],
     );
     // console.log('userModel getUser user', rows[0])
     return rows[0] ? {...rows[0]} : errorJson(`No users found with id: ${id}`);
@@ -50,6 +56,29 @@ const getUserLogin = async (email) => {
   }
 };
 
+const updateUser = async (params) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'UPDATE User ' +
+        'SET fname = ?, ' +
+        'lname = ?, ' +
+        'imagename = ?, ' +
+        'discord = ?, ' +
+        'youtube = ?, ' +
+        'twitch = ?, ' +
+        'private_acc = ? ' +
+        'WHERE user_id = ? ' +
+        'AND deleted_at IS NULL ' +
+        'AND banned_at IS NULL', params,
+    );
+    // console.log('userModel updateUser rows', rows);
+    return rows;
+  } catch (e) {
+    // console.error('userModel updateUser error', e.message);
+    return errorJson(e.message);
+  }
+};
+
 const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
@@ -75,4 +104,5 @@ module.exports = {
   getUser,
   getUserLogin,
   addUser,
+  updateUser,
 };
