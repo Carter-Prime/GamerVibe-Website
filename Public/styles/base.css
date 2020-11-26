@@ -13,8 +13,10 @@
   --primaryThemeColor: #e6e9f0;
   --contrastThemeColor: #cbf6e7;
   --primaryAccentColor: #e05915;
-  --primaryAccentColor50: #e0591599;
+  --primaryAccentColor50: #e059156c;
   --textColor: #431c5d;
+  --lightBorderColor: #431c5d46;
+  --contrastBackground: #e0e5fc;
   --neutralColor: #e2eff3;
 
   /* dark theme palette
@@ -60,6 +62,10 @@
 
 .nav-links {
   text-decoration: none;
+}
+
+.nav-links:visited {
+  color: var(--textColor);
 }
 
 .nav-links:hover {

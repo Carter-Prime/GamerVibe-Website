@@ -7,5 +7,3 @@ const setProfile = () => {
 };
 
 setProfile();
-
-console.log(JSON.parse(sessionStorage.getItem("user")));
