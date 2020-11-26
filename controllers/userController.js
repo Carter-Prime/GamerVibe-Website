@@ -2,7 +2,7 @@
 const userModel = require('../models/userModel');
 const {errorJson} = require('../utils/json_messages');
 const {validationResult} = require('express-validator');
-const {delete_file} = require('../utils/delete_file');
+const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
 
 const getUser = async (req, res) => {
   // TODO: check if user follows wantedUser or user is moderator
@@ -22,9 +22,11 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  console.log('userController updateUser body', req.body);
+  // console.log('userController updateUser body', req.body);
   // console.log('userController updateUser file', req.file);
-  const profilePicPath = `./profilePics/${req.file.filename}`;
+  const profilePicPath = './profilePics'
+  const profileThumbPath = './profileThumbs'
+  const profilePicFile = req.file ? `${profilePicPath}/${req.file.filename}` : undefined;
 
   // Check if user still exists
   const user = await userModel.getUser(req.user.user_id);
@@ -32,7 +34,7 @@ const updateUser = async (req, res) => {
   if (user['error']) {
     // No user found
     if (req.file) {
-      delete_file(profilePicPath);
+      delete_file(profilePicFile);
     }
     return res.status(400).json(user);
   }
@@ -42,9 +44,21 @@ const updateUser = async (req, res) => {
   if (!valRes.isEmpty()) {
     // Errors in body
     if (req.file) {
-      delete_file(profilePicPath);
+      delete_file(profilePicFile);
     }
     return res.status(400).json(errorJson(valRes['errors']));
+  }
+
+  if(req.file) {
+    // Makes thumbnail if file exists
+    const thumb = await make_thumbnail(req.file, profileThumbPath);
+    // console.log('userController updateUser thumb', thumb);
+
+    // If thumbnail return error
+    if (thumb['error']) {
+      delete_file(profilePicFile)
+      return res.status(400).json(thumb);
+    }
   }
 
   const body = req.body;
@@ -87,7 +101,8 @@ const updateUser = async (req, res) => {
   const query = await userModel.updateUser(params);
   if (query['error']) {
     if (req.file) {
-      delete_file(profilePicPath);
+      delete_file(profilePicFile);
+      delete_file(`${profileThumbPath}/${req.file.filename}`)
     }
     return res.status(400).json(query);
   }

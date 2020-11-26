@@ -7,9 +7,7 @@ const commentModel = require('../models/commentModel');
 const postTagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
-const resize = require('../utils/resize');
-const fs = require('fs');
-const {delete_file} = require('../utils/delete_file')
+const {delete_file, make_thumbnail} = require('../utils/my_random_stuff')
 
 const new_post = async (req, res) => {
   // console.log('postController new_post body', req.body);
@@ -36,7 +34,7 @@ const new_post = async (req, res) => {
   }
 
   // Makes thumbnail
-  const thumb = await make_thumbnail(req);
+  const thumb = await make_thumbnail(req.file, './thumbnails');
   // console.log('postController new_post thumb', thumb);
 
   // If thumbnail return error
@@ -159,23 +157,6 @@ const delete_post = async (req, res) => {
   return query['error'] ?
       res.status(400).json(query) :
       res.json(query);
-};
-
-const make_thumbnail = async (req) => {
-  try {
-    // Creates thumbnails directory if it not exists
-    // https://stackoverflow.com/a/26815894
-    const dir = './thumbnails';
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
-    }
-
-    return await resize.makeThumbnail(req.file.path, 300,
-        `./thumbnails/${req.file.filename}`);
-  } catch (e) {
-    // console.error('postController make_thumbnail error', e.message);
-    return errorJson(e.message);
-  }
 };
 
 module.exports = {
