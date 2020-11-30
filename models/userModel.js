@@ -20,7 +20,7 @@ const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
-        'u.theme, u.discord, u.youtube, u.twitch, u.private_acc, u.created_at ' +
+        'u.discord, u.youtube, u.twitch ' +
         'FROM User AS u ' +
         'WHERE user_id = ? ' +
         'AND deleted_at IS NULL ' +

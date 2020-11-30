@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const followController = require('../controllers/followController');
 const {body} = require('express-validator');
 const multer = require('multer');
 const upload = multer({
@@ -37,8 +38,13 @@ router.route('/').put(upload.single('profilePic'), [
       trim().
       isLength({max: 100}).
       isURL().escape(),
-  body('private').if(body('private').exists().notEmpty()).custom(val => val === '1' || val === '0')
+  body('private').
+      if(body('private').exists().notEmpty()).
+      custom(val => val === '1' || val === '0'),
 ], userController.updateUser);
-router.route('/:id').get(userController.getUser);
+
+router.route('/id/:id').get(userController.getUser);
+router.route('/following').get(followController.getFollowing);
+router.route('/followers').get(followController.getFollowers);
 
 module.exports = router;
