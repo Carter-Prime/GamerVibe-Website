@@ -7,7 +7,7 @@ const commentModel = require('../models/commentModel');
 const postTagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
-const {delete_file, make_thumbnail} = require('../utils/my_random_stuff')
+const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
 
 const new_post = async (req, res) => {
   // console.log('postController new_post body', req.body);
@@ -39,7 +39,7 @@ const new_post = async (req, res) => {
 
   // If thumbnail return error
   if (thumb['error']) {
-    delete_file(`./uploads/${req.file.filename}`)
+    delete_file(`./uploads/${req.file.filename}`);
     return res.status(400).json(thumb);
   }
 
@@ -49,7 +49,18 @@ const new_post = async (req, res) => {
 
   // If query return error
   if (query['error']) {
+    delete_file(`./uploads/${req.file.filename}`);
+    delete_file(`./thumbnails/${req.file.filename}`);
     return res.status(400).json(query);
+  }
+
+  // Add tags to posts
+  if (req.body.tags) {
+    for (let t of req.body.tags) {
+      // console.log('postController new_post tag', t);
+      t = encodeURI(t.trim());
+      await postTagModel.add_tag(query['insertId'], t);
+    }
   }
 
   // Everything went fine
@@ -88,32 +99,34 @@ const get_n_posts = async (req, res) => {
 
   let time = Date.parse(req.body.beginTime);
   // console.log('postController get_n_posts time', time);
-  if(isNaN(time)) {
-    time = new Date().toISOString().replace('T', ' ').replace('Z', '')
+  if (isNaN(time)) {
+    time = new Date().toISOString().replace('T', ' ').replace('Z', '');
   } else {
-    time = new Date(req.body.beginTime).toISOString().replace('T', ' ').replace('Z', '')
+    time = new Date(req.body.beginTime).toISOString().
+        replace('T', ' ').
+        replace('Z', '');
   }
 
   const fetchedPosts = await postModel.get_posts(
       req.body.amount,
       req.user ? req.user.user_id : 0,
-      time
+      time,
   );
   // console.log('postController get_n_posts posts', posts)
   if (fetchedPosts['error']) {
     return res.status(400).json(fetchedPosts);
   }
 
-  const posts = []
-  for(let i = 0; i < fetchedPosts.length; i++) {
-    const post = fetchedPosts[i]
+  const posts = [];
+  for (let i = 0; i < fetchedPosts.length; i++) {
+    const post = fetchedPosts[i];
     // console.log('post', post, 'index', i)
-    const postObj = {}
-    postObj.content = post
-    postObj.comments = await commentModel.get_post_comments(post.post_id)
-    postObj.tags = await postTagModel.get_tags(post.post_id)
-    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id)
-    posts.push(postObj)
+    const postObj = {};
+    postObj.content = post;
+    postObj.comments = await commentModel.get_post_comments(post.post_id);
+    postObj.tags = await postTagModel.get_tags(post.post_id);
+    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
+    posts.push(postObj);
   }
 
   res.json(posts);

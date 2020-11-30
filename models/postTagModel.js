@@ -19,6 +19,20 @@ const get_tags = async (postId) => {
   }
 };
 
+const add_tag = async (postId, tag) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'INSERT INTO PostTag(post_id, tag) VALUES(?, ?) ', [postId, tag ]
+    )
+    // console.log('postTagModel add_tag rows', rows)
+    return rows
+  } catch (e) {
+    // console.error('postTagModel add_tag error', e.message)
+    return errorJson(e.message)
+  }
+}
+
 module.exports = {
   get_tags,
+  add_tag
 };

@@ -23,12 +23,14 @@ const get_posts = async (n, uid, beginTime) => {
     // console.log('n', n, 'beginTime', beginTime, 'uid', uid)
     const [rows] = await promisePool.execute(
         'SELECT p.post_id, p.user_id, p.caption, p.created_at, p.imgfilename ' +
-        'FROM Post AS p, User AS u ' +
+        'FROM Post AS p, User AS u, User AS u2 ' +
         'WHERE p.deleted_at IS NULL ' +
         'AND p.banned_at IS NULL ' +
         'AND u.user_id != ? ' +
         'AND u.user_id = p.user_id ' +
         'AND u.private_acc != 1 ' +
+        'AND u2.user_id = p.user_id ' +
+        'AND u2.banned_at IS NULL ' +
         'AND TIMESTAMPDIFF(SECOND, p.created_at, ?) > 0 ' +
         'ORDER BY p.created_at DESC ' +
         'LIMIT ?', [uid, beginTime, n],

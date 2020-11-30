@@ -18,6 +18,7 @@ const postController = require('../controllers/postController');
 
 router.route('/').post(upload.single('gameImage'), [
   body('caption').trim().notEmpty().isLength({max: 255}),
+  body('tags').if(body('tags').exists()).isArray()
 ], postController.new_post);
 
 router.route('/:id')
