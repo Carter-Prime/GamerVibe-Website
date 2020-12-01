@@ -112,13 +112,12 @@
 /* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
 
 @media screen and (min-width: 700px) {
-
 }
 
 /* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
 
 @media screen and (min-width: 900px) {
-    .media-links {
+  .media-links {
     flex-direction: row;
     padding-top: 20px;
   }
@@ -151,12 +150,11 @@
     margin-top: 0px;
   }
 }
-  /* for screens greater than 1200px wide - laptops and desktops*/
+/* for screens greater than 1200px wide - laptops and desktops*/
 
-  @media screen and (min-width: 1300px) {
-  }
-  /* for screens greater than 1600px wide - desktops and large screens*/
+@media screen and (min-width: 1300px) {
+}
+/* for screens greater than 1600px wide - desktops and large screens*/
 
-  @media screen and (min-width: 1600px) {
-  }
+@media screen and (min-width: 1600px) {
 }
