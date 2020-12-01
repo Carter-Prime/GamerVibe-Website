@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title id="head-title">GamerVibe Account</title>
     <script src="./scripts/authentication.js"></script>
+    <script src="https://kit.fontawesome.com/593688387c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/profileBanner.css" />
     <link rel="stylesheet" href="./styles/account.css" />
   </head>
   <body class="body-wrapper">
@@ -42,26 +44,44 @@
     </nav>
     <main class="main-wrapper">
       <div class="profile">
-        <h1>Account Page</h1>
-      </div>
-      <div class="card-container">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div class="media-div">
+          <ul class="media-links">
+            <li class="profile-links">
+              <a href="https://discord.com/" target="_blank" id="js-discord-link"
+                ><i class="fab fa-discord fa-2x"></i
+              ></a>
+            </li>
+            <li class="profile-links">
+              <a href="https://www.youtube.com/" target="_blank" id="js-youtube-link"
+                ><i class="fab fa-youtube fa-2x"></i
+              ></a>
+            </li>
+            <li class="profile-links">
+              <a href="https://www.twitch.tv/" target="_blank" id="js-twitch-link"
+                ><i class="fab fa-twitch fa-2x"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+        <div class="user-div">
+          <img
+            id="js-profile-img"
+            src="./resources/images/terminatorProfilePic.jpg"
+            alt="terminator"
+          />
+          <div class="profile-detail">
+            <h1 id="js-username">The Terminator</h1>
+            <button class="button post-btn" id="js-post-btn">
+              <span class="icon-span"><i class="far fa-plus-square" id="post-plus-icon "></i></span
+              >Post
+            </button>
+          </div>
+        </div>
+        <div class="account-faq-div">
+          <p id="js-posts">47432 posts</p>
+          <p id="js-followers">1.4m</p>
+          <p id="js-following">80 followers</p>
+        </div>
       </div>
     </main>
     <footer>
@@ -69,5 +89,6 @@
     </footer>
   </body>
   <script src="./scripts/navigation.js"></script>
+  <script src="./scripts/profileBanner.js"></script>
   <script src="./scripts/account.js"></script>
 </html>

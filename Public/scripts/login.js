@@ -2,6 +2,9 @@
 
 const authenticateLogin = document.getElementById("js-authenticate-login");
 const loginForm = document.getElementById("login-form");
+const signUpLink = document.getElementById("js-signup-link");
+
+//Login submit form
 
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -29,4 +32,6 @@ loginForm.addEventListener("submit", async (event) => {
   }
 });
 
-//Login submit form
+signUpLink.addEventListener("click", () => {
+  window.open(url + "/signUp.html", "_self", false);
+});

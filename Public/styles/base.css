@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700;800&display=swap");
 
 /* select all elements reset and common styles*/
@@ -8,24 +7,19 @@
   padding: 0;
   box-sizing: border-box;
   font-family: "Oxanium", cursive;
-  /* font-family: "Goldman", cursive; */
-  /* light theme palette*/
+
   --primaryThemeColor: #e6e9f0;
   --contrastThemeColor: #cbf6e7;
   --primaryAccentColor: #e05915;
-  --primaryAccentColor50: #e0591599;
+  --primaryAccentColor50: #e059156c;
   --textColor: #431c5d;
+  --lightBorderColor: #431c5d46;
+  --contrastBackground: #e0e5fc;
   --neutralColor: #e2eff3;
-
-  /* dark theme palette
-  --primaryThemeColor: #474b4f;
-  --contrastThemeColor: #61892f;
-  --primaryAccentColor: #86c232;
-  --secondaryAccentColor: #6b6e70;
-  --neutralColor: #222629;*/
 }
 
 /* html page layout*/
+
 .body-wrapper {
   display: flex;
   flex-direction: column;
@@ -60,6 +54,10 @@
 
 .nav-links {
   text-decoration: none;
+}
+
+.nav-links:visited {
+  color: var(--textColor);
 }
 
 .nav-links:hover {
@@ -117,6 +115,8 @@
   cursor: pointer;
 }
 
+/* Toggle classes for showing and hiding elements*/
+
 .hide {
   display: none;
 }
@@ -124,6 +124,8 @@
 .show {
   display: flex;
 }
+
+/* Identifies the active html page */
 
 .active-page {
   text-decoration: underline;
@@ -142,9 +144,48 @@
   background-image: linear-gradient(
     to top right,
     var(--primaryThemeColor),
-    var(--primaryThemeColor) 40%,
-    var(--contrastThemeColor) 40%
+    var(--primaryThemeColor) 30%,
+    var(--contrastThemeColor) 30%
   );
+  padding-bottom: 20px;
+}
+
+/* standard card styling*/
+
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 300px;
+  place-items: center;
+
+  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  background-color: var(--contrastBackground);
+  border: 1px solid var(--lightBorderColor);
+}
+
+.card-details-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.card > img {
+  width: 100%;
+}
+
+.tags {
+  width: 100%;
+}
+
+.caption-text {
+  width: 100%;
+}
+
+.upvotes {
+  width: 100%;
+  text-align: end;
 }
 
 /*footer content of web page*/
@@ -173,7 +214,7 @@ footer > p {
   margin-left: 20px;
   margin-bottom: 10px;
   margin-right: 10px;
-  padding: 10px;
+  padding: 4px 8px;
   font-size: clamp(1rem, 0.8rem + 1vw, 2rem);
   font-weight: 600;
   box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25), -8px -8px 12px 0 rgba(255, 255, 255, 0.3);
@@ -256,26 +297,53 @@ footer > p {
     font-size: 1.3rem;
     margin-top: 10px;
   }
-}
 
-/* for screens greater than 1200px wide - laptops and desktops*/
-
-@media screen and (min-width: 1300px) {
-  .main-nav {
-    display: flex;
+  .media-links {
     flex-direction: row;
   }
-  .main-wrapper {
+
+  .game-tag-div > h3 {
+    text-align: start;
+  }
+
+  .user-div {
     flex-direction: row;
-    align-content: space-around;
+    margin-left: -50px;
   }
 
-  .navbar-toggle {
-    display: none;
+  #js-profile-img {
+    width: 300px;
+    clip-path: circle(80px at center);
+    margin-left: 10px;
   }
-}
 
-/* for screens greater than 1600px wide - desktops and large screens*/
+  .profile-detail {
+    margin-left: -50px;
+    margin-right: 5vw;
+  }
 
-@media screen and (min-width: 1600px) {
+  .media-div {
+    margin-right: 5vw;
+  }
+  /* for screens greater than 1200px wide - laptops and desktops*/
+
+  @media screen and (min-width: 1300px) {
+    .main-nav {
+      display: flex;
+      flex-direction: row;
+    }
+    .main-wrapper {
+      flex-direction: row;
+      align-content: space-around;
+    }
+
+    .navbar-toggle {
+      display: none;
+    }
+  }
+
+  /* for screens greater than 1600px wide - desktops and large screens*/
+
+  @media screen and (min-width: 1600px) {
+  }
 }
