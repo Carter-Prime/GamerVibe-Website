@@ -6,16 +6,13 @@ const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');
 const postsRoute = require('./routes/postsRoute');
 const userRoute = require('./routes/userRoute');
-
 const app = express();
 const passport = require('./utils/pass');
-
 const passportOptions = {
   session: false,
 };
 
 app.use(cors());
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -27,7 +24,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Routes
-
 app.use(express.static('./Public/')); // For webpage
 app.use('/thumbnails', express.static('./thumbnails')); // For thumbnails
 app.use('/uploads', express.static('./uploads')); // For full size images

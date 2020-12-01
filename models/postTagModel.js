@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson} = require('../utils/json_messages');
 
+// Get given post tags
 const get_tags = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
@@ -19,6 +20,7 @@ const get_tags = async (postId) => {
   }
 };
 
+// Add one tag to given post
 const add_tag = async (postId, tag) => {
   try {
     const [rows] = await promisePool.execute(

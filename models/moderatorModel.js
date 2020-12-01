@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson} = require('../utils/json_messages');
 
+// Get moderator with given id
 const get_mod = async (id) => {
   try {
     const [rows] = await promisePool.execute(

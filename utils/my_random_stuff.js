@@ -3,6 +3,7 @@ const fs = require('fs')
 const resize = require('./resize')
 const {errorJson} = require('./json_messages')
 
+// Make thumbnail
 const make_thumbnail = async (file, path) => {
   try {
     // Creates thumbnails directory if it not exists

@@ -3,11 +3,15 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson} = require('../utils/json_messages');
 
-// TODO: Get correct information from users
+// Get all users
 const getAllUsers = async () => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT username, email FROM User WHERE deleted_at IS NULL AND banned_at IS NULL',
+        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
+        'u.discord, u.youtube, u.twitch ' +
+        'FROM User AS u ' +
+        'WHERE u.deleted_at IS NULL ' +
+        'AND u.banned_at IS NULL',
     );
     // console.log('userModel getAllUsers rows', rows);
     return rows;
@@ -16,6 +20,7 @@ const getAllUsers = async () => {
   }
 };
 
+// Get user with given id
 const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
@@ -34,6 +39,7 @@ const getUser = async (id) => {
   }
 };
 
+// Get users login information
 const getUserLogin = async (email) => {
   try {
     const [rows] = await promisePool.execute(
@@ -56,6 +62,7 @@ const getUserLogin = async (email) => {
   }
 };
 
+// Update users information
 const updateUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
@@ -79,6 +86,7 @@ const updateUser = async (params) => {
   }
 };
 
+// Add new user
 const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(

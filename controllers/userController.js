@@ -4,29 +4,33 @@ const {errorJson} = require('../utils/json_messages');
 const {validationResult} = require('express-validator');
 const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
 
+// Get single user
 const getUser = async (req, res) => {
   // TODO: check if user follows wantedUser or user is moderator
   const user = req.user;
   // console.log('userController getUser req.user', user);
   // console.log('userController getUser params', req.params.id)
 
+  // Get user
   const wantedUser = await userModel.getUser(req.params.id);
+  // If errors in getting user, then send it to res
   if (wantedUser['error']) {
     return res.status(400).json(errorJson('No users found'));
   }
 
-  delete wantedUser.passwd;
-  // TODO: delete other unnecessary information
   // console.log('userController getUser user', user);
   res.json(wantedUser);
 };
 
+// Update users information
 const updateUser = async (req, res) => {
   // console.log('userController updateUser body', req.body);
   // console.log('userController updateUser file', req.file);
-  const profilePicPath = './profilePics'
-  const profileThumbPath = './profileThumbs'
-  const profilePicFile = req.file ? `${profilePicPath}/${req.file.filename}` : undefined;
+  const profilePicPath = './profilePics';
+  const profileThumbPath = './profileThumbs';
+  const profilePicFile = req.file ?
+      `${profilePicPath}/${req.file.filename}` :
+      undefined;
 
   // Check if user still exists
   const user = await userModel.getUser(req.user.user_id);
@@ -49,14 +53,14 @@ const updateUser = async (req, res) => {
     return res.status(400).json(errorJson(valRes['errors']));
   }
 
-  if(req.file) {
+  if (req.file) {
     // Makes thumbnail if file exists
     const thumb = await make_thumbnail(req.file, profileThumbPath);
     // console.log('userController updateUser thumb', thumb);
 
     // If thumbnail return error
     if (thumb['error']) {
-      delete_file(profilePicFile)
+      delete_file(profilePicFile);
       return res.status(400).json(thumb);
     }
   }
@@ -102,7 +106,7 @@ const updateUser = async (req, res) => {
   if (query['error']) {
     if (req.file) {
       delete_file(profilePicFile);
-      delete_file(`${profileThumbPath}/${req.file.filename}`)
+      delete_file(`${profileThumbPath}/${req.file.filename}`);
     }
     return res.status(400).json(query);
   }

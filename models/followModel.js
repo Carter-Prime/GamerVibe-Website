@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson} = require('../utils/json_messages');
 
+// Get list of users that given user is following
 const get_following = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
@@ -21,6 +22,7 @@ const get_following = async (userid) => {
   }
 };
 
+// Get list of users that are following given user
 const get_followers = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
@@ -41,5 +43,5 @@ const get_followers = async (userid) => {
 
 module.exports = {
   get_following,
-  get_followers
+  get_followers,
 };

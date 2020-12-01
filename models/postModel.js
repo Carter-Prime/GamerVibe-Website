@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson, messageJson} = require('../utils/json_messages');
 
+// Make new post
 const add_new_post = async (uid, caption, imgFilename) => {
   // console.log('uid', uid)
   // console.log('caption', caption)
@@ -18,6 +19,8 @@ const add_new_post = async (uid, caption, imgFilename) => {
   }
 };
 
+// Get multiple posts that are not given users posts
+// and are older than beginTime
 const get_posts = async (n, uid, beginTime) => {
   try {
     // console.log('n', n, 'beginTime', beginTime, 'uid', uid)
@@ -43,6 +46,7 @@ const get_posts = async (n, uid, beginTime) => {
   }
 };
 
+// Get single post with given id
 const get_post = async (id) => {
   try {
     const [rows] = await promisePool.execute(
@@ -58,6 +62,7 @@ const get_post = async (id) => {
   }
 };
 
+// Set posts deleted_at property
 const delete_post = async (id) => {
   try {
     const [rows] = await promisePool.execute(

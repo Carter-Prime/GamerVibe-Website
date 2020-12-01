@@ -3,6 +3,7 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson} = require('../utils/json_messages');
 
+// Get all upvotes for given post
 const get_upvotes = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
