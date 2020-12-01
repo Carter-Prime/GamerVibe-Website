@@ -6,6 +6,7 @@ const url = "https://localhost:8000";
 const headTitle = document.getElementById("head-title");
 const token = sessionStorage.getItem("token");
 const user = JSON.parse(sessionStorage.getItem("user"));
+let userType = null;
 
 /* handles authentication access to specific webpages. If tried to access without account 
 redirects to landing page.*/
@@ -18,6 +19,7 @@ if (user == null) {
   ) {
     window.open(url + "/index.html", "_self", false);
   } else {
-    console.log("you are an annoymous user");
+    userType = "anonymous";
+    console.log("user type is: " + userType);
   }
 }

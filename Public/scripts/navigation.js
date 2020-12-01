@@ -12,7 +12,7 @@ const logoutTab = document.getElementById("js-logout-tab");
 const signupTab = document.getElementById("js-signup-tab");
 const loggedInTab = document.querySelectorAll(".loggedInTab");
 
-//console.log(user);
+console.log(user);
 
 // selects navigation tabs to be toggled if a user is logged in.
 const toggleLoggedInTabs = () => {
@@ -45,10 +45,12 @@ const logout = async () => {
 //test to see if users are logged in
 if (user) {
   if (user.moderator_since == null) {
-    console.log("you are logged in as regular user ");
+    userType = "registered";
+    console.log("user type is: " + userType);
     toggleLoggedInTabs();
   } else {
-    console.log("you are logged in as moderator user and can see everything");
+    userType = "moderator";
+    console.log("user type is: " + userType);
     toggleLoggedInTabs();
   }
 }

@@ -44,21 +44,44 @@
     </nav>
     <main class="main-wrapper">
       <div class="profile">
-        <h1>Discover Page</h1>
-      </div>
-      <div class="card-container" id="js-main-body">
-        <div class="card">
-          <img src="../thumbnails/cat.jpg" alt="card Image" />
-          <div class="tags"><p>tags go here</p></div>
-          <p class="caption-text">Caption goes here</p>
-          <p class="upvotes">upvotes</p>
+        <div class="div1">
+          <h3>Media Links:</h3>
+          <ul class="media-links">
+            <li class="profile-links"><a id="js-Discord-link">Discord</a></li>
+            <li class="profile-links"><a id="js-YouTube-link">YouTube</a></li>
+            <li class="profile-links"><a id="js-Twitch-link">Twitch</a></li>
+          </ul>
+        </div>
+        <div class="div2">
+          <img
+            id="js-profile-img"
+            src="./resources/images/terminatorProfilePic.jpg"
+            alt="terminator"
+          />
+          <div class="profile-detail">
+            <h1 id="js-username">The Terminator</h1>
+            <div id="posts">47432 posts</div>
+            <div id="followers">1.4m</div>
+            <div id="following">80 followers</div>
+            <button class="button" id="js-post-btn">Post</button>
+          </div>
+        </div>
+        <div class="div3">
+          <h3>Game Tags:</h3>
+          <ul class="media-links">
+            <li class="profile-links"><a id="js-Wow-link">#World of Warcraft</a></li>
+            <li class="profile-links"><a id="js-Diablo-link">#Diablo</a></li>
+            <li class="profile-links"><a id="js-COD-link">#COD</a></li>
+          </ul>
         </div>
       </div>
+      <div class="card-container" id="js-main-body"></div>
     </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>
     </footer>
   </body>
   <script src="./scripts/navigation.js"></script>
+  <script src="./scripts/profileBanner.js"></script>
   <script src="./scripts/discover.js"></script>
 </html>
