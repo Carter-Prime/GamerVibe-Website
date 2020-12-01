@@ -2,6 +2,8 @@
 
 const mainBody = document.getElementById("js-main-body");
 
+const detailedPost = (postId) => {};
+
 const createDiscoverCards = (posts) => {
   mainBody.innerHTML = "";
   console.log(posts);
@@ -41,6 +43,13 @@ const createDiscoverCards = (posts) => {
       //console.log(post.tags.tag[0]);
     }
     newCard.append(newImg, detailsContainer, newCaption);
+
+    newCard.addEventListener("click", (Event) => {
+      Event.preventDefault();
+      console.log(post.content.post_id);
+      sessionStorage.setItem("postId", JSON.stringify(post.content.post_id));
+      displayUser(post.content.user_id);
+    });
     mainBody.append(newCard);
   });
 };
@@ -60,6 +69,7 @@ const getDiscoverPosts = async () => {
 
     const response = await fetch(url + "/posts/discover", options);
     const discoverPosts = await response.json();
+
     createDiscoverCards(discoverPosts);
   } catch (e) {
     console.log(e.message);
