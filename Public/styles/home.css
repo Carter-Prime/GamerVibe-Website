@@ -12,15 +12,6 @@
   justify-items: center;
 }
 
-.profile {
-  display: flex;
-  width: 100vw;
-  height: 300px;
-  background-color: cornflowerblue;
-  align-items: center;
-  justify-content: center;
-}
-
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 
 @media screen and (min-width: 480px) {

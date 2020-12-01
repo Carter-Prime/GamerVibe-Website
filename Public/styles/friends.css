@@ -12,29 +12,6 @@
   justify-items: center;
 }
 
-.profile {
-  display: flex;
-  width: 100vw;
-  height: 300px;
-  background-color: cornflowerblue;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-container > div:nth-child(even) {
-  display: flex;
-  width: 100%;
-  height: 400px;
-  background-color: blue;
-}
-
-.card-container > div:nth-child(odd) {
-  display: flex;
-  width: 100%;
-  height: 400px;
-  background-color: green;
-}
-
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 
 @media screen and (min-width: 480px) {

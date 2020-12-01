@@ -54,7 +54,7 @@ const getDiscoverPosts = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        amount: 10,
+        amount: 20,
       }),
     };
 
