@@ -13,7 +13,11 @@
   <body class="body-wrapper">
     <nav class="navbar">
       <div class="logo" id="js-logo">
-        <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
+        <img
+          class="logo-img"
+          src="./resources/images/title image 36px.png"
+          alt="tigerpic"
+        />
         <div class="logo-text">
           <a class="nav-links" id="logo-title" href="./index.html">GamerVibe</a>
         </div>
@@ -25,7 +29,9 @@
         <li class="loggedInTab hide" id="js-home-tab">
           <a class="nav-links" href="./home.html">Home</a>
         </li>
-        <li id="js-discover-tab"><a class="nav-links" href="./discover.html">Discover</a></li>
+        <li id="js-discover-tab">
+          <a class="nav-links" href="./discover.html">Discover</a>
+        </li>
         <li class="loggedInTab hide" id="js-friends-tab">
           <a class="nav-links" href="./friends.html">Friends</a>
         </li>
@@ -86,6 +92,16 @@
         </div>
       </div>
       <div class="card-container"></div>
+      <div class="profile" class="form-wrapper" id="search-wrapper">
+        <h1>Search Page</h1>
+        <form id="search-form">
+          <input type="text" name="search-field" />
+          <button type="submit" >People</button>
+          <button type="submit" >Tags</button>
+          <h3></h3>
+        </form>
+        <results> </results>
+      </div>
     </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>
