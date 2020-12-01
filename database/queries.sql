@@ -156,13 +156,11 @@ WHERE p.deleted_at IS NULL
     AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0
 ORDER BY Upvotes DESC
 LIMIT 30;
-
 -- Get all posts that a logged-in user can see--
 -- Same as above
 -- + add posts from private account with accepted friendship
 -- + exclude posts from blocked accounts
 -- example below for user 3
-
 SELECT DISTINCT p.post_id,
     p.user_id,
     p.caption,
@@ -211,3 +209,20 @@ WHERE p.deleted_at IS NULL
     )
 ORDER BY Upvotes DESC
 LIMIT 30;
+-- List approved friends -- example for user 3
+-- TODO exclude unfollowed and blocked
+SELECT *
+FROM Following f,
+    User u
+WHERE f.follower_id = 3
+    AND f.following_id = u.user_id
+    AND f.approved = 1
+    AND f.banned_at IS NULL;
+
+-- List pending follow requests
+SELECT *
+FROM Following f,
+    User u
+WHERE f.follower_id = 3
+    AND f.following_id = u.user_id
+    AND f.approved = 1;

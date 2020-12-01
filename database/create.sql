@@ -55,6 +55,7 @@ CREATE TABLE PostTag (
     untagged_at TIMESTAMP NULL,
     FOREIGN KEY (post_id) REFERENCES Post (post_id)
 );
+ALTER TABLE PostTag ADD UNIQUE unique_index(post_id, tag);
 CREATE TABLE Upvote (
     user_id INT,
     post_id INT,
