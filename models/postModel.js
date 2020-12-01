@@ -79,6 +79,24 @@ const delete_post = async (id) => {
   }
 };
 
+// Get all posts by user
+const get_posts_by_user = async (uid) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'SELECT p.post_id, p.caption, p.created_at, p.imgfilename ' +
+        'FROM Post AS p ' +
+        'WHERE user_id = ? ' +
+        'AND deleted_at IS NULL ' +
+        'AND banned_at IS NULL', [uid],
+    );
+    // console.log('postModel get_posts_by_user rows', rows)
+    return rows;
+  } catch (e) {
+    // console.error('postModel get_posts_by_user error', e.message);
+    return errorJson(e.message);
+  }
+};
+
 // Only used when error happens when making thumbnail
 const delete_temp_post = async (id) => {
   try {
@@ -99,4 +117,5 @@ module.exports = {
   get_posts,
   delete_temp_post,
   delete_post,
+  get_posts_by_user,
 };

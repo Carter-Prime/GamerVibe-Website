@@ -189,9 +189,22 @@ const delete_post = async (req, res) => {
       res.json(query);
 };
 
+// Get all posts by current user
+const getPostsByUser = async (req, res) => {
+  const user = req.user;
+  const posts = await postModel.get_posts_by_user(user.user_id);
+
+  if (posts['error']) {
+    return res.status(400).json(posts);
+  }
+
+  res.json(posts)
+};
+
 module.exports = {
   new_post,
   fetch_post,
   delete_post,
   get_n_posts,
+  getPostsByUser,
 };
