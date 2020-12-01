@@ -6,10 +6,12 @@ const {errorJson} = require('../utils/json_messages');
 const get_following = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT following_id ' +
-        'FROM Following ' +
-        'WHERE follower_id = ? ' +
-        'AND approved = 1', [userid],
+        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
+        'u.discord, u.youtube, u.twitch ' +
+        'FROM User AS u ' +
+        'INNER JOIN Following AS f ' +
+        'ON u.user_id = f.following_id ' +
+        'AND f.follower_id = ?', [userid],
     );
     // console.log('followingModel get_following rows', rows);
     return rows;
@@ -22,10 +24,12 @@ const get_following = async (userid) => {
 const get_followers = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT follower_id ' +
-        'FROM Following ' +
-        'WHERE following_id = ? ' +
-        'AND approved = 1', [userid],
+        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
+        'u.discord, u.youtube, u.twitch ' +
+        'FROM User AS u ' +
+        'INNER JOIN Following AS f ' +
+        'ON u.user_id = f.follower_id ' +
+        'AND f.following_id = ?', [userid],
     );
     // console.log('followingModel get_followers rows', rows);
     return rows;

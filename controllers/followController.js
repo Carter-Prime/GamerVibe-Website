@@ -11,13 +11,7 @@ const getFollowing = async (req, res) => {
     return res.status(400).json(query);
   }
 
-  const following = []
-  for(const f of query) {
-    // console.log('f', f)
-    following.push(await userModel.getUser(f['following_id']))
-  }
-
-  res.json(following);
+  res.json(query);
 };
 
 const getFollowers = async (req, res) => {
@@ -29,13 +23,7 @@ const getFollowers = async (req, res) => {
     return res.status(400).json(query);
   }
 
-  const followers = []
-  for(const f of query) {
-    // console.log('f', f)
-    followers.push(await userModel.getUser(f['follower_id']))
-  }
-
-  res.json(followers);
+  res.json(query);
 }
 
 module.exports = {
