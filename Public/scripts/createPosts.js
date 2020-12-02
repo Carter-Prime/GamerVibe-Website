@@ -108,7 +108,7 @@ const detailedPost = (post) => {
           }),
         };
 
-        const response = await fetch(url + "/comment/", fetchOptions);
+        const response = await fetch(url + "/post/comment/", fetchOptions);
         const json = await response.json();
         console.log(json);
         if (json) {
@@ -243,7 +243,7 @@ const getPostById = async (postId) => {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const response = await fetch(url + `/post/` + postId, options);
+    const response = await fetch(url + `/post/id/` + postId, options);
     const json = await response.json();
 
     return json;
