@@ -6,6 +6,7 @@ const authRoute = require('./routes/authRoute');
 const postRoute = require('./routes/postRoute');
 const postsRoute = require('./routes/postsRoute');
 const userRoute = require('./routes/userRoute');
+const followRoute = require('./routes/followRoute');
 const app = express();
 const passport = require('./utils/pass');
 const passportOptions = {
@@ -33,3 +34,4 @@ app.use('/auth', authRoute);
 app.use('/post', passport.authenticate('jwt', passportOptions), postRoute);
 app.use('/posts', postsRoute);
 app.use('/user', passport.authenticate('jwt', passportOptions), userRoute);
+app.use('/follow', passport.authenticate('jwt', passportOptions), followRoute);

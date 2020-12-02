@@ -41,7 +41,38 @@ const get_followers = async (userid) => {
   }
 };
 
+const follow_user = async (uid, fid) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'INSERT INTO Following(follower_id, following_id) ' +
+        'VALUES(?,?)', [uid, fid],
+    );
+    // console.log('followingModel follow_user rows', rows);
+    return rows;
+  } catch (e) {
+    // console.error('followingModel follow_user error', e.message)
+    return errorJson(e.message);
+  }
+};
+
+const is_following = async (uid, fid) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'SELECT * FROM Following ' +
+        'WHERE follower_id = ? ' +
+        'AND following_id = ? ', [uid, fid],
+    );
+    // console.log('followingModel is_following rows', rows);
+    return rows;
+  } catch (e) {
+    // console.error('followingModel is_following error', e.message)
+    return errorJson(e.message);
+  }
+}
+
 module.exports = {
   get_following,
   get_followers,
+  follow_user,
+  is_following
 };
