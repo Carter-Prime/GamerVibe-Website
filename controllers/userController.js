@@ -1,8 +1,8 @@
-'use strict';
-const userModel = require('../models/userModel');
-const {errorJson} = require('../utils/json_messages');
-const {validationResult} = require('express-validator');
-const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
+"use strict";
+const userModel = require("../models/userModel");
+const { errorJson } = require("../utils/json_messages");
+const { validationResult } = require("express-validator");
+const { delete_file, make_thumbnail } = require("../utils/my_random_stuff");
 
 // Get single user
 const getUser = async (req, res) => {
@@ -14,28 +14,34 @@ const getUser = async (req, res) => {
   // Get user
   const wantedUser = await userModel.getUser(req.params.id);
   // If errors in getting user, then send it to res
-  if (wantedUser['error']) {
-    return res.status(400).json(errorJson('No users found'));
+  if (wantedUser["error"]) {
+    return res.status(400).json(errorJson("No users found"));
   }
 
   // console.log('userController getUser user', user);
   res.json(wantedUser);
 };
 
+// Get users list by name
+const users_by_name = async (req, res) => {
+  const users = await userModel.getUsersByName();
+  res.json(users);
+};
+
 // Update users information
 const updateUser = async (req, res) => {
   // console.log('userController updateUser body', req.body);
   // console.log('userController updateUser file', req.file);
-  const profilePicPath = './profilePics';
-  const profileThumbPath = './profileThumbs';
-  const profilePicFile = req.file ?
-      `${profilePicPath}/${req.file.filename}` :
-      undefined;
+  const profilePicPath = "./profilePics";
+  const profileThumbPath = "./profileThumbs";
+  const profilePicFile = req.file
+    ? `${profilePicPath}/${req.file.filename}`
+    : undefined;
 
   // Check if user still exists
   const user = await userModel.getUser(req.user.user_id);
   // console.log('userController updateUser user', user);
-  if (user['error']) {
+  if (user["error"]) {
     // No user found
     if (req.file) {
       delete_file(profilePicFile);
@@ -50,7 +56,7 @@ const updateUser = async (req, res) => {
     if (req.file) {
       delete_file(profilePicFile);
     }
-    return res.status(400).json(errorJson(valRes['errors']));
+    return res.status(400).json(errorJson(valRes["errors"]));
   }
 
   if (req.file) {
@@ -59,7 +65,7 @@ const updateUser = async (req, res) => {
     // console.log('userController updateUser thumb', thumb);
 
     // If thumbnail return error
-    if (thumb['error']) {
+    if (thumb["error"]) {
       delete_file(profilePicFile);
       return res.status(400).json(thumb);
     }
@@ -69,33 +75,37 @@ const updateUser = async (req, res) => {
   // All good so far
   const params = [
     // fname
-    body.fname !== undefined ?
-        body.fname.length === 0 ? null
-            : body.fname
-        : user.fname,
+    body.fname !== undefined
+      ? body.fname.length === 0
+        ? null
+        : body.fname
+      : user.fname,
     // lname
-    body.lname !== undefined ?
-        body.lname.length === 0 ? null
-            : body.lname
-        : user.lname,
+    body.lname !== undefined
+      ? body.lname.length === 0
+        ? null
+        : body.lname
+      : user.lname,
     // imagename
-    req.file !== undefined ? req.file.filename
-        : user.imagename,
+    req.file !== undefined ? req.file.filename : user.imagename,
     // discord
-    body.discord !== undefined ?
-        body.discord.length === 0 ? null
-            : body.discord
-        : user.discord,
+    body.discord !== undefined
+      ? body.discord.length === 0
+        ? null
+        : body.discord
+      : user.discord,
     // youtube
-    body.youtube !== undefined ?
-        body.youtube.length === 0 ? null
-            : body.youtube
-        : user.youtube,
+    body.youtube !== undefined
+      ? body.youtube.length === 0
+        ? null
+        : body.youtube
+      : user.youtube,
     // twitch
-    body.twitch !== undefined ?
-        body.twitch.length === 0 ? null
-            : body.twitch
-        : user.twitch,
+    body.twitch !== undefined
+      ? body.twitch.length === 0
+        ? null
+        : body.twitch
+      : user.twitch,
     // private
     body.private !== undefined ? body.private : user.private_acc,
     // uid
@@ -103,7 +113,7 @@ const updateUser = async (req, res) => {
   ];
 
   const query = await userModel.updateUser(params);
-  if (query['error']) {
+  if (query["error"]) {
     if (req.file) {
       delete_file(profilePicFile);
       delete_file(`${profileThumbPath}/${req.file.filename}`);
@@ -117,4 +127,5 @@ const updateUser = async (req, res) => {
 module.exports = {
   getUser,
   updateUser,
+  users_by_name,
 };

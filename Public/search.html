@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title id="head-title">GamerVibe Search</title>
     <script src="./scripts/authentication.js"></script>
-    <script src="https://kit.fontawesome.com/593688387c.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/593688387c.js"
+      crossorigin="anonymous"
+    ></script>
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/profileBanner.css" />
     <link rel="stylesheet" href="./styles/search.css" />
@@ -55,17 +58,26 @@
         <div class="media-div">
           <ul class="media-links">
             <li class="profile-links">
-              <a href="https://discord.com/" target="_blank" id="js-discord-link"
+              <a
+                href="https://discord.com/"
+                target="_blank"
+                id="js-discord-link"
                 ><i class="fab fa-discord fa-2x"></i
               ></a>
             </li>
             <li class="profile-links">
-              <a href="https://www.youtube.com/" target="_blank" id="js-youtube-link"
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                id="js-youtube-link"
                 ><i class="fab fa-youtube fa-2x"></i
               ></a>
             </li>
             <li class="profile-links">
-              <a href="https://www.twitch.tv/" target="_blank" id="js-twitch-link"
+              <a
+                href="https://www.twitch.tv/"
+                target="_blank"
+                id="js-twitch-link"
                 ><i class="fab fa-twitch fa-2x"></i
               ></a>
             </li>
@@ -80,7 +92,8 @@
           <div class="profile-detail">
             <h1 id="js-username">The Terminator</h1>
             <button class="button post-btn" id="js-post-btn">
-              <span class="icon-span"><i class="far fa-plus-square" id="post-plus-icon "></i></span
+              <span class="icon-span"
+                ><i class="far fa-plus-square" id="post-plus-icon "></i></span
               >Post
             </button>
           </div>
@@ -96,11 +109,40 @@
         <h1>Search Page</h1>
         <form id="search-form">
           <input type="text" name="search-field" />
-          <button type="submit" >People</button>
-          <button type="submit" >Tags</button>
+          <button type="submit">People</button>
+          <button type="submit">Tags</button>
           <h3></h3>
         </form>
         <results> </results>
+
+        <form id="SearchMemberForm">
+          <div class="uk-margin-small">
+            <div class="uk-inline uk-width-1-1">
+              <button
+                id="MemberSubmit"
+                type="submit"
+                class="uk-form-icon uk-form-icon-flip"
+                uk-icon="icon: search"
+              ></button>
+              <input
+                id="MemberInput"
+                type="search"
+                name="ig_handle"
+                class="member-search-input uk-input uk-form-large"
+                placeholder="e.g., cristiano"
+                autocapitalize="none"
+                autocorrect="off"
+                autocomplete="off"
+              />
+              <div
+                id="PresetMember"
+                class="uk-width-1-1 uk-margin-remove"
+                uk-dropdown="mode: click; pos: bottom-justify;
+            boundary: .member-search-input"
+              ></div>
+            </div>
+          </div>
+        </form>
       </div>
     </main>
     <footer>

@@ -218,7 +218,6 @@ WHERE f.follower_id = 3
     AND f.following_id = u.user_id
     AND f.approved = 1
     AND f.banned_at IS NULL;
-
 -- List pending follow requests
 SELECT *
 FROM Following f,
@@ -226,3 +225,17 @@ FROM Following f,
 WHERE f.follower_id = 3
     AND f.following_id = u.user_id
     AND f.approved = 1;
+-- List users by name
+SELECT u.user_id,
+    u.username,
+    u.fname,
+    u.lname,
+    u.email,
+    u.imagename,
+    u.discord,
+    u.youtube,
+    u.twitch
+FROM User AS u
+WHERE (username LIKE '%$name%' OR fname LIKE '%$name%' OR lname LIKE '%$name%')
+    AND deleted_at IS NULL
+    AND banned_at IS NULL;

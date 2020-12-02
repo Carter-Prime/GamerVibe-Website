@@ -107,10 +107,31 @@ const addUser = async (params) => {
   }
 };
 
+// Search user with given name
+const getUsersByName = async (name) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
+        'u.discord, u.youtube, u.twitch ' +
+        'FROM User AS u ' +
+        'WHERE username = ? ' +
+        'AND deleted_at IS NULL ' +
+        'AND banned_at IS NULL',
+        [name],
+    );
+    // console.log('userModel getUser user', rows[0])
+    return rows ? {...rows} : errorJson(`No users found with name: ${name}`);
+  } catch (e) {
+    return errorJson(e.message);
+  }
+};
+
+
 module.exports = {
   getAllUsers,
   getUser,
   getUserLogin,
   addUser,
   updateUser,
+  getUsersByName,
 };

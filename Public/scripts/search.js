@@ -15,10 +15,10 @@ form.addEventListener("submit", (evt) => {
 
 // async/await fetch
 const doFetch = async () => {
-  state.innerText = "Loading movies ...";
+  state.innerText = "Loading ...";
   try {
     const res = await fetch(
-      `http://api.tvmaze.com/search/shows?q=${input.value}`
+      `https://api.tvmaze.com/search/shows?q=${input.value}`
     );
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
@@ -26,6 +26,7 @@ const doFetch = async () => {
     publish(data);
   } catch (err) {
     console.warn(err);
+    state.innerText = "Something went wrong ...";
   }
 };
 
