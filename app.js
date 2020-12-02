@@ -7,7 +7,6 @@ const postRoute = require('./routes/postRoute');
 const postsRoute = require('./routes/postsRoute');
 const userRoute = require('./routes/userRoute');
 const followRoute = require('./routes/followRoute');
-const commentRoute = require('./routes/commentRoute');
 const app = express();
 const passport = require('./utils/pass');
 const passportOptions = {
@@ -36,4 +35,3 @@ app.use('/post', passport.authenticate('jwt', passportOptions), postRoute);
 app.use('/posts', postsRoute);
 app.use('/user', passport.authenticate('jwt', passportOptions), userRoute);
 app.use('/follow', passport.authenticate('jwt', passportOptions), followRoute);
-app.use('/comment', passport.authenticate('jwt', passportOptions), commentRoute);

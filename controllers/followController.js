@@ -43,8 +43,10 @@ const followUser = async (req, res) => {
   // Check if user is already following other user
   const isFollowing = await followingModel.is_following(req.user.user_id, req.body.user)
   if(isFollowing['error']) {
+    // Error happened
     return res.status(400).json(isFollowing)
   } else if (isFollowing.length !== 0) {
+    // User is already following other
     return res.json(messageJson(`User ${req.user.user_id} is already following user ${req.body.user}`))
   }
 
