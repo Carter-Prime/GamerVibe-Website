@@ -114,7 +114,7 @@ const getUsersByName = async (name) => {
         'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
         'u.discord, u.youtube, u.twitch ' +
         'FROM User AS u ' +
-        'WHERE username = ? ' +
+        'WHERE (username LIKE %?% OR fname LIKE %?%  OR lname LIKE %?% )' +
         'AND deleted_at IS NULL ' +
         'AND banned_at IS NULL',
         [name],

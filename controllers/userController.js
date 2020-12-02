@@ -23,7 +23,7 @@ const getUser = async (req, res) => {
 };
 
 // Get users list by name
-const users_by_name = async (req, res) => {
+const usersByName = async (req, res) => {
   const users = await userModel.getUsersByName();
   res.json(users);
 };
@@ -127,5 +127,5 @@ const updateUser = async (req, res) => {
 module.exports = {
   getUser,
   updateUser,
-  users_by_name,
+  usersByName,
 };
