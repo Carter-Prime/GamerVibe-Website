@@ -9,6 +9,7 @@ const postBtn = document.getElementById("js-post-btn");
 const discordLink = document.getElementById("js-discord-link");
 const youtubeLink = document.getElementById("js-youtube-link");
 const twitchLink = document.getElementById("js-twitch-link");
+const profileDetail = document.getElementById("js-profile-details");
 
 const htmlDecoder = (input) => {
   const doc = new DOMParser().parseFromString(input, "text/html");
@@ -23,20 +24,21 @@ const displayUser = async (userId) => {
       },
     };
     const response = await fetch(url + `/user/id/` + userId, options);
-    const user = await response.json();
-    console.log(user);
-    console.log("discord element: " + discordLink);
-    userName.innerText = user.username;
-    if (user.discord != null) {
+    const json = await response.json();
+    if (user != userId) {
+      postBtn.classList.toggle("hide");
+    }
+    userName.innerText = json.username;
+    if (json.discord != null) {
       const decode = htmlDecoder(user.discord);
       discordLink.setAttribute("href", decode);
     }
-    if (user.youtube != null) {
-      const decode = htmlDecoder(user.youtube);
+    if (json.youtube != null) {
+      const decode = htmlDecoder(json.youtube);
       youtubeLink.setAttribute("href", decode);
     }
-    if (user.twitch != null) {
-      const decode = htmlDecoder(user.twitch);
+    if (json.twitch != null) {
+      const decode = htmlDecoder(json.twitch);
       twitchLink.setAttribute("href", decode);
     }
   } catch (e) {
