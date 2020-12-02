@@ -3,9 +3,14 @@
 const mainBody = document.getElementById("js-main-body");
 
 const detailedPost = (post) => {
-  const hidePostBtn = true;
+  const clickedPost = post;
   console.log("this is the post: " + post.comments);
-  displayUser(post.content.user_id, hidePostBtn);
+  if (userType != "anonymous") {
+    displayUser(post.content.user_id);
+  } else {
+    displayUser(post.content.user_id, true);
+  }
+
   mainBody.innerHTML = "";
 
   const newCard = document.createElement("div");
@@ -40,12 +45,12 @@ const detailedPost = (post) => {
     detailsContainer.append(newTags, newUpVote);
   }
 
-  const newComments = document.createElement("div");
+  const userComments = document.createElement("div");
   const commentTitle = document.createElement("p");
   commentTitle.innerText = "Comments:";
-  newComments.append(commentTitle);
+  userComments.append(commentTitle);
 
-  newComments.classList.add("comments-container");
+  userComments.classList.add("comments-container");
   console.log(post.comments.length);
   if (post.comments.length != 0) {
     for (let i = 0; i < post.comments.length; i++) {
@@ -55,16 +60,107 @@ const detailedPost = (post) => {
       comment.innerText = `${post.comments[i].username} says:
             ${post.comments[i].content}`;
 
-      newComments.append(comment);
+      userComments.append(comment);
     }
   }
 
-  newCard.append(newImg, detailsContainer, newCaption, newComments);
+  const newPostComment = document.createElement("form");
+  newPostComment.classList.add("post-comment-container");
+
+  const newLabel = document.createElement("label");
+  newLabel.innerText = "New Comment:";
+
+  const newInput = document.createElement("textarea");
+  newInput.setAttribute("class", "input-textbar");
+  newInput.setAttribute("type", "text");
+  newInput.setAttribute("rows", "4");
+  newInput.setAttribute("cols", "100");
+  newInput.setAttribute("maxLength", "text");
+  newInput.setAttribute("name", "content");
+  newInput.setAttribute("placeholder", "Your comment");
+  newInput.setAttribute("type", "text");
+  newInput.required = true;
+
+  const postCommentbtn = document.createElement("button");
+  postCommentbtn.classList.add("post-comment-btn", "button");
+  postCommentbtn.setAttribute("type", "submit");
+  postCommentbtn.setAttribute("id", "js-add-comment-btn");
+  postCommentbtn.innerText = "Add Comment";
+
+  newPostComment.append(newLabel, newInput, postCommentbtn);
+
+  if (userType != "anonymous") {
+    newCard.append(newImg, detailsContainer, newCaption, userComments, newPostComment);
+
+    postCommentbtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      console.log(newInput.value);
+      try {
+        const fetchOptions = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            postId: post.content.post_id,
+            content: newInput.value,
+          }),
+        };
+
+        const response = await fetch(url + "/comment/", fetchOptions);
+        const json = await response.json();
+        console.log(json);
+        if (json) {
+          newInput.value = "";
+          console.log(json.post_id);
+          const refreshed = await getPostById(json.post_id);
+          detailedPost(refreshed);
+        }
+      } catch (e) {
+        console.log("comment post error: " + e);
+      }
+    });
+  } else {
+    newCard.append(newImg, detailsContainer, newCaption, userComments);
+  }
+
+  if (userType != "anonymous") {
+    postCommentbtn.addEventListener("click", async (event) => {
+      event.preventDefault();
+      console.log(newInput.value);
+      try {
+        const fetchOptions = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            postId: post.content.post_id,
+            content: newInput.value,
+          }),
+        };
+
+        const response = await fetch(url + "/comment/", fetchOptions);
+        const json = await response.json();
+        console.log(json);
+        if (json) {
+          newInput.value = "";
+          console.log("This is the post id: " + json.post_id);
+        }
+      } catch (e) {
+        console.log("comment post error: " + e);
+      }
+    });
+  }
+
   newImg.addEventListener("click", (Event) => {
     Event.preventDefault();
     getDiscoverPosts();
-    displayUser(user, false);
+    displayUser(user);
   });
+
   mainBody.append(newCard);
 };
 
@@ -110,6 +206,7 @@ const createDiscoverCards = (posts) => {
       Event.preventDefault();
       console.log(post.content.post_id);
       sessionStorage.setItem("postId", JSON.stringify(post.content.post_id));
+
       detailedPost(post);
     });
 
@@ -134,6 +231,22 @@ const getDiscoverPosts = async () => {
     const discoverPosts = await response.json();
 
     createDiscoverCards(discoverPosts);
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+const getPostById = async (postId) => {
+  try {
+    const options = {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+    const response = await fetch(url + `/post/` + postId, options);
+    const json = await response.json();
+
+    return json;
   } catch (e) {
     console.log(e.message);
   }
