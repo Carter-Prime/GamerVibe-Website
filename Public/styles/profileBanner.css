@@ -14,10 +14,6 @@
   height: 100%;
 }
 
-.hide {
-  display: hide;
-}
-
 .media-div {
   display: flex;
   flex-direction: column;
@@ -103,6 +99,10 @@
 
 .account-faq-div > p:nth-child(n + 2) {
   margin-top: 10px;
+}
+
+.hide {
+  display: none;
 }
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 
