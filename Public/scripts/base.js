@@ -12,6 +12,7 @@ const logoutTab = document.getElementById("js-logout-tab");
 const signupTab = document.getElementById("js-signup-tab");
 const loggedInTab = document.querySelectorAll(".loggedInTab");
 const profileContainer = document.getElementById("js-profile-container");
+const likeBtn = document.getElementById("js-like-btn");
 let clickedPostId = sessionStorage.getItem("postId");
 
 // selects navigation tabs to be toggled if a user is logged in.

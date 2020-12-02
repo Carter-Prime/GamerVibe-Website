@@ -13,7 +13,6 @@ const detailedPost = (post) => {
 
   const newImg = document.createElement("img");
   newImg.src = url + "/thumbnails/" + post.content.imgfilename;
-  //newImg.src = url + "/thumbnails/cat.jpg";
 
   const newCaption = document.createElement("p");
   newCaption.classList.add("caption-text");
@@ -24,7 +23,7 @@ const detailedPost = (post) => {
 
   const newUpVote = document.createElement("p");
   newUpVote.classList.add("upvotes");
-  newUpVote.innerText = `Likes: ${post.upvotes.length}`;
+  newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="far fa-thumbs-up fa-2x"></i></span>`;
 
   const newTags = document.createElement("p");
   if (post.tags.length !== 0) {
@@ -39,7 +38,6 @@ const detailedPost = (post) => {
     newTags.classList.add("tags");
     newTags.innerText += "Tags:";
     detailsContainer.append(newTags, newUpVote);
-    //console.log(post.tags.tag[0]);
   }
 
   const newComments = document.createElement("div");
@@ -54,7 +52,7 @@ const detailedPost = (post) => {
       const comment = document.createElement("p");
       console.log(post.comments[i].user_id);
 
-      comment.innerText = `${post.comments[i].user_id} says:
+      comment.innerText = `${post.comments[i].username} says:
             ${post.comments[i].content}`;
 
       newComments.append(comment);
@@ -80,7 +78,6 @@ const createDiscoverCards = (posts) => {
 
     const newImg = document.createElement("img");
     newImg.src = url + "/thumbnails/" + post.content.imgfilename;
-    //newImg.src = url + "/thumbnails/cat.jpg";
 
     const newCaption = document.createElement("p");
     newCaption.classList.add("caption-text");
@@ -106,7 +103,6 @@ const createDiscoverCards = (posts) => {
       newTags.classList.add("tags");
       newTags.innerText += "Tags:";
       detailsContainer.append(newTags, newUpVote);
-      //console.log(post.tags.tag[0]);
     }
     newCard.append(newImg, detailsContainer, newCaption);
 
