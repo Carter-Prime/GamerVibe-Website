@@ -16,7 +16,7 @@ const htmlDecoder = (input) => {
   return doc.documentElement.textContent;
 };
 
-const displayUser = async (userId) => {
+const displayUser = async (userId, hideBtn) => {
   try {
     const options = {
       headers: {
@@ -25,8 +25,10 @@ const displayUser = async (userId) => {
     };
     const response = await fetch(url + `/user/id/` + userId, options);
     const json = await response.json();
-    if (user != userId) {
-      postBtn.classList.toggle("hide");
+    if (hideBtn) {
+      postBtn.classList.add("hide");
+    } else {
+      postBtn.classList.remove("hide");
     }
     userName.innerText = json.username;
     if (json.discord != null) {
@@ -98,7 +100,7 @@ if (userType != "anonymous") {
   if (userType === "registered") {
     console.log("extra stuff as registered user");
   }
-  displayUser(user);
+  displayUser(user, false);
   setUserFollowering();
   setUserFollowers();
   setNumberOfPosts();

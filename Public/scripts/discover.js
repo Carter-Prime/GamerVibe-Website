@@ -3,8 +3,9 @@
 const mainBody = document.getElementById("js-main-body");
 
 const detailedPost = (post) => {
+  const hidePostBtn = true;
   console.log("this is the post: " + post.comments);
-  displayUser(post.content.user_id);
+  displayUser(post.content.user_id, hidePostBtn);
   mainBody.innerHTML = "";
 
   const newCard = document.createElement("div");
@@ -64,6 +65,7 @@ const detailedPost = (post) => {
   newImg.addEventListener("click", (Event) => {
     Event.preventDefault();
     getDiscoverPosts();
+    displayUser(user, false);
   });
   mainBody.append(newCard);
 };
