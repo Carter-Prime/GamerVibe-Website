@@ -25,12 +25,26 @@ const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
-        'u.discord, u.youtube, u.twitch ' +
+        'u.discord, u.youtube, u.twitch,' +
+        '(SELECT COUNT(*) ' +
+        ' FROM Following AS f ' +
+        ' WHERE f.follower_id = ? ' +
+        ') AS followers, ' +
+        '(SELECT COUNT(*) ' +
+        ' FROM Following AS f ' +
+        ' WHERE f.following_id = ? ' +
+        ') AS following, ' +
+        '(SELECT COUNT(*) ' +
+        ' FROM Post AS p ' +
+        ' WHERE p.user_id = ? ' +
+        ' AND p.deleted_at IS NULL ' +
+        ' AND p.banned_at IS NULL ' +
+        ') AS posts ' +
         'FROM User AS u ' +
-        'WHERE user_id = ? ' +
-        'AND deleted_at IS NULL ' +
-        'AND banned_at IS NULL',
-        [id],
+        'WHERE u.user_id = ? ' +
+        'AND u.deleted_at IS NULL ' +
+        'AND u.banned_at IS NULL',
+        [id, id, id, id],
     );
     // console.log('userModel getUser user', rows[0])
     return rows[0] ? {...rows[0]} : errorJson(`No users found with id: ${id}`);
