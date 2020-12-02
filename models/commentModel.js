@@ -7,10 +7,11 @@ const {errorJson} = require('../utils/json_messages');
 const get_post_comments = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT c.comment_id, c.user_id, c.post_id, c.content, c.commented_at, c.edited_at ' +
-        'FROM Comments AS c ' +
-        'WHERE post_id = ? ' +
-        'AND deleted_at IS NULL', [postId],
+        'SELECT c.comment_id, c.user_id, u.username, c.post_id, c.content, c.commented_at, c.edited_at ' +
+        'FROM Comments AS c, User AS u ' +
+        'WHERE c.post_id = ? ' +
+        'AND c.user_id = u.user_id ' +
+        'AND c.deleted_at IS NULL', [postId],
     );
     // console.log('commentModel get_post_comments rows', rows);
     return rows;
