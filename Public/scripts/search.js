@@ -25,7 +25,13 @@ const doFetch = async () => {
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
-    publish(data);
+    console.log(data);
+    if (data.length === 0) {
+      state.innerText = "Nothing found";
+    } else {
+      publish(data);
+      state.innerText = "Results:";
+    }
   } catch (err) {
     console.warn(err);
     state.innerText = "Something went wrong ...";
