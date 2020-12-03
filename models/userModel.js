@@ -47,7 +47,7 @@ const getUser = async (id) => {
         [id, id, id, id],
     );
     // console.log('userModel getUser user', rows[0])
-    return rows[0] ? {...rows[0]} : errorJson(`No users found with id: ${id}`);
+    return rows[0] ? rows[0] : errorJson(`No users found with id: ${id}`);
   } catch (e) {
     return errorJson(e.message);
   }

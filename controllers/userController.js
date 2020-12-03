@@ -12,20 +12,20 @@ const getUser = async (req, res) => {
   // console.log('userController getUser req.user', user);
   // console.log('userController getUser params', req.params.id)
 
-  //User is not following this user or is not moderator
-  const follow = await followModel.is_following(user.user_id, content.user_id)
-  const mod = await moderatorModel.get_mod(user.user_id)
-
-  // User is not following current user or user is not moderator
-  if(follow['error'] && mod['error']) {
-    return res.status(400).json(errorJson('No rights to view this user'))
-  }
-
   // Get user
   const wantedUser = await userModel.getUser(req.params.id);
   // If errors in getting user, then send it to res
   if (wantedUser['error']) {
     return res.status(400).json(errorJson('No users found'));
+  }
+
+  //User is not following this user or is not moderator
+  const follow = await followModel.is_following(user.user_id, wantedUser.user_id)
+  const mod = await moderatorModel.get_mod(user.user_id)
+
+  // User is not following current user or user is not moderator
+  if(follow['error'] && mod['error']) {
+    return res.status(400).json(errorJson('No rights to view this user'))
   }
 
   // console.log('userController getUser user', user);
