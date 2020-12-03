@@ -109,9 +109,9 @@ const get_n_posts = async (req, res) => {
   let time = Date.parse(req.body.beginTime);
   // console.log('postController get_n_posts time', time);
   if (isNaN(time)) {
-    const date = new Date()
+    const date = new Date();
     // console.log('date', date)
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     // console.log('date', date)
     time = date.toISOString().replace('T', ' ').replace('Z', '');
   } else {
@@ -203,7 +203,21 @@ const getPostsByUser = async (req, res) => {
     return res.status(400).json(posts);
   }
 
-  res.json(posts)
+  res.json(posts);
+};
+
+const getHomePosts = async (req, res) => {
+  const valRes = validationResult(req)
+  if(!valRes.isEmpty()) {
+    return res.status(400).json(errorJson(valRes['errors']))
+  }
+
+  const user = req.user;
+  const query = await postModel.get_home_posts(
+      user.user_id,
+      req.body.startId ? req.body.startId : Number.MAX_SAFE_INTEGER
+  )
+  res.json(query)
 };
 
 module.exports = {
@@ -212,4 +226,5 @@ module.exports = {
   delete_post,
   get_n_posts,
   getPostsByUser,
+  getHomePosts,
 };
