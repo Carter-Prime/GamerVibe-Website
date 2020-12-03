@@ -51,6 +51,7 @@
 
 .nav-links {
   text-decoration: none;
+  color: var(--textColor);
 }
 
 .nav-links:visited {

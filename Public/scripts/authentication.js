@@ -5,7 +5,7 @@ let url = null;
 if (window.location.hostname == "localhost") {
   url = "https://localhost:8000";
 } else {
-  url = "https://10.114.32.110/app/";
+  url = "https://10.114.32.110/app";
 }
 
 const headTitle = document.getElementById("head-title");
