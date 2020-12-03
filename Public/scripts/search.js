@@ -8,47 +8,52 @@ let name;
 form.addEventListener("submit", (evt) => {
   evt.preventDefault();
   console.log(input.value);
-  
-    doFetch();
-  
+
+  doFetch();
 });
 
 // async/await fetch
 const doFetch = async () => {
-  state.innerText = "Loading movies ...";
+  state.innerText = "Loading ...";
   try {
-    const res = await fetch(
-      `http://api.tvmaze.com/search/shows?q=${input.value}`
-    );
+    const options = {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+    const res = await fetch(url + "/user/search/" + input.value, options);
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
-    publish(data);
+    console.log(data);
+    if (data.length === 0) {
+      state.innerText = "Nothing found";
+    } else {
+      publish(data);
+      state.innerText = "Results:";
+    }
   } catch (err) {
     console.warn(err);
+    state.innerText = "Something went wrong ...";
   }
 };
-
 
 // adds search results to html
 function publish(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
-  data.forEach((movie) => {
-    !movie.show.name
-      ? (name = "name not available")
-      : (name = movie.show.name);
+  data.forEach((user) => {
+    !user.username ? (name = "name not available") : (name = user.username);
 
-    console.log(movie.show.name);
+    console.log(user.username);
 
     const html = `<hr>
         <article>
             <header>
-                <p>${movie.show.name}</p>
+                <p>${user.username}</p>
             </header>
         </article>`;
     results.innerHTML += html;
   });
 }
-
