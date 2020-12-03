@@ -18,6 +18,8 @@ router.route('/home').post(
     [
         body('startId').
             if(body('startId').exists()).
+            isNumeric(),
+        body('amount').if(body('amount').exists()).
             isNumeric()
     ],
     postController.getHomePosts

@@ -146,22 +146,10 @@ const get_n_posts = async (req, res) => {
     return res.status(400).json(fetchedPosts);
   }
 
-  const posts = [];
-  for (let i = 0; i < fetchedPosts.length; i++) {
-    const post = fetchedPosts[i];
-    // console.log('post', post, 'index', i)
-    const postObj = {};
-
-    // Include all comments, tags and upvotes for every post
-    postObj.content = post;
-    postObj.comments = await commentModel.get_post_comments(post.post_id);
-    postObj.tags = await postTagModel.get_tags(post.post_id);
-    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
-    posts.push(postObj);
-  }
+  const featExtras = await get_extras(fetchedPosts)
 
   // Send posts to res
-  res.json(posts);
+  res.json(featExtras);
 };
 
 // Delete post (set posts deleted at timestamp)
@@ -227,10 +215,31 @@ const getHomePosts = async (req, res) => {
   const user = req.user;
   const query = await postModel.get_home_posts(
       user.user_id,
-      req.body.startId ? req.body.startId : Number.MAX_SAFE_INTEGER
+      req.body.startId ? req.body.startId : Number.MAX_SAFE_INTEGER,
+      req.body.amount ? req.body.amount : 30
   )
-  res.json(query)
+
+  const featExtras = await get_extras(query)
+
+  res.json(featExtras)
 };
+
+const get_extras = async (fetchedPosts) => {
+  const posts = [];
+  for (let i = 0; i < fetchedPosts.length; i++) {
+    const post = fetchedPosts[i];
+    // console.log('post', post, 'index', i)
+    const postObj = {};
+
+    // Include all comments, tags and upvotes for every post
+    postObj.content = post;
+    postObj.comments = await commentModel.get_post_comments(post.post_id);
+    postObj.tags = await postTagModel.get_tags(post.post_id);
+    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
+    posts.push(postObj);
+  }
+  return posts
+}
 
 module.exports = {
   new_post,

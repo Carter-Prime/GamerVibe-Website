@@ -1,6 +1,6 @@
 "use strict";
 
-const getUserPosts = async () => {
+const getHomePosts = async () => {
   try {
     const options = {
       method: "POST",
@@ -13,7 +13,7 @@ const getUserPosts = async () => {
       }),
     };
 
-    const response = await fetch(url + "/posts/discover", options);
+    const response = await fetch(url + "/posts/home", options);
     const discoverPosts = await response.json();
 
     createDiscoverCards(discoverPosts);
@@ -24,3 +24,5 @@ const getUserPosts = async () => {
     console.log(e.message);
   }
 };
+
+getHomePosts();

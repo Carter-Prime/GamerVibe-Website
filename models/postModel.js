@@ -46,7 +46,7 @@ const get_posts = async (n, uid, beginTime) => {
   }
 };
 
-const get_home_posts = async (uid, pid) => {
+const get_home_posts = async (uid, pid, amount) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename, ' +
@@ -93,7 +93,7 @@ const get_home_posts = async (uid, pid) => {
         ') ' +
         'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
-        'LIMIT 30;', [uid, uid, uid, pid],
+        'LIMIT ?;', [uid, uid, uid, pid, amount],
     );
     return rows;
   } catch (e) {
