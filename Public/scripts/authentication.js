@@ -17,7 +17,6 @@ let userType = null;
 
 /* handles authentication access to specific webpages. If tried to access without account 
 redirects to landing page.*/
-
 if (user == null) {
   if (
     headTitle.innerText == "GamerVibe Home" ||

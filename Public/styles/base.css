@@ -270,26 +270,6 @@ footer > p {
     text-align: start;
   }
 
-  .user-div {
-    flex-direction: row;
-    margin-left: -50px;
-  }
-
-  #js-profile-img {
-    width: 300px;
-    clip-path: circle(80px at center);
-    margin-left: 10px;
-  }
-
-  .profile-detail {
-    margin-left: -50px;
-    margin-right: 5vw;
-  }
-
-  .media-div {
-    margin-right: 5vw;
-  }
-
   /* for screens greater than 1200px wide - laptops and desktops*/
   @media screen and (min-width: 1300px) {
     .main-nav {
