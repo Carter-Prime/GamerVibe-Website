@@ -35,6 +35,7 @@ const logout = async () => {
     console.log(json);
     // remove token
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("moderator_since");
     sessionStorage.removeItem("clickedPostUserId");
