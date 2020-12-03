@@ -8,7 +8,7 @@
     <script src="https://kit.fontawesome.com/593688387c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/profileBanner.css" />
-    <link rel="stylesheet" href="./styles/home.css" />
+    <link rel="stylesheet" href="./styles/cards.css" />
   </head>
 
   <body class="body-wrapper">
@@ -25,8 +25,8 @@
           <a class="nav-links" href="./home.html">Home</a>
         </li>
         <li id="js-discover-tab"><a class="nav-links" href="./discover.html">Discover</a></li>
-        <li class="loggedInTab hide" id="js-friends-tab">
-          <a class="nav-links" href="./friends.html">Friends</a>
+        <li class="loggedInTab hide" id="js-followers-tab">
+          <a class="nav-links" href="./followers.html">Followers</a>
         </li>
         <li class="loggedInTab hide" id="js-account-tab">
           <a class="nav-links" href="./account.html">Account</a>
@@ -44,7 +44,7 @@
       <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
     </nav>
     <main class="main-wrapper">
-      <div class="profile">
+      <div class="profile" id="js-profile-container">
         <div class="media-div">
           <ul class="media-links">
             <li class="profile-links">
@@ -64,24 +64,16 @@
             </li>
           </ul>
         </div>
-        <div class="user-div">
-          <img
-            id="js-profile-img"
-            src="./resources/images/terminatorProfilePic.jpg"
-            alt="terminator"
-          />
-          <div class="profile-detail">
-            <h1 id="js-username">The Terminator</h1>
-            <button class="button post-btn" id="js-post-btn">
-              <span class="icon-span"><i class="far fa-plus-square" id="post-plus-icon "></i></span
-              >Post
-            </button>
+        <div class="user-div" id="user-info">
+          <div class="profile-detail" id="profile-details">
+            <h1 id="js-username"></h1>
+            <button class="button post-btn" id="js-post-btn">Post</button>
           </div>
         </div>
         <div class="account-faq-div">
-          <p id="js-posts">47432 posts</p>
-          <p id="js-followers">1.4m</p>
-          <p id="js-following">80 followers</p>
+          <p id="js-posts"></p>
+          <p id="js-followers"></p>
+          <p id="js-following"></p>
         </div>
       </div>
       <div class="card-container"></div>
@@ -90,7 +82,8 @@
       <p>©Copyright to WebDev Team 2020</p>
     </footer>
   </body>
-  <script src="./scripts/navigation.js"></script>
+  <script src="./scripts/base.js"></script>
   <script src="./scripts/profileBanner.js"></script>
+  <script src="./scripts/createPosts.js"></script>
   <script src="./scripts/home.js"></script>
 </html>

@@ -26,7 +26,8 @@ loginForm.addEventListener("submit", async (event) => {
   } else {
     // save token
     sessionStorage.setItem("token", json.token);
-    sessionStorage.setItem("user", JSON.stringify(json.user));
+    sessionStorage.setItem("userId", JSON.stringify(json.user.user_id));
+    sessionStorage.setItem("moderatorSince", JSON.stringify(json.user.moderator_since));
     //open user profile
     window.open(url + "/home.html", "_self", false);
   }

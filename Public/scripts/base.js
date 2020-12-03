@@ -5,14 +5,15 @@ const navToggleBtn = document.getElementById("js-navbar-toggle");
 const searchTab = document.getElementById("js-search-tab");
 const homeTab = document.getElementById("js-home-tab");
 const discoverTab = document.getElementById("js-discover-tab");
-const friendsTab = document.getElementById("js-friends-tab");
+const followersTab = document.getElementById("js-followers-tab");
 const accountTab = document.getElementById("js-account-tab");
 const loginTab = document.getElementById("js-login-tab");
 const logoutTab = document.getElementById("js-logout-tab");
 const signupTab = document.getElementById("js-signup-tab");
 const loggedInTab = document.querySelectorAll(".loggedInTab");
-
-console.log(user);
+const profileContainer = document.getElementById("js-profile-container");
+const likeBtn = document.getElementById("js-like-btn");
+let clickedPostId = sessionStorage.getItem("postId");
 
 // selects navigation tabs to be toggled if a user is logged in.
 const toggleLoggedInTabs = () => {
@@ -34,7 +35,10 @@ const logout = async () => {
     console.log(json);
     // remove token
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("userId");
+    sessionStorage.removeItem("moderator_since");
+    sessionStorage.removeItem("clickedPostUserId");
+
     alert(json.message);
     window.location.href = "/";
   } catch (e) {
@@ -42,23 +46,33 @@ const logout = async () => {
   }
 };
 
-//test to see if users are logged in
-if (user) {
-  if (user.moderator_since == null) {
-    userType = "registered";
-    console.log("user type is: " + userType);
-    toggleLoggedInTabs();
-  } else {
-    userType = "moderator";
-    console.log("user type is: " + userType);
-    toggleLoggedInTabs();
-  }
-}
-
 // Toggle function for mobiles and smaller screens
 const toggleMenu = () => {
   mainNav.classList.toggle("show");
 };
+
+const toggleProfileBanner = () => {
+  if (profileContainer) {
+    console.log("toggle profile called");
+    profileContainer.style.display = "none";
+  }
+};
+
+/* main calls from here on...*/
+
+//test to see if users are logged in
+if (user != null) {
+  if (userModeratorStatus == null) {
+    userType = "registered";
+    console.log("user type is: " + userType);
+  } else {
+    userType = "moderator";
+    console.log("user type is: " + userType);
+  }
+  toggleLoggedInTabs();
+} else {
+  toggleProfileBanner();
+}
 
 //event listeners
 navToggleBtn.addEventListener("click", toggleMenu);

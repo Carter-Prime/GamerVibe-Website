@@ -1,11 +1,18 @@
 "use strict";
 
-const url = "https://localhost:8000";
-//const url = "https://10.114.32.110/app/";
+let url = null;
+
+if (window.location.hostname == "localhost") {
+  url = "https://localhost:8000";
+} else {
+  url = "https://10.114.32.110/app";
+}
 
 const headTitle = document.getElementById("head-title");
 const token = sessionStorage.getItem("token");
-const user = JSON.parse(sessionStorage.getItem("user"));
+const user = JSON.parse(sessionStorage.getItem("userId"));
+const userModeratorStatus = JSON.parse(sessionStorage.getItem("moderatorSince"));
+
 let userType = null;
 
 /* handles authentication access to specific webpages. If tried to access without account 

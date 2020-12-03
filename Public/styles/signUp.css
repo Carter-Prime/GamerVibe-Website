@@ -92,9 +92,17 @@ label {
 /* for screens greater than 1200px wide - laptops and desktops*/
 
 @media screen and (min-width: 1300px) {
+  .main-wrapper {
+    flex-direction: row;
+    justify-content: center;
+  }
 }
 
 /* for screens greater than 1600px wide - desktops and large screens*/
 
 @media screen and (min-width: 1600px) {
+  #main-img {
+    max-width: 900px;
+    transition: all 1s;
+  }
 }

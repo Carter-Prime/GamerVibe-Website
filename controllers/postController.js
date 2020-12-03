@@ -109,12 +109,17 @@ const get_n_posts = async (req, res) => {
   let time = Date.parse(req.body.beginTime);
   // console.log('postController get_n_posts time', time);
   if (isNaN(time)) {
-    time = new Date().toISOString().replace('T', ' ').replace('Z', '');
+    const date = new Date()
+    // console.log('date', date)
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+    // console.log('date', date)
+    time = date.toISOString().replace('T', ' ').replace('Z', '');
   } else {
     time = new Date(req.body.beginTime).toISOString().
         replace('T', ' ').
         replace('Z', '');
   }
+  // console.log('postController get_n_posts time', time);
 
   // Get posts from database
   const fetchedPosts = await postModel.get_posts(
@@ -189,9 +194,22 @@ const delete_post = async (req, res) => {
       res.json(query);
 };
 
+// Get all posts by current user
+const getPostsByUser = async (req, res) => {
+  const user = req.user;
+  const posts = await postModel.get_posts_by_user(user.user_id);
+
+  if (posts['error']) {
+    return res.status(400).json(posts);
+  }
+
+  res.json(posts)
+};
+
 module.exports = {
   new_post,
   fetch_post,
   delete_post,
   get_n_posts,
+  getPostsByUser,
 };
