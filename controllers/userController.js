@@ -24,7 +24,8 @@ const getUser = async (req, res) => {
 
 // Get users list by name
 const usersByName = async (req, res) => {
-  const users = await userModel.getUsersByName();
+  const name = req.params.name
+  const users = await userModel.getUsersByName(`%${name}%`);
   res.json(users);
 };
 

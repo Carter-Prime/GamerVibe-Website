@@ -8,18 +8,20 @@ let name;
 form.addEventListener("submit", (evt) => {
   evt.preventDefault();
   console.log(input.value);
-  
-    doFetch();
-  
+
+  doFetch();
 });
 
 // async/await fetch
 const doFetch = async () => {
   state.innerText = "Loading ...";
   try {
-    const res = await fetch(
-      `https://api.tvmaze.com/search/shows?q=${input.value}`
-    );
+    const options = {
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+    const res = await fetch(url + "/user/search/" + input.value, options);
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
@@ -30,16 +32,13 @@ const doFetch = async () => {
   }
 };
 
-
 // adds search results to html
 function publish(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
   data.forEach((movie) => {
-    !movie.show.name
-      ? (name = "name not available")
-      : (name = movie.show.name);
+    !movie.show.name ? (name = "name not available") : (name = movie.show.name);
 
     console.log(movie.show.name);
 
@@ -52,4 +51,3 @@ function publish(data) {
     results.innerHTML += html;
   });
 }
-
