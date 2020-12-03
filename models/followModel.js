@@ -63,7 +63,7 @@ const is_following = async (uid, fid) => {
         'AND following_id = ? ', [uid, fid],
     );
     // console.log('followingModel is_following rows', rows);
-    return rows;
+    return rows[0] ? rows[0] : errorJson(`User ${uid} is not following user ${fid}`);
   } catch (e) {
     // console.error('followingModel is_following error', e.message)
     return errorJson(e.message);

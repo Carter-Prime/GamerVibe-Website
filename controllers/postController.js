@@ -7,6 +7,7 @@ const commentModel = require('../models/commentModel');
 const postTagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
+const followModel = require('../models/followModel')
 const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
 
 // Make new post
@@ -84,6 +85,18 @@ const fetch_post = async (req, res) => {
 
   // TODO: user can only get post if moderator or user is allowed to see that
   const user = req.user;
+  //console.log('user', user)
+
+  //User is not posted this post
+  if(user.user_id !== content.user_id) {
+    const follow = await followModel.is_following(user.user_id, content.user_id)
+    const mod = await moderatorModel.get_mod(user.user_id)
+
+    // User is not following current user or user is not moderator
+    if(follow['error']) {
+
+    }
+  }
 
   // Include all comments, tags and upvotes for that post
   post.content = content;
