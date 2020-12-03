@@ -1,6 +1,7 @@
 "use strict";
 
-const profilePic = document.getElementById("js-profile-img");
+const userInfoPanel = document.getElementById("user-info");
+const profileDetailsPannel = document.getElementById("profile-details");
 const userName = document.getElementById("js-username");
 const userPostNumber = document.getElementById("js-posts");
 const userFollowers = document.getElementById("js-followers");
@@ -16,7 +17,7 @@ const htmlDecoder = (input) => {
   return doc.documentElement.textContent;
 };
 
-const displayUser = async (userId, hideBtn) => {
+const getUserByID = async (userId, hideBtn) => {
   try {
     const options = {
       headers: {
@@ -25,83 +26,57 @@ const displayUser = async (userId, hideBtn) => {
     };
     const response = await fetch(url + `/user/id/` + userId, options);
     const json = await response.json();
-    if (hideBtn) {
+    setProfileBanner(json, hideBtn);
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+const setProfileBanner = (userInfo, hideBtn) => {
+  console.log(userInfo);
+
+  if (hideBtn) {
+    postBtn.classList.add("hide");
+  } else {
+    postBtn.classList.remove("hide");
+  }
+
+  if (document.getElementById("js-profile-img") != null) {
+    document.getElementById("js-profile-img").remove();
+  }
+  const img = document.createElement("img");
+  img.src = url + "/profile-pics/" + userInfo.imagename;
+  img.alt = userInfo.imagename;
+  img.setAttribute("id", "js-profile-img");
+
+  userInfoPanel.append(img);
+
+  userName.innerText = userInfo.username;
+  userPostNumber.innerText = `${userInfo.posts} Posts`;
+  userFollowers.innerText = `${userInfo.followers} Followers`;
+  userFollowering.innerText = `${userInfo.following} Following`;
+
+  if (userInfo.discord != null) {
+    const decode = htmlDecoder(user.discord);
+    discordLink.setAttribute("href", decode);
+  }
+  if (userInfo.youtube != null) {
+    const decode = htmlDecoder(json.youtube);
+    youtubeLink.setAttribute("href", decode);
+  }
+  if (userInfo.twitch != null) {
+    const decode = htmlDecoder(json.twitch);
+    twitchLink.setAttribute("href", decode);
+
+    console.log(`comparing user ${user} with userInfo.user_id ${userInfo.user_id}`);
+    if (user != userInfo.user_id) {
       postBtn.classList.add("hide");
     } else {
       postBtn.classList.remove("hide");
     }
-    userName.innerText = json.username;
-    if (json.discord != null) {
-      const decode = htmlDecoder(user.discord);
-      discordLink.setAttribute("href", decode);
-    }
-    if (json.youtube != null) {
-      const decode = htmlDecoder(json.youtube);
-      youtubeLink.setAttribute("href", decode);
-    }
-    if (json.twitch != null) {
-      const decode = htmlDecoder(json.twitch);
-      twitchLink.setAttribute("href", decode);
-    }
-  } catch (e) {
-    console.log(e.message);
   }
 };
-
-const setUserFollowering = async () => {
-  try {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-    };
-    const response = await fetch(url + `/user/following/`, options);
-    const followingList = await response.json();
-    userFollowering.innerText = `${followingList.length} Following`;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-const setUserFollowers = async () => {
-  try {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-    };
-    const response = await fetch(url + `/user/followers`, options);
-    const followersList = await response.json();
-    userFollowers.innerText = `${followersList.length} Followers`;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-const setNumberOfPosts = async () => {
-  try {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-    };
-    const response = await fetch(url + `/user/posts`, options);
-    const userPostList = await response.json();
-    userPostNumber.innerText = `${userPostList.length} Posts`;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
 if (userType != "anonymous") {
-  if (userType === "moderator") {
-    console.log("extra stuff as moderator");
-  }
-  if (userType === "registered") {
-    console.log("extra stuff as registered user");
-  }
-  displayUser(user, false);
-  setUserFollowering();
-  setUserFollowers();
-  setNumberOfPosts();
+  console.log("calling here");
+  getUserByID(user);
 }

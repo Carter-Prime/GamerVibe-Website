@@ -68,6 +68,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  order: 2;
 }
 
 #js-username {
@@ -95,6 +96,7 @@
   font-size: clamp(0.7rem, 0.5154rem + 0.8205vw, 1.5rem);
   text-align: end;
   padding-right: 10px;
+  font-weight: 500;
 }
 
 .account-faq-div > p:nth-child(n + 2) {
@@ -124,26 +126,25 @@
 
   .user-div {
     flex-direction: row;
-    margin-left: -50px;
   }
 
   #js-profile-img {
     display: flex;
-    width: 300px;
+    width: 200px;
     clip-path: circle(80px at center);
     margin-left: 10px;
+    order: 1;
   }
 
   .profile-detail {
-    margin-left: -50px;
-  }
-
-  .media-div {
-    margin-right: 5vw;
+    margin-left: 50px;
   }
 
   .account-faq-div {
     justify-content: space-around;
+    flex-direction: row;
+    margin-top: 5px;
+    padding-top: 20px;
   }
 
   .account-faq-div > p:nth-child(n + 2) {

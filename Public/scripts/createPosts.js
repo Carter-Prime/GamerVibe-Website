@@ -2,19 +2,49 @@
 
 const mainBody = document.getElementById("js-main-body");
 
-const detailedPost = (post) => {
-  const clickedPost = post;
-  console.log("this is the post: " + post.comments);
-  if (userType != "anonymous") {
-    displayUser(post.content.user_id);
-  } else {
-    displayUser(post.content.user_id, true);
+const createActionBar = (userType) => {
+  const actionButtons = document.createElement("div");
+  actionButtons.classList.add("action-button-container");
+
+  const backSpan = document.createElement("span");
+  backSpan.setAttribute("id", "js-back-btn");
+  backSpan.innerHTML = `<i class="fas fa-arrow-left fa-2x"></i><p>Back</p>`;
+
+  const blockSpan = document.createElement("span");
+  blockSpan.setAttribute("id", "js-block-btn");
+  blockSpan.innerHTML = `<i class="fas fa-ban fa-2x"></i><p>Block</p>`;
+
+  const deleteSpan = document.createElement("span");
+  deleteSpan.setAttribute("id", "js-delete-btn");
+  deleteSpan.innerHTML = `<i class="fas fa-times fa-2x"></i><p>Delete</p>`;
+
+  if (userType == "moderator") {
+    actionButtons.append(backSpan, blockSpan, deleteSpan);
+  } else if (userType == "registered") {
+    actionButtons.append(backSpan, blockSpan);
+  } else if (userType == "anonymous") {
+    actionButtons.append(backSpan);
   }
 
+  backSpan.addEventListener("click", (Event) => {
+    Event.preventDefault();
+    getDiscoverPosts();
+  });
+
+  return actionButtons;
+};
+
+const detailedPost = (post) => {
   mainBody.innerHTML = "";
+  console.log(post);
+  if (userType != "anonymous") {
+    getUserByID(post.content.user_id, true);
+  }
 
   const newCard = document.createElement("div");
   newCard.classList.add("card-detail");
+
+  const actionButtons = createActionBar(userType, post);
 
   const newImg = document.createElement("img");
   newImg.src = url + "/thumbnails/" + post.content.imgfilename;
@@ -31,6 +61,7 @@ const detailedPost = (post) => {
   newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="far fa-thumbs-up fa-2x"></i></span>`;
 
   const newTags = document.createElement("p");
+  //checks for tags then builds element if present
   if (post.tags.length !== 0) {
     newTags.classList.add("tags");
     newTags.innerText += "Tags:";
@@ -45,6 +76,7 @@ const detailedPost = (post) => {
     detailsContainer.append(newTags, newUpVote);
   }
 
+  // builds the comments section of a post detail card
   const userComments = document.createElement("div");
   const commentTitle = document.createElement("p");
   commentTitle.innerText = "Comments:";
@@ -55,8 +87,6 @@ const detailedPost = (post) => {
   if (post.comments.length != 0) {
     for (let i = 0; i < post.comments.length; i++) {
       const comment = document.createElement("p");
-      console.log(post.comments[i].user_id);
-
       comment.innerText = `${post.comments[i].username} says:
             ${post.comments[i].content}`;
 
@@ -67,19 +97,19 @@ const detailedPost = (post) => {
   const newPostComment = document.createElement("form");
   newPostComment.classList.add("post-comment-container");
 
-  const newLabel = document.createElement("label");
-  newLabel.innerText = "New Comment:";
+  const postLabel = document.createElement("label");
+  postLabel.innerText = "New Comment:";
 
-  const newInput = document.createElement("textarea");
-  newInput.setAttribute("class", "input-textbar");
-  newInput.setAttribute("type", "text");
-  newInput.setAttribute("rows", "4");
-  newInput.setAttribute("cols", "100");
-  newInput.setAttribute("maxLength", "text");
-  newInput.setAttribute("name", "content");
-  newInput.setAttribute("placeholder", "Your comment");
-  newInput.setAttribute("type", "text");
-  newInput.required = true;
+  const commentInput = document.createElement("textarea");
+  commentInput.setAttribute("class", "input-textbar");
+  commentInput.setAttribute("type", "text");
+  commentInput.setAttribute("rows", "4");
+  commentInput.setAttribute("cols", "100");
+  commentInput.setAttribute("maxLength", "text");
+  commentInput.setAttribute("name", "content");
+  commentInput.setAttribute("placeholder", "Your comment");
+  commentInput.setAttribute("type", "text");
+  commentInput.required = true;
 
   const postCommentbtn = document.createElement("button");
   postCommentbtn.classList.add("post-comment-btn", "button");
@@ -87,14 +117,23 @@ const detailedPost = (post) => {
   postCommentbtn.setAttribute("id", "js-add-comment-btn");
   postCommentbtn.innerText = "Add Comment";
 
-  newPostComment.append(newLabel, newInput, postCommentbtn);
+  newPostComment.append(postLabel, commentInput, postCommentbtn);
 
+  //  check to see if logged in and will show add comments
   if (userType != "anonymous") {
-    newCard.append(newImg, detailsContainer, newCaption, userComments, newPostComment);
+    newCard.append(
+      actionButtons,
+      newImg,
+      detailsContainer,
+      newCaption,
+      userComments,
+      newPostComment
+    );
 
+    // Click event that will submit the comment and refresh the detailed view of the post
     postCommentbtn.addEventListener("click", async (event) => {
       event.preventDefault();
-      console.log(newInput.value);
+      console.log(commentInput.value);
       try {
         const fetchOptions = {
           method: "POST",
@@ -104,7 +143,7 @@ const detailedPost = (post) => {
           },
           body: JSON.stringify({
             postId: post.content.post_id,
-            content: newInput.value,
+            content: commentInput.value,
           }),
         };
 
@@ -112,8 +151,7 @@ const detailedPost = (post) => {
         const json = await response.json();
         console.log(json);
         if (json) {
-          newInput.value = "";
-          console.log(json.post_id);
+          commentInput.value = "";
           const refreshed = await getPostById(json.post_id);
           detailedPost(refreshed);
         }
@@ -122,45 +160,8 @@ const detailedPost = (post) => {
       }
     });
   } else {
-    newCard.append(newImg, detailsContainer, newCaption, userComments);
+    newCard.append(actionButtons, newImg, detailsContainer, newCaption, userComments);
   }
-
-  if (userType != "anonymous") {
-    postCommentbtn.addEventListener("click", async (event) => {
-      event.preventDefault();
-      console.log(newInput.value);
-      try {
-        const fetchOptions = {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            postId: post.content.post_id,
-            content: newInput.value,
-          }),
-        };
-
-        const response = await fetch(url + "/comment/", fetchOptions);
-        const json = await response.json();
-        console.log(json);
-        if (json) {
-          newInput.value = "";
-          console.log("This is the post id: " + json.post_id);
-        }
-      } catch (e) {
-        console.log("comment post error: " + e);
-      }
-    });
-  }
-
-  newImg.addEventListener("click", (Event) => {
-    Event.preventDefault();
-    getDiscoverPosts();
-    displayUser(user);
-  });
-
   mainBody.append(newCard);
 };
 
@@ -214,6 +215,7 @@ const createDiscoverCards = (posts) => {
   });
 };
 
+// call a array of latest posts
 const getDiscoverPosts = async () => {
   try {
     const options = {
@@ -231,6 +233,9 @@ const getDiscoverPosts = async () => {
     const discoverPosts = await response.json();
 
     createDiscoverCards(discoverPosts);
+    if (userType != "anonymous") {
+      getUserByID(user);
+    }
   } catch (e) {
     console.log(e.message);
   }
@@ -251,5 +256,3 @@ const getPostById = async (postId) => {
     console.log(e.message);
   }
 };
-
-getDiscoverPosts();

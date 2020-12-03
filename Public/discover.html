@@ -49,7 +49,7 @@
         <div class="media-div">
           <ul class="media-links">
             <li class="profile-links">
-              <a href="https://www.discord.com/" target="_blank" id="js-discord-link"
+              <a href="https://discord.com/" target="_blank" id="js-discord-link"
                 ><i class="fab fa-discord fa-2x"></i
               ></a>
             </li>
@@ -65,24 +65,16 @@
             </li>
           </ul>
         </div>
-        <div class="user-div">
-          <img
-            id="js-profile-img"
-            src="./resources/images/terminatorProfilePic.jpg"
-            alt="terminator"
-          />
-          <div class="profile-detail">
-            <h1 id="js-username">The Terminator</h1>
-            <button class="button post-btn" id="js-post-btn">
-              <span class="icon-span"><i class="far fa-plus-square" id="post-plus-icon "></i></span
-              >Post
-            </button>
+        <div class="user-div" id="user-info">
+          <div class="profile-detail" id="profile-details">
+            <h1 id="js-username"></h1>
+            <button class="button post-btn" id="js-post-btn">Post</button>
           </div>
         </div>
-        <div class="account-faq-div" id="js-profile-details">
-          <p id="js-posts">47432 posts</p>
-          <p id="js-followers">1.4m followers</p>
-          <p id="js-following">80 following</p>
+        <div class="account-faq-div">
+          <p id="js-posts"></p>
+          <p id="js-followers"></p>
+          <p id="js-following"></p>
         </div>
       </div>
       <div class="card-container" id="js-main-body"></div>
@@ -95,4 +87,5 @@
   <script src="./scripts/profileBanner.js"></script>
   <script src="./scripts/serialize.js"></script>
   <script src="./scripts/createPosts.js"></script>
+  <script src="./scripts/discover.js"></script>
 </html>
