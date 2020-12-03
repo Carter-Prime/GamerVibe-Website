@@ -37,15 +37,15 @@ function publish(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
-  data.forEach((movie) => {
-    !movie.show.name ? (name = "name not available") : (name = movie.show.name);
+  data.forEach((user) => {
+    !user.username ? (name = "name not available") : (name = user.username);
 
-    console.log(movie.show.name);
+    console.log(user.username);
 
     const html = `<hr>
         <article>
             <header>
-                <p>${movie.show.name}</p>
+                <p>${user.username}</p>
             </header>
         </article>`;
     results.innerHTML += html;
