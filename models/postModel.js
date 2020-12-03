@@ -107,7 +107,7 @@ const get_post = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename ' +
-        'FROM Post AS p User AS u ' +
+        'FROM Post AS p, User AS u ' +
         'WHERE p.post_id = ? ' +
         'AND p.user_id = u.user_id ' +
         'AND p.deleted_at IS NULL ' +
