@@ -11,16 +11,24 @@ const createActionBar = (userType, post) => {
   backSpan.innerHTML = `<i class="fas fa-arrow-left fa-2x"></i><p>Back</p>`;
 
   const postCreator = document.createElement("h1");
-  postCreator.innerText = post.content.user_id;
+  postCreator.innerText = post.content.username;
 
   const deleteSpan = document.createElement("span");
   deleteSpan.setAttribute("id", "js-delete-btn");
   deleteSpan.innerHTML = `<i class="fas fa-times fa-2x"></i><p>Delete</p>`;
 
   if (userType == "anonymous") {
-    actionButtons.append(backSpan);
-  } else {
+    actionButtons.append(backSpan, postCreator);
+  } else if (user == post.content.user_id || userType == "moderator") {
     actionButtons.append(backSpan, deleteSpan);
+
+    deleteSpan.addEventListener("click", (Event) => {
+      Event.preventDefault();
+      const check = confirm("are you sure you want to delete this post?");
+      console.log("post will be deleted " + check);
+    });
+  } else {
+    actionButtons.append(backSpan);
   }
 
   backSpan.addEventListener("click", (Event) => {

@@ -78,4 +78,10 @@ if (user != null) {
 //event listeners
 navToggleBtn.addEventListener("click", toggleMenu);
 
-logoutTab.addEventListener("click", logout);
+logoutTab.addEventListener("click", (Event) => {
+  Event.preventDefault();
+  const confirmLogout = confirm("Are you sure you want to logout?");
+  if (confirmLogout) {
+    logout();
+  }
+});
