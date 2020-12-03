@@ -14,6 +14,7 @@ const addComment = async (req, res) => {
   // Checks if posts exists
   const checkPost = await postModel.get_post(req.body.postId);
   if (checkPost['error']) {
+    // console.log('commentController addComment checkPost', checkPost);
     return res.status(400).json(checkPost);
   }
 
@@ -27,7 +28,7 @@ const addComment = async (req, res) => {
     return res.status(400).json(addQuery);
   }
 
-  res.json(await commentModel.get_comment(addQuery['insertId']))
+  res.json(await commentModel.get_comment(addQuery['insertId']));
 };
 
 module.exports = {

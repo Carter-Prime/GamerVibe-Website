@@ -7,10 +7,12 @@ const userPostNumber = document.getElementById("js-posts");
 const userFollowers = document.getElementById("js-followers");
 const userFollowering = document.getElementById("js-following");
 const postBtn = document.getElementById("js-post-btn");
+const followBtn = document.getElementById("js-follow-btn");
 const discordLink = document.getElementById("js-discord-link");
 const youtubeLink = document.getElementById("js-youtube-link");
 const twitchLink = document.getElementById("js-twitch-link");
 const profileDetail = document.getElementById("js-profile-details");
+const blockBtn = document.getElementById("js-block-btn");
 
 const htmlDecoder = (input) => {
   const doc = new DOMParser().parseFromString(input, "text/html");
@@ -25,20 +27,18 @@ const getUserByID = async (userId, hideBtn) => {
       },
     };
     const response = await fetch(url + `/user/id/` + userId, options);
-    const json = await response.json();
-    setProfileBanner(json, hideBtn);
+    const user = await response.json();
+    setProfileBanner(user, hideBtn);
   } catch (e) {
     console.log(e.message);
   }
 };
 
-const setProfileBanner = (userInfo, hideBtn) => {
+const setProfileBanner = (userInfo) => {
   console.log(userInfo);
 
-  if (hideBtn) {
-    postBtn.classList.add("hide");
-  } else {
-    postBtn.classList.remove("hide");
+  console.log(`${user} and userinfo id ${userInfo.user_id}`);
+  if (user == userInfo.user_id) {
   }
 
   if (document.getElementById("js-profile-img") != null) {
@@ -56,27 +56,31 @@ const setProfileBanner = (userInfo, hideBtn) => {
   userFollowers.innerText = `${userInfo.followers} Followers`;
   userFollowering.innerText = `${userInfo.following} Following`;
 
-  if (userInfo.discord != null) {
-    const decode = htmlDecoder(user.discord);
-    discordLink.setAttribute("href", decode);
-  }
-  if (userInfo.youtube != null) {
-    const decode = htmlDecoder(json.youtube);
-    youtubeLink.setAttribute("href", decode);
-  }
-  if (userInfo.twitch != null) {
-    const decode = htmlDecoder(json.twitch);
-    twitchLink.setAttribute("href", decode);
+  // if (userInfo.discord != null) {
+  //   const decode = htmlDecoder(user.discord);
+  //   discordLink.setAttribute("href", decode);
+  // }
+  // if (userInfo.youtube != null) {
+  //   const decode = htmlDecoder(json.youtube);
+  //   youtubeLink.setAttribute("href", decode);
+  // }
+  // if (userInfo.twitch != null) {
+  //   const decode = htmlDecoder(json.twitch);
+  //   twitchLink.setAttribute("href", decode);
 
-    console.log(`comparing user ${user} with userInfo.user_id ${userInfo.user_id}`);
-    if (user != userInfo.user_id) {
-      postBtn.classList.add("hide");
-    } else {
-      postBtn.classList.remove("hide");
-    }
+  console.log(`comparing user ${user} with userInfo.user_id ${userInfo.user_id}`);
+  if (user == userInfo.user_id) {
+    postBtn.classList.remove("hide");
+    followBtn.classList.add("hide");
+    blockBtn.classList.add("hide");
+  } else {
+    postBtn.classList.add("hide");
+    followBtn.classList.remove("hide");
+    blockBtn.classList.remove("hide");
   }
 };
+
 if (userType != "anonymous") {
-  console.log("calling here");
+  console.log("calling here " + user);
   getUserByID(user);
 }
