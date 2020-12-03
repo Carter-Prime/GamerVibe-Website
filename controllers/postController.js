@@ -83,7 +83,6 @@ const fetch_post = async (req, res) => {
     return res.status(400).json(content);
   }
 
-  // TODO: user can only get post if moderator or user is allowed to see that
   const user = req.user;
   //console.log('user', user)
 
@@ -93,8 +92,8 @@ const fetch_post = async (req, res) => {
     const mod = await moderatorModel.get_mod(user.user_id)
 
     // User is not following current user or user is not moderator
-    if(follow['error']) {
-
+    if(follow['error'] && mod['error']) {
+      return res.status(400).json(errorJson('No rights to view this post'))
     }
   }
 
