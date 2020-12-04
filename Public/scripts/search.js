@@ -7,7 +7,6 @@ const state = document.querySelector("h3");
 let name;
 let tagname;
 
-
 form_users.addEventListener("submit", (evt) => {
   evt.preventDefault();
   console.log(input.value);
@@ -104,7 +103,7 @@ function publishTags(data) {
     const html = `<hr>
         <article>
             <header>
-                <p>${user.tag}</p>
+                <a href="${url}/tag/${user.tag}">${user.tag}</a>
             </header>
         </article>`;
     results.innerHTML += html;

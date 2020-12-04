@@ -164,8 +164,11 @@ LIMIT 30;
 SELECT DISTINCT p.post_id,
     p.user_id,
     p.caption,
+    u.username,
     p.created_at,
     p.imgfilename,
+    p.deleted_at,
+    p.banned_at,
     (
         SELECT count(post_id)
         FROM Upvote l
@@ -244,7 +247,7 @@ WHERE (
     AND deleted_at IS NULL
     AND banned_at IS NULL;
 -- Search tags with given tagname
-SELECT t.post_id,
+SELECT DISTINCT t.post_id,
     t.tag,
     t.tagged_at,
     t.untagged_at
