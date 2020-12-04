@@ -134,10 +134,9 @@ const detailedPost = (post) => {
   commentInput.setAttribute("type", "text");
   commentInput.setAttribute("rows", "4");
   commentInput.setAttribute("cols", "100");
-  commentInput.setAttribute("maxLength", "text");
+  commentInput.setAttribute("maxLength", "255");
   commentInput.setAttribute("name", "content");
   commentInput.setAttribute("placeholder", "Your comment");
-  commentInput.setAttribute("type", "text");
   commentInput.required = true;
 
   const postCommentbtn = document.createElement("button");
@@ -283,4 +282,121 @@ const getPostById = async (postId) => {
   } catch (e) {
     console.log(e.message);
   }
+};
+
+const createPost = () => {
+  mainBody.innerHTML = "";
+
+  const postForm = document.createElement("form");
+  postForm.classList.add("post-form");
+  postForm.setAttribute("id", "js-post-form");
+
+  const infoDiv = document.createElement("div");
+  infoDiv.classList.add("upload-info-div");
+
+  const uploadTitle = document.createElement("h1");
+  uploadTitle.innerText = "Create a Post";
+
+  const backSpan = document.createElement("span");
+  backSpan.classList.add("upload-back-btn");
+  backSpan.setAttribute("id", "js-back-btn");
+  backSpan.innerHTML = `<i class="fas fa-arrow-left fa-2x"></i><p>Back</p>`;
+
+  infoDiv.append(backSpan, uploadTitle);
+
+  const capDiv = document.createElement("div");
+  capDiv.classList.add("upload-caption-div");
+
+  const captionLabel = document.createElement("label");
+  captionLabel.innerText = "Caption";
+
+  const postCaption = document.createElement("textarea");
+  postCaption.classList.add("post-input");
+  postCaption.setAttribute("type", "text");
+  postCaption.setAttribute("rows", "4");
+  postCaption.setAttribute("maxLength", "255");
+  postCaption.setAttribute("name", "caption");
+  postCaption.setAttribute("placeholder", "Your caption");
+  postCaption.required = true;
+
+  capDiv.append(captionLabel, postCaption);
+
+  const tagsDiv = document.createElement("div");
+  tagsDiv.classList.add("upload-tags-div");
+
+  const tagsLabel = document.createElement("label");
+  tagsLabel.innerText = "Tags";
+
+  const postTags = document.createElement("textarea");
+  postTags.classList.add("post-input");
+  postTags.setAttribute("type", "text");
+  postTags.setAttribute("rows", "4");
+  postTags.setAttribute("maxLength", "255");
+  postTags.setAttribute("name", "tags");
+  postTags.setAttribute("id", "js-upload-tags-value");
+  postTags.setAttribute("placeholder", "Your tags #tagGoesHere");
+  postTags.required = true;
+
+  tagsDiv.append(tagsLabel, postTags);
+
+  const postImg = document.createElement("input");
+  postImg.classList.add("post-input");
+  postImg.setAttribute("type", "file");
+  postImg.setAttribute("name", "gameImage");
+  postImg.setAttribute("accept", "image/*");
+  postImg.setAttribute("placeholder", "choose file");
+  postImg.required = true;
+
+  const uploadBtn = document.createElement("button");
+  uploadBtn.classList.add("button", "upload-btn");
+  uploadBtn.setAttribute("type", "submit");
+  uploadBtn.innerText = "Upload Post";
+
+  backSpan.addEventListener("click", (Event) => {
+    Event.preventDefault();
+    console.log("upload back button pressed");
+    location.reload();
+  });
+
+  postForm.append(infoDiv, capDiv, tagsDiv, postImg, uploadBtn);
+  mainBody.append(postForm);
+
+  uploadBtn.addEventListener("click", async (Event) => {
+    Event.preventDefault();
+    console.log("upload clicked");
+    const tags = postTags.value;
+    const tagsArray = tags.split(" ");
+    console.log("tags before split: " + tags);
+    console.log("tagsArray: " + tagsArray);
+    const caption = postCaption.value;
+
+    const data = new FormData();
+
+    for (let i = 0; i < tagsArray.length; i++) {
+      console.log(tagsArray[i]);
+      data.append(`tags[]`, tagsArray[i]);
+    }
+    data.append("gameImage", postImg.files[0]);
+    data.append("caption", caption);
+
+    console.log("form data: " + data);
+    try {
+      const fetchOptions = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        body: data,
+      };
+
+      const response = await fetch(url + "/post/", fetchOptions);
+      const json = await response.json();
+      console.log("json response", json);
+      if (json) {
+        location.reload();
+      }
+    } catch (e) {
+      console.log("error: " + e);
+    }
+  });
 };

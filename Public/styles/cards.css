@@ -166,6 +166,50 @@ label {
 #js-banned-btn {
   color: red;
 }
+
+/* upload post styling */
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  width: 50vh;
+  padding: 10px;
+  place-items: flex-start;
+  box-shadow: 12px 12px 16px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  background-color: var(--contrastBackground);
+  border: 1px solid var(--lightBorderColor);
+}
+
+.upload-info-div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.upload-back-btn {
+  display: flex;
+  flex-direction: column;
+}
+
+.post-form > div {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+  padding: 5px;
+}
+
+.post-input {
+  margin-top: 10px;
+}
+
+.upload-info-div > h1 {
+  font-size: clamp(1.5rem, 1.3846rem + 0.5128vw, 2rem);
+}
+
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
 
 @media screen and (min-width: 480px) {
