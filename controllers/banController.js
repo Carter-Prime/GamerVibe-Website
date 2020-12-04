@@ -5,8 +5,8 @@ const modModel = require('../models/moderatorModel');
 const {errorJson} = require('../utils/json_messages');
 
 const ban_user = async (req, res) => {
-  console.log('banController ban_user body', req.body)
-  console.log('banController ban_user user', req.user)
+  // console.log('banController ban_user body', req.body)
+  // console.log('banController ban_user user', req.user)
 
   // Check errors from body
   const valRes = validationResult(req);
@@ -16,7 +16,7 @@ const ban_user = async (req, res) => {
 
   // Check if user is moderator
   const mod = await modModel.get_mod(req.user.user_id);
-  console.log('banController ban_user mod', mod)
+  // console.log('banController ban_user mod', mod)
   if (mod['error']) {
     return res.status(400).json(errorJson('User does not have rights to ban'));
   }
