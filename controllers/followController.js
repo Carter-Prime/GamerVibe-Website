@@ -28,6 +28,9 @@ const getFollowers = async (req, res) => {
 };
 
 const followUser = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   // Check body for errors
   if (checks.hasBodyErrors(req, res)) return;
 
