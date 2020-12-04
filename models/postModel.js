@@ -38,7 +38,7 @@ const get_discover_posts = async (n, uid, beginId) => {
         'AND u.private_acc != 1 ' +
         'AND u.banned_at IS NULL ' +
         'AND b.blocked_at IS NULL ' +
-        'AND p.post_id < ?' +
+        'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
         'LIMIT ?', [uid, uid, beginId, n],
     );
