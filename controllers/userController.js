@@ -19,7 +19,7 @@ const getUser = async (req, res) => {
   }
 
   // Wanted user is not same as current user
-  if(user.user_id !== req.params.id) {
+  if(user.user_id !== wantedUser.user_id) {
     //User is not following this user or is not moderator
     const follow = await followModel.is_following(user.user_id, wantedUser.user_id)
     const mod = await moderatorModel.get_mod(user.user_id)
