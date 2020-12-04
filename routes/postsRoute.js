@@ -8,10 +8,19 @@ const passportOptions = {
   session: false,
 };
 
-router.route('/discover').post([
+router.route('/discover').post((req, res, next) => {
+  // If user is logged in then attach user to req
+  // In both cases still continue
+  passport.authenticate('jwt', passportOptions, (err, user, info) => {
+    if(user) {
+      req.user = user
+    }
+    next()
+  })(req, res, next)
+},[
   body('amount').trim().isNumeric(),
-  body('beginTime').trim(),
-], postController.get_n_posts);
+  body('beginId').if(body('beginId').exists()).trim().isNumeric(),
+], postController.get_discover_posts);
 
 router.route('/home').post(
     passport.authenticate('jwt', passportOptions),

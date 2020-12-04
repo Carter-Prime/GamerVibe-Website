@@ -21,22 +21,22 @@ const add_new_post = async (uid, caption, imgFilename) => {
 
 // Get multiple posts that are not given users posts
 // and are older than beginTime
-const get_posts = async (n, uid, beginTime) => {
+const get_discover_posts = async (n, uid, beginId) => {
   try {
-    // console.log('n', n, 'beginTime', beginTime, 'uid', uid)
+    // console.log('n', n, 'beginId', beginId, 'uid', uid)
     const [rows] = await promisePool.execute(
         'SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename ' +
-        'FROM Post AS p, User AS u, User AS u2 ' +
+        'FROM Post AS p ' +
+        'INNER JOIN User AS u ' +
+        'ON u.user_id = p.user_id ' +
         'WHERE p.deleted_at IS NULL ' +
         'AND p.banned_at IS NULL ' +
         'AND u.user_id != ? ' +
-        'AND u.user_id = p.user_id ' +
         'AND u.private_acc != 1 ' +
-        'AND u2.user_id = p.user_id ' +
-        'AND u2.banned_at IS NULL ' +
-        'AND TIMESTAMPDIFF(SECOND, p.created_at, ?) > 0 ' +
-        'ORDER BY p.created_at DESC ' +
-        'LIMIT ?', [uid, beginTime, n],
+        'AND u.banned_at IS NULL ' +
+        'AND p.post_id < ? ' +
+        'ORDER BY created_at DESC ' +
+        'LIMIT ?', [uid, beginId, n],
     );
     // console.log('postModel get_posts rows', rows);
     return rows;
@@ -93,7 +93,7 @@ const get_home_posts = async (uid, pid, amount) => {
         ') ' +
         'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
-        'LIMIT ?;', [uid, uid, uid, pid, amount],
+        'LIMIT ?', [uid, uid, uid, pid, amount],
     );
     return rows;
   } catch (e) {
@@ -190,7 +190,7 @@ const getTagsByName = async (tagname) => {
 module.exports = {
   add_new_post,
   get_post,
-  get_posts,
+  get_discover_posts,
   delete_temp_post,
   delete_post,
   get_posts_by_user,
