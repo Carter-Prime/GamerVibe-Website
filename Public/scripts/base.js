@@ -41,7 +41,7 @@ const logout = async () => {
     sessionStorage.removeItem("clickedPostUserId");
 
     alert(json.message);
-    window.location.href = "./index.html";
+    window.open(url + "/index.html", "_self", false);
   } catch (e) {
     console.log(e.message);
   }
