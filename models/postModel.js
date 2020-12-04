@@ -154,10 +154,10 @@ const getTagsByName = async (tagname) => {
     const [
       rows,
     ] = await promisePool.execute(
-        'SELECT t.post_id, t.tag, t.tagged_at, t.untagged_at ' +
+        'SELECT DISTINCT t.tag ' +
         'FROM PostTag AS t ' +
-        'WHERE (tag LIKE ?)' +
-        'AND untagged_at IS NULL ',
+        'WHERE (t.tag LIKE ?)' +
+        'AND t.untagged_at IS NULL ',
         [tagname],
     );
     return rows ? [...rows] : errorJson(`No users found with name: ${tagname}`);
