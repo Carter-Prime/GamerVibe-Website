@@ -16,6 +16,7 @@ const ban_user = async (req, res) => {
 
   // Check if user is moderator
   const mod = await modModel.get_mod(req.user.user_id);
+  console.log('banController ban_user mod', mod)
   if (mod['error']) {
     return res.status(400).json(errorJson('User does not have rights to ban'));
   }
