@@ -199,6 +199,13 @@ const add_extras_one_post = async (post) => {
   return postObj;
 };
 
+// Get tags list by tag name
+const tagsByName = async (req, res) => {
+  const tagname = req.params.tagname;
+  const tags = await postModel.getTagsByName(`%${tagname}%`);
+  res.json(tags);
+};
+
 module.exports = {
   new_post,
   fetch_post,
@@ -206,4 +213,5 @@ module.exports = {
   get_discover_posts,
   getPostsByUser,
   getHomePosts,
+  tagsByName,
 };
