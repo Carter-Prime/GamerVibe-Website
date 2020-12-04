@@ -115,13 +115,6 @@
 }
 
 /* Toggle classes for showing and hiding elements*/
-.hide {
-  display: none;
-}
-
-.show {
-  display: flex;
-}
 
 /* Identifies the active html page */
 .active-page {
@@ -181,6 +174,9 @@ footer > p {
 
 /* standard button css*/
 .button {
+  display: flex;
+  width: fit-content;
+  align-self: flex-end;
   margin-top: 30px;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -225,6 +221,14 @@ footer > p {
 
 .button:active {
   box-shadow: -8px -8px 12px 0 rgba(0, 0, 0, 0.3), 12px 12px 16px rgba(255, 255, 255, 0.25) inset;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: flex;
 }
 
 /* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
