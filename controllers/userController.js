@@ -5,12 +5,11 @@ const moderatorModel = require("../models/moderatorModel");
 const { errorJson } = require("../utils/json_messages");
 const { validationResult } = require("express-validator");
 const { delete_file, make_thumbnail } = require("../utils/my_random_stuff");
+const checks = require("../utils/checks");
 
 // Get single user
 const getUser = async (req, res) => {
   const user = req.user;
-  // console.log('userController getUser req.user', user);
-  // console.log('userController getUser params', req.params.id)
 
   // Get user
   const wantedUser = await userModel.getUser(req.params.id);
@@ -19,19 +18,21 @@ const getUser = async (req, res) => {
     return res.status(400).json(errorJson("No users found"));
   }
 
-  //User is not following this user or is not moderator
-  const follow = await followModel.is_following(
-    user.user_id,
-    wantedUser.user_id
-  );
-  const mod = await moderatorModel.get_mod(user.user_id);
+  // Wanted user is not same as current user
+  if (user.user_id !== wantedUser.user_id) {
+    //User is not following this user or is not moderator
+    const follow = await followModel.is_following(
+      user.user_id,
+      wantedUser.user_id
+    );
+    const mod = await moderatorModel.get_mod(user.user_id);
 
-  // User is not following current user or user is not moderator
-  if (follow["error"] && mod["error"]) {
-    return res.status(400).json(errorJson("No rights to view this user"));
+    // User is not following current user or user is not moderator
+    if (follow["error"] && mod["error"]) {
+      return res.status(400).json(errorJson("No rights to view this user"));
+    }
   }
 
-  // console.log('userController getUser user', user);
   res.json(wantedUser);
 };
 
@@ -44,8 +45,6 @@ const usersByName = async (req, res) => {
 
 // Update users information
 const updateUser = async (req, res) => {
-  // console.log('userController updateUser body', req.body);
-  // console.log('userController updateUser file', req.file);
   const profilePicPath = "./profilePics";
   const profileThumbPath = "./profileThumbs";
   const profilePicFile = req.file
@@ -54,7 +53,6 @@ const updateUser = async (req, res) => {
 
   // Check if user still exists
   const user = await userModel.getUser(req.user.user_id);
-  // console.log('userController updateUser user', user);
   if (user["error"]) {
     // No user found
     if (req.file) {
@@ -64,19 +62,17 @@ const updateUser = async (req, res) => {
   }
 
   // Check if there is errors in body
-  const valRes = validationResult(req);
-  if (!valRes.isEmpty()) {
+  if (checks.hasBodyErrors(req, res)) {
     // Errors in body
     if (req.file) {
       delete_file(profilePicFile);
     }
-    return res.status(400).json(errorJson(valRes["errors"]));
+    return;
   }
 
   if (req.file) {
     // Makes thumbnail if file exists
     const thumb = await make_thumbnail(req.file, profileThumbPath);
-    // console.log('userController updateUser thumb', thumb);
 
     // If thumbnail return error
     if (thumb["error"]) {
