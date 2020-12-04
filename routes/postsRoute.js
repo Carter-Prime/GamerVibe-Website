@@ -12,12 +12,12 @@ router.route('/discover').post((req, res, next) => {
   // If user is logged in then attach user to req
   // In both cases still continue
   passport.authenticate('jwt', passportOptions, (err, user, info) => {
-    if(user) {
-      req.user = user
+    if (user) {
+      req.user = user;
     }
-    next()
-  })(req, res, next)
-},[
+    next();
+  })(req, res, next);
+}, [
   body('amount').trim().isNumeric(),
   body('beginId').if(body('beginId').exists()).trim().isNumeric(),
 ], postController.get_discover_posts);
@@ -25,13 +25,13 @@ router.route('/discover').post((req, res, next) => {
 router.route('/home').post(
     passport.authenticate('jwt', passportOptions),
     [
-        body('beginId').
-            if(body('beginId').exists()).
-            isNumeric(),
-        body('amount').if(body('amount').exists()).
-            isNumeric()
+      body('beginId').
+          if(body('beginId').exists()).
+          isNumeric(),
+      body('amount').if(body('amount').exists()).
+          isNumeric(),
     ],
-    postController.getHomePosts
-)
+    postController.getHomePosts,
+);
 
 module.exports = router;

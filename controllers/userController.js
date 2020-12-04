@@ -51,14 +51,12 @@ const updateUser = async (req, res) => {
     ? `${profilePicPath}/${req.file.filename}`
     : undefined;
 
-  // Check if user still exists
-  const user = await userModel.getUser(req.user.user_id);
-  if (user["error"]) {
-    // No user found
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) {
     if (req.file) {
       delete_file(profilePicFile);
     }
-    return res.status(400).json(user);
+    return;
   }
 
   // Check if there is errors in body

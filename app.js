@@ -9,6 +9,7 @@ const userRoute = require('./routes/userRoute');
 const followRoute = require('./routes/followRoute');
 const banRoute = require('./routes/banRoute');
 const app = express();
+const checks = require('./utils/checks');
 const passport = require('./utils/pass');
 const passportOptions = {
   session: false,
@@ -36,4 +37,4 @@ app.use('/post', passport.authenticate('jwt', passportOptions), postRoute);
 app.use('/posts', postsRoute);
 app.use('/user', passport.authenticate('jwt', passportOptions), userRoute);
 app.use('/follow', passport.authenticate('jwt', passportOptions), followRoute);
-app.use('/ban', passport.authenticate('jwt', passportOptions), banRoute)
+app.use('/ban', passport.authenticate('jwt', passportOptions), banRoute);

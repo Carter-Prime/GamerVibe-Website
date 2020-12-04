@@ -1,8 +1,12 @@
 'use strict';
 const banModel = require('../models/banModel');
 const checks = require('../utils/checks');
+const {errorJson, messageJson} = require('../utils/json_messages')
 
 const ban_user = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   // Check errors from body
   if (checks.hasBodyErrors(req, res)) return;
 
@@ -18,7 +22,7 @@ const ban_user = async (req, res) => {
     return res.status(400).json(query);
   }
 
-  res.json(`User ${req.body.bannedId} banned for ${req.body.reason}`);
+  res.json(messageJson(`User ${req.body.bannedId} banned for ${req.body.reason}`));
 };
 
 module.exports = {

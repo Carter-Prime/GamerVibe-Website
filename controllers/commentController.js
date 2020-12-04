@@ -3,6 +3,9 @@ const commentModel = require('../models/commentModel');
 const checks = require('../utils/checks');
 
 const addComment = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   // Check body for errors
   if (checks.hasBodyErrors(req, res)) return;
 

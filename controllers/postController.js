@@ -13,6 +13,9 @@ const checks = require('../utils/checks');
 
 // Make new post
 const new_post = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   // Checks if image is missing
   if (!req.file) {
     return res.status(400).json(errorJson('Image must be JPEG or PNG'));
@@ -20,13 +23,6 @@ const new_post = async (req, res) => {
 
   // Checks for validation errors
   if (checks.hasBodyErrors(req, res)) return;
-
-  // Check if user exists
-  const user = await userModel.getUser(req.user.user_id);
-  if (user['error']) {
-    // User query returns error
-    return res.status(400).json(errorJson('Something went wrong'));
-  }
 
   // Makes thumbnail
   const thumb = await make_thumbnail(req.file, './thumbnails');
@@ -62,6 +58,9 @@ const new_post = async (req, res) => {
 
 // Get one post with id
 const fetch_post = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   const postId = req.params.id;
 
   // Fetch post
@@ -117,6 +116,9 @@ const get_discover_posts = async (req, res) => {
 
 // Delete post (set posts deleted at timestamp)
 const delete_post = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   const user = req.user;
 
   // Get post with given id
@@ -165,6 +167,9 @@ const getPostsByUser = async (req, res) => {
 };
 
 const getHomePosts = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
   if (checks.hasBodyErrors(req, res)) return;
 
   const user = req.user;
