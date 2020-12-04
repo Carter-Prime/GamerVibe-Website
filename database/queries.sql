@@ -269,3 +269,21 @@ AND u.banned_at IS NULL
 AND b.blocked_at IS NULL
 ORDER BY created_at DESC
 LIMIT 30
+
+-- For home page
+-- Show only those posts for users that user is following
+SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename
+FROM Post AS p
+LEFT JOIN User AS u
+ON u.user_id = p.user_id
+LEFT JOIN Following AS f
+ON f.follower_id = 7
+AND f.following_id = p.user_id
+WHERE p.deleted_at IS NULL
+AND p.banned_at IS NULL
+AND u.user_id != 7
+AND u.banned_at IS NULL
+AND f.approved = 1
+AND p.post_id < 999999999
+ORDER BY created_at DESC
+LIMIT 30

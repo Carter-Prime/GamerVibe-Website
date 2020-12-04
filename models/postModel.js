@@ -53,51 +53,21 @@ const get_discover_posts = async (n, uid, beginId) => {
 const get_home_posts = async (uid, pid, amount) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT DISTINCT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename, ' +
-        '(' +
-        'SELECT count(*) ' +
-        'FROM Upvote l ' +
-        'WHERE p.post_id = l.post_id ' +
-        'AND l.unliked_at IS NULL ' +
-        ') Upvotes, ' +
-        '(' +
-        'SELECT count(*) ' +
-        'FROM Following f ' +
-        'WHERE f.following_id = u.user_id ' +
-        //'AND f.approved = 1 ' +
-        ') PosterFollowers, ' +
-        '(' +
-        'SELECT count(*) ' +
-        'FROM Blocking AS b ' +
-        'WHERE b.blocking_id = u.user_id ' +
-        ') HiddenFrom ' +
-        'FROM Post AS p, User AS u, Following AS f, Blocking AS b ' +
+        'SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename ' +
+        'FROM Post AS p ' +
+        'LEFT JOIN User AS u ' +
+        'ON u.user_id = p.user_id ' +
+        'LEFT JOIN Following AS f ' +
+        'ON f.follower_id = ? ' +
+        'AND f.following_id = p.user_id ' +
         'WHERE p.deleted_at IS NULL ' +
         'AND p.banned_at IS NULL ' +
         'AND u.user_id != ? ' +
-        'AND u.user_id = p.user_id ' +
-        'AND ' +
-        '( ' +
-        'u.private_acc = 0 ' +
-        'OR ' +
-        '( ' +
-        'f.follower_id = ? ' +
-        'AND f.following_id = u.user_id ' +
-        //'AND f.approved = 1' +
-        ') ' +
-        ') ' +
-        'AND u.deleted_at IS NULL ' +
         'AND u.banned_at IS NULL ' +
-        'AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0 ' +
-        'AND NOT ' +
-        '(' +
-        'b.blocker_id = ? ' +
-        'AND b.blocking_id = u.user_id ' +
-        'AND b.unblocked_at IS NULL ' +
-        ') ' +
+        'AND f.approved = 1 ' +
         'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
-        'LIMIT ?', [uid, uid, uid, pid, amount],
+        'LIMIT ?', [uid, uid, pid, amount],
     );
     return rows;
   } catch (e) {

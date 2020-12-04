@@ -170,7 +170,7 @@ const getHomePosts = async (req, res) => {
   const user = req.user;
   const query = await postModel.get_home_posts(
       user.user_id,
-      req.body.startId ? req.body.startId : Number.MAX_SAFE_INTEGER,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
       req.body.amount ? req.body.amount : 30,
   );
 

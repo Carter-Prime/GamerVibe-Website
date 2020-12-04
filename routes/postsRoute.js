@@ -25,8 +25,8 @@ router.route('/discover').post((req, res, next) => {
 router.route('/home').post(
     passport.authenticate('jwt', passportOptions),
     [
-        body('startId').
-            if(body('startId').exists()).
+        body('beginId').
+            if(body('beginId').exists()).
             isNumeric(),
         body('amount').if(body('amount').exists()).
             isNumeric()
