@@ -393,7 +393,6 @@ const createPost = () => {
       const json = await response.json();
       console.log("json response", json);
       if (json) {
-        location.reload();
       }
     } catch (e) {
       console.log("error: " + e);
