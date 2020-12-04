@@ -1,17 +1,17 @@
-'use strict';
-const pool = require('../database/db');
+"use strict";
+const pool = require("../database/db");
 const promisePool = pool.promise();
-const {errorJson} = require('../utils/json_messages');
+const { errorJson } = require("../utils/json_messages");
 
 // Get all users
 const getAllUsers = async () => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
-        'u.discord, u.youtube, u.twitch ' +
-        'FROM User AS u ' +
-        'WHERE u.deleted_at IS NULL ' +
-        'AND u.banned_at IS NULL',
+      "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
+        "u.discord, u.youtube, u.twitch " +
+        "FROM User AS u " +
+        "WHERE u.deleted_at IS NULL " +
+        "AND u.banned_at IS NULL"
     );
     // console.log('userModel getAllUsers rows', rows);
     return rows;
@@ -23,28 +23,30 @@ const getAllUsers = async () => {
 // Get user with given id
 const getUser = async (id) => {
   try {
-    const [rows] = await promisePool.execute(
-        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
-        'u.discord, u.youtube, u.twitch,' +
-        '(SELECT COUNT(*) ' +
-        ' FROM Following AS f ' +
-        ' WHERE f.follower_id = ? ' +
-        ') AS followers, ' +
-        '(SELECT COUNT(*) ' +
-        ' FROM Following AS f ' +
-        ' WHERE f.following_id = ? ' +
-        ') AS following, ' +
-        '(SELECT COUNT(*) ' +
-        ' FROM Post AS p ' +
-        ' WHERE p.user_id = ? ' +
-        ' AND p.deleted_at IS NULL ' +
-        ' AND p.banned_at IS NULL ' +
-        ') AS posts ' +
-        'FROM User AS u ' +
-        'WHERE u.user_id = ? ' +
-        'AND u.deleted_at IS NULL ' +
-        'AND u.banned_at IS NULL',
-        [id, id, id, id],
+    const [
+      rows,
+    ] = await promisePool.execute(
+      "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
+        "u.discord, u.youtube, u.twitch," +
+        "(SELECT COUNT(*) " +
+        " FROM Following AS f " +
+        " WHERE f.follower_id = ? " +
+        ") AS followers, " +
+        "(SELECT COUNT(*) " +
+        " FROM Following AS f " +
+        " WHERE f.following_id = ? " +
+        ") AS following, " +
+        "(SELECT COUNT(*) " +
+        " FROM Post AS p " +
+        " WHERE p.user_id = ? " +
+        " AND p.deleted_at IS NULL " +
+        " AND p.banned_at IS NULL " +
+        ") AS posts " +
+        "FROM User AS u " +
+        "WHERE u.user_id = ? " +
+        "AND u.deleted_at IS NULL " +
+        "AND u.banned_at IS NULL",
+      [id, id, id, id]
     );
     // console.log('userModel getUser user', rows[0])
     return rows[0] ? rows[0] : errorJson(`No users found with id: ${id}`);
@@ -56,18 +58,21 @@ const getUser = async (id) => {
 // Get users login information
 const getUserLogin = async (email) => {
   try {
-    const [rows] = await promisePool.execute(
-        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.passwd, ' +
-        'u.imagename, u.theme, u.discord, u.youtube, u.twitch, u.created_at, ' +
-        'u.private_acc, m.moderator_since ' +
-        'FROM User AS u ' +
-        'LEFT JOIN Moderator AS m ' +
-        'ON u.user_id = m.moderator_id ' +
-        'AND (m.moderator_until IS NULL ' +
-        'OR TIMESTAMPDIFF(MINUTE, m.moderator_until, NOW()) < 0) ' +
-        'WHERE u.email = ? ' +
-        'AND u.deleted_at IS NULL ' +
-        'AND u.banned_at IS NULL', [email],
+    const [
+      rows,
+    ] = await promisePool.execute(
+      "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.passwd, " +
+        "u.imagename, u.theme, u.discord, u.youtube, u.twitch, u.created_at, " +
+        "u.private_acc, m.moderator_since " +
+        "FROM User AS u " +
+        "LEFT JOIN Moderator AS m " +
+        "ON u.user_id = m.moderator_id " +
+        "AND (m.moderator_until IS NULL " +
+        "OR TIMESTAMPDIFF(MINUTE, m.moderator_until, NOW()) < 0) " +
+        "WHERE u.email = ? " +
+        "AND u.deleted_at IS NULL " +
+        "AND u.banned_at IS NULL",
+      [email]
     );
     // console.log('userModel getUserLogin rows', rows);
     return rows;
@@ -80,17 +85,18 @@ const getUserLogin = async (email) => {
 const updateUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
-        'UPDATE User ' +
-        'SET fname = ?, ' +
-        'lname = ?, ' +
-        'imagename = ?, ' +
-        'discord = ?, ' +
-        'youtube = ?, ' +
-        'twitch = ?, ' +
-        'private_acc = ? ' +
-        'WHERE user_id = ? ' +
-        'AND deleted_at IS NULL ' +
-        'AND banned_at IS NULL', params,
+      "UPDATE User " +
+        "SET fname = ?, " +
+        "lname = ?, " +
+        "imagename = ?, " +
+        "discord = ?, " +
+        "youtube = ?, " +
+        "twitch = ?, " +
+        "private_acc = ? " +
+        "WHERE user_id = ? " +
+        "AND deleted_at IS NULL " +
+        "AND banned_at IS NULL",
+      params
     );
     // console.log('userModel updateUser rows', rows);
     return rows;
@@ -104,16 +110,18 @@ const updateUser = async (params) => {
 const addUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
-        'INSERT INTO User(username, email, passwd, imagename) VALUES(?,?,?,?)', params);
+      "INSERT INTO User(username, email, passwd, imagename) VALUES(?,?,?,?)",
+      params
+    );
     // console.log('addUser rows', rows);
 
-    return await getUser(rows['insertId']);
+    return await getUser(rows["insertId"]);
   } catch (e) {
     // console.error('addUser error', e.message);
 
     // Email or username is already in use
-    if (e.code === 'ER_DUP_ENTRY') {
-      const sliced = e.message.split('\'');
+    if (e.code === "ER_DUP_ENTRY") {
+      const sliced = e.message.split("'");
       const key = sliced[sliced.length - 2];
       return errorJson(`${key} already in use`);
     }
@@ -124,14 +132,16 @@ const addUser = async (params) => {
 // Search user with given name
 const getUsersByName = async (name) => {
   try {
-    const [rows] = await promisePool.execute(
-        'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
-        'u.discord, u.youtube, u.twitch ' +
-        'FROM User AS u ' +
-        'WHERE (username LIKE ? OR fname LIKE ?  OR lname LIKE ? )' +
-        'AND deleted_at IS NULL ' +
-        'AND banned_at IS NULL',
-        [name, name, name],
+    const [
+      rows,
+    ] = await promisePool.execute(
+      "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
+        "u.discord, u.youtube, u.twitch " +
+        "FROM User AS u " +
+        "WHERE (username LIKE ? OR fname LIKE ?  OR lname LIKE ? )" +
+        "AND deleted_at IS NULL " +
+        "AND banned_at IS NULL",
+      [name, name, name]
     );
     // console.log('userModel getUser user', rows[0])
     return rows ? [...rows] : errorJson(`No users found with name: ${name}`);
@@ -139,7 +149,6 @@ const getUsersByName = async (name) => {
     return errorJson(e.message);
   }
 };
-
 
 module.exports = {
   getAllUsers,

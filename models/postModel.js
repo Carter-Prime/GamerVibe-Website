@@ -169,6 +169,24 @@ const delete_temp_post = async (id) => {
   }
 };
 
+// Search tags with given tagname
+const getTagsByName = async (tagname) => {
+  try {
+    const [
+      rows,
+    ] = await promisePool.execute(
+      "SELECT t.post_id, t.tag, t.tagged_at, t.untagged_at " +
+        "FROM PostTag AS t " +
+        "WHERE (tag LIKE ?)" +
+        "AND untagged_at IS NULL ",
+      [tagname]
+    );
+    return rows ? [...rows] : errorJson(`No users found with name: ${tagname}`);
+  } catch (e) {
+    return errorJson(e.message);
+  }
+};
+
 module.exports = {
   add_new_post,
   get_post,
@@ -177,4 +195,5 @@ module.exports = {
   delete_post,
   get_posts_by_user,
   get_home_posts,
+  getTagsByName,
 };
