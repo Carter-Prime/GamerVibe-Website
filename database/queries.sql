@@ -251,3 +251,21 @@ SELECT t.post_id,
 FROM PostTag AS t
 WHERE (tag LIKE '%$tagname%')
     AND untagged_at IS NULL;
+
+-- For discover page
+-- Doesn't show posts from users that user is blocked or from users that accounts are private
+SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename
+FROM Post AS p
+LEFT JOIN User AS u
+ON u.user_id = p.user_id
+LEFT JOIN Blocking AS b
+ON b.blocker_id = 7
+AND b.blocking_id = p.user_id
+WHERE p.deleted_at IS NULL
+AND p.banned_at IS NULL
+AND u.user_id != 7
+AND u.private_acc != 1
+AND u.banned_at IS NULL
+AND b.blocked_at IS NULL
+ORDER BY created_at DESC
+LIMIT 30
