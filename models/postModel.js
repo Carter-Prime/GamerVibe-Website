@@ -51,6 +51,7 @@ const get_discover_posts = async (n, uid, beginId) => {
 };
 
 const get_home_posts = async (uid, pid, amount) => {
+  // console.log('uid', uid, 'pid', pid, 'amount', amount);
   try {
     const [rows] = await promisePool.execute(
         'SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename ' +
@@ -65,9 +66,10 @@ const get_home_posts = async (uid, pid, amount) => {
         'AND u.user_id != ? ' +
         'AND u.banned_at IS NULL ' +
         'AND f.approved = 1 ' +
+        'OR p.user_id = ? ' +
         'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
-        'LIMIT ?', [uid, uid, pid, amount],
+        'LIMIT ?', [uid, uid, uid, pid, amount],
     );
     return rows;
   } catch (e) {
@@ -149,11 +151,11 @@ const getTagsByName = async (tagname) => {
     const [
       rows,
     ] = await promisePool.execute(
-      "SELECT t.post_id, t.tag, t.tagged_at, t.untagged_at " +
-        "FROM PostTag AS t " +
-        "WHERE (tag LIKE ?)" +
-        "AND untagged_at IS NULL ",
-      [tagname]
+        'SELECT t.post_id, t.tag, t.tagged_at, t.untagged_at ' +
+        'FROM PostTag AS t ' +
+        'WHERE (tag LIKE ?)' +
+        'AND untagged_at IS NULL ',
+        [tagname],
     );
     return rows ? [...rows] : errorJson(`No users found with name: ${tagname}`);
   } catch (e) {

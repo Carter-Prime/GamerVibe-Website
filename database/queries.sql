@@ -284,6 +284,7 @@ AND p.banned_at IS NULL
 AND u.user_id != 7
 AND u.banned_at IS NULL
 AND f.approved = 1
+OR p.user_id = 7
 AND p.post_id < 999999999
 ORDER BY created_at DESC
 LIMIT 30
