@@ -73,7 +73,9 @@
             <h1 id="js-username"></h1>
             <div class="btn-container">
               <button class="button profile-btn" id="js-post-btn">Post</button>
-              <button class="button profile-btn" id="js-follow-btn">Follow</button>
+              <button class="button profile-btn" id="js-follow-btn">
+                Follow
+              </button>
             </div>
           </div>
         </div>
@@ -93,45 +95,31 @@
       </div>
       <div class="card-container"></div>
       <div class="profile" class="form-wrapper" id="search-wrapper">
+        <div class="media-div">
         <h1>Search Page</h1>
-        <form id="search-form">
-          <input type="text" name="search-field" />
+     
+        <form id="search-form-users">
+          <input
+            type="text"
+            name="search-field"
+            placeholder="Search users..."
+          />
           <button type="submit">People</button>
+        
+        </form>
+        <form id="search-form-tags">
+          <input type="text" name="search-field" placeholder="Search tags..." />
           <button type="submit">Tags</button>
-          <h3></h3>
+        
         </form>
+        <h3></h3>
         <results> </results>
-
-        <form id="SearchMemberForm">
-          <div class="uk-margin-small">
-            <div class="uk-inline uk-width-1-1">
-              <button
-                id="MemberSubmit"
-                type="submit"
-                class="uk-form-icon uk-form-icon-flip"
-                uk-icon="icon: search"
-              ></button>
-              <input
-                id="MemberInput"
-                type="search"
-                name="ig_handle"
-                class="member-search-input uk-input uk-form-large"
-                placeholder="e.g., cristiano"
-                autocapitalize="none"
-                autocorrect="off"
-                autocomplete="off"
-              />
-              <div
-                id="PresetMember"
-                class="uk-width-1-1 uk-margin-remove"
-                uk-dropdown="mode: click; pos: bottom-justify;
-            boundary: .member-search-input"
-              ></div>
-            </div>
-          </div>
-        </form>
       </div>
+<<<<<<< HEAD
       <div class="card-container" id="js-main-body"></div>
+=======
+      </div>
+>>>>>>> 46d04a7dd3624a7c8c152f559f73d77b8a0c6fbb
     </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>

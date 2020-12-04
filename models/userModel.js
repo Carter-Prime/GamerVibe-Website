@@ -138,10 +138,10 @@ const getUsersByName = async (name) => {
       "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
         "u.discord, u.youtube, u.twitch " +
         "FROM User AS u " +
-        "WHERE (username LIKE ? OR fname LIKE ?  OR lname LIKE ? )" +
+        "WHERE (username LIKE ?)" +
         "AND deleted_at IS NULL " +
         "AND banned_at IS NULL",
-      [name, name, name]
+      [name]
     );
     // console.log('userModel getUser user', rows[0])
     return rows ? [...rows] : errorJson(`No users found with name: ${name}`);
