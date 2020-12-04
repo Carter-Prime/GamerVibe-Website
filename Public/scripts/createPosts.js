@@ -56,7 +56,7 @@ const detailedPost = (post) => {
   const actionButtons = createActionBar(userType, post);
 
   const newImg = document.createElement("img");
-  newImg.src = url + "/thumbnails/" + post.content.imgfilename;
+  newImg.src = url + "/uploads/" + post.content.imgfilename;
 
   const newCaption = document.createElement("p");
   newCaption.classList.add("caption-text");
@@ -296,6 +296,7 @@ const getPostById = async (postId) => {
   }
 };
 
+//Create a user post and upload to server
 const createPost = () => {
   mainBody.innerHTML = "";
 
@@ -377,7 +378,7 @@ const createPost = () => {
     Event.preventDefault();
     console.log("upload clicked");
     const tags = postTags.value;
-    const tagsArray = tags.trim.split(" ");
+    const tagsArray = tags.trim().split(" ");
     console.log("tags before split: " + tags);
     console.log("tagsArray: " + tagsArray);
     const caption = postCaption.value;
