@@ -1,34 +1,26 @@
 'use strict';
-const {validationResult} = require('express-validator');
 const {errorJson, messageJson} = require('../utils/json_messages');
 const upvoteModel = require('../models/upvoteModel');
-const postModel = require('../models/postModel');
+const checks = require('../utils/checks');
 
 const addUpvote = async (req, res) => {
   // Check body for errors
-  const valRes = validationResult(req);
-  if (!valRes.isEmpty()) {
-    return res.status(400).json(errorJson(valRes['errors']));
-  }
+  if (checks.hasBodyErrors(req, res)) return;
 
   // Checks if posts exists
-  const checkPost = await postModel.get_post(req.body.postId);
-  if (checkPost['error']) {
-    return res.status(400).json(checkPost);
-  }
+  if (!await checks.isPost(req, res)) return;
 
   // Check if already upvoted
   const checkUpvote = await upvoteModel.get_upvote(
       req.user.user_id,
-      req.body.postId
+      req.body.postId,
   );
-  console.log('upvoteController addUpvote checkUpvote', checkUpvote)
   if (checkUpvote['error']) {
     // Error happened
     return res.status(400).json(checkUpvote);
-  } else if(checkUpvote.length !== 0) {
+  } else if (checkUpvote.length !== 0) {
     // Already upvoted
-    return res.status(400).json(errorJson('Already upvoted'))
+    return res.status(400).json(errorJson('Already upvoted'));
   }
 
   // Add upvote
@@ -36,7 +28,6 @@ const addUpvote = async (req, res) => {
       req.user.user_id,
       req.body.postId,
   );
-  console.log('upvoteController addUpvote addQuery', addQuery)
   if (addQuery['error']) {
     return res.status(400).json(addQuery);
   }

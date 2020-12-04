@@ -7,29 +7,22 @@ const commentModel = require('../models/commentModel');
 const postTagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
-const followModel = require('../models/followModel')
+const followModel = require('../models/followModel');
 const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
+const checks = require('../utils/checks');
 
 // Make new post
 const new_post = async (req, res) => {
-  // console.log('postController new_post body', req.body);
-  // console.log('postController new_post file', req.file);
-  // console.log('postController new_post user', req.user);
-
   // Checks if image is missing
   if (!req.file) {
     return res.status(400).json(errorJson('Image must be JPEG or PNG'));
   }
 
   // Checks for validation errors
-  const valRes = validationResult(req);
-  if (!valRes.isEmpty()) {
-    return res.status(400).json(errorJson(valRes['errors']));
-  }
+  if (checks.hasBodyErrors(req, res)) return;
 
   // Check if user exists
   const user = await userModel.getUser(req.user.user_id);
-  // console.log('user', user);
   if (user['error']) {
     // User query returns error
     return res.status(400).json(errorJson('Something went wrong'));
@@ -37,7 +30,6 @@ const new_post = async (req, res) => {
 
   // Makes thumbnail
   const thumb = await make_thumbnail(req.file, './thumbnails');
-  // console.log('postController new_post thumb', thumb);
 
   // If thumbnail return error
   if (thumb['error']) {
@@ -59,7 +51,6 @@ const new_post = async (req, res) => {
   // Add tags to posts
   if (req.body.tags) {
     for (let t of req.body.tags) {
-      // console.log('postController new_post tag', t);
       t = encodeURI(t.trim());
       await postTagModel.add_tag(query['insertId'], t);
     }
@@ -71,67 +62,51 @@ const new_post = async (req, res) => {
 
 // Get one post with id
 const fetch_post = async (req, res) => {
-  const post = {};
   const postId = req.params.id;
 
   // Fetch post
-  const content = await postModel.get_post(postId);
-  // console.log('postController fetch_post content', content);
+  const post = await postModel.get_post(postId);
 
   // If error on content then send it to res
-  if (content['error']) {
-    return res.status(400).json(content);
+  if (post['error']) {
+    return res.status(400).json(post);
   }
 
   const user = req.user;
-  //console.log('user', user)
 
   //User is not posted this post
-  if(user.user_id !== content.user_id) {
-    const follow = await followModel.is_following(user.user_id, content.user_id)
-    const mod = await moderatorModel.get_mod(user.user_id)
+  if (user.user_id !== post.user_id) {
+    const follow = await followModel.is_following(user.user_id, post.user_id);
+    const mod = await moderatorModel.get_mod(user.user_id);
 
     // User is not following current user or user is not moderator
-    if(follow['error'] && mod['error']) {
-      return res.status(400).json(errorJson('No rights to view this post'))
+    if (follow['error'] && mod['error']) {
+      return res.status(400).json(errorJson('No rights to view this post'));
     }
   }
 
-  // Include all comments, tags and upvotes for that post
-  post.content = content;
-  post.comments = await commentModel.get_post_comments(postId);
-  post.tags = await postTagModel.get_tags(postId);
-  post.upvotes = await upvoteModel.get_upvotes(postId);
-
+  const featExtras = await add_extras_one_post(post);
   // Send post to res
-  res.json(post);
+  res.json(featExtras);
 };
 
 // Get n amount of posts
 const get_n_posts = async (req, res) => {
-  // console.log('postController get_n_posts body', req.body);
-
   // Check validation results
-  const valRes = validationResult(req);
-  if (!valRes.isEmpty()) {
-    return res.status(400).json(errorJson(valRes['errors']));
-  }
+  if (checks.hasBodyErrors(req, res)) return;
 
+  // TODO: delet this
   // Parse timestamp from body
   let time = Date.parse(req.body.beginTime);
-  // console.log('postController get_n_posts time', time);
   if (isNaN(time)) {
     const date = new Date();
-    // console.log('date', date)
     date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    // console.log('date', date)
     time = date.toISOString().replace('T', ' ').replace('Z', '');
   } else {
     time = new Date(req.body.beginTime).toISOString().
         replace('T', ' ').
         replace('Z', '');
   }
-  // console.log('postController get_n_posts time', time);
 
   // Get posts from database
   const fetchedPosts = await postModel.get_posts(
@@ -139,14 +114,13 @@ const get_n_posts = async (req, res) => {
       req.user ? req.user.user_id : 0,
       time,
   );
-  // console.log('postController get_n_posts posts', posts)
 
   // If error when fetching posts, send it to res
   if (fetchedPosts['error']) {
     return res.status(400).json(fetchedPosts);
   }
 
-  const featExtras = await get_extras(fetchedPosts)
+  const featExtras = await get_extras(fetchedPosts);
 
   // Send posts to res
   res.json(featExtras);
@@ -155,26 +129,21 @@ const get_n_posts = async (req, res) => {
 // Delete post (set posts deleted at timestamp)
 const delete_post = async (req, res) => {
   const user = req.user;
-  // console.log('postController delete_post user', user)
 
   // Get post with given id
   const post = await postModel.get_post(req.params.id);
-  // console.log('postController delete_post post', post);
-
-  let allowed = true;
-
   if (post['error']) {
     // Post not exists
     return res.status(400).json(post);
   }
+
+  let allowed = true;
 
   if (post.user_id !== user.user_id) {
     // User is not posts original poster
     allowed = false;
 
     const mod = await moderatorModel.get_mod(user.user_id);
-    // console.log('postController delete_post mod', mod)
-
     if (!mod['error']) {
       // User is moderator
       allowed = true;
@@ -207,39 +176,39 @@ const getPostsByUser = async (req, res) => {
 };
 
 const getHomePosts = async (req, res) => {
-  const valRes = validationResult(req)
-  if(!valRes.isEmpty()) {
-    return res.status(400).json(errorJson(valRes['errors']))
-  }
+  if (checks.hasBodyErrors(req, res)) return;
 
   const user = req.user;
   const query = await postModel.get_home_posts(
       user.user_id,
       req.body.startId ? req.body.startId : Number.MAX_SAFE_INTEGER,
-      req.body.amount ? req.body.amount : 30
-  )
+      req.body.amount ? req.body.amount : 30,
+  );
 
-  const featExtras = await get_extras(query)
+  const featExtras = await get_extras(query);
 
-  res.json(featExtras)
+  res.json(featExtras);
 };
 
 const get_extras = async (fetchedPosts) => {
   const posts = [];
   for (let i = 0; i < fetchedPosts.length; i++) {
     const post = fetchedPosts[i];
-    // console.log('post', post, 'index', i)
-    const postObj = {};
-
-    // Include all comments, tags and upvotes for every post
-    postObj.content = post;
-    postObj.comments = await commentModel.get_post_comments(post.post_id);
-    postObj.tags = await postTagModel.get_tags(post.post_id);
-    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
-    posts.push(postObj);
+    posts.push(await add_extras_one_post(post));
   }
-  return posts
-}
+  return posts;
+};
+
+const add_extras_one_post = async (post) => {
+  const postObj = {};
+
+  // Include all comments, tags and upvotes for every post
+  postObj.content = post;
+  postObj.comments = await commentModel.get_post_comments(post.post_id);
+  postObj.tags = await postTagModel.get_tags(post.post_id);
+  postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
+  return postObj;
+};
 
 module.exports = {
   new_post,

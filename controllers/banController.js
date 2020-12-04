@@ -1,25 +1,13 @@
 'use strict';
-const {validationResult} = require('express-validator');
 const banModel = require('../models/banModel');
-const modModel = require('../models/moderatorModel');
-const {errorJson} = require('../utils/json_messages');
+const checks = require('../utils/checks');
 
 const ban_user = async (req, res) => {
-  // console.log('banController ban_user body', req.body)
-  // console.log('banController ban_user user', req.user)
-
   // Check errors from body
-  const valRes = validationResult(req);
-  if (!valRes.isEmpty()) {
-    return res.status(400).json(errorJson(valRes['errors']));
-  }
+  if (checks.hasBodyErrors(req, res)) return;
 
   // Check if user is moderator
-  const mod = await modModel.get_mod(req.user.user_id);
-  // console.log('banController ban_user mod', mod)
-  if (mod['error']) {
-    return res.status(400).json(errorJson('User does not have rights to ban'));
-  }
+  if(await checks.hasModError(req, res)) return;
 
   const query = await banModel.banUser(
       req.user.user_id,

@@ -1,22 +1,13 @@
 'use strict';
-const {validationResult} = require('express-validator');
-const {errorJson} = require('../utils/json_messages');
 const commentModel = require('../models/commentModel');
-const postModel = require('../models/postModel');
+const checks = require('../utils/checks');
 
 const addComment = async (req, res) => {
   // Check body for errors
-  const valRes = validationResult(req);
-  if (!valRes.isEmpty()) {
-    return res.status(400).json(errorJson(valRes['errors']));
-  }
+  if (checks.hasBodyErrors(req, res)) return;
 
   // Checks if posts exists
-  const checkPost = await postModel.get_post(req.body.postId);
-  if (checkPost['error']) {
-    // console.log('commentController addComment checkPost', checkPost);
-    return res.status(400).json(checkPost);
-  }
+  if(!await checks.isPost(req, res)) return;
 
   // Make new comment
   const addQuery = await commentModel.add_comment(
