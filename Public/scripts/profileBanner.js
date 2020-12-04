@@ -68,6 +68,12 @@ const setProfileBanner = (userInfo) => {
   //   const decode = htmlDecoder(json.twitch);
   //   twitchLink.setAttribute("href", decode);
 
+  postBtn.addEventListener("click", (Event) => {
+    Event.preventDefault();
+    console.log("post button clicked");
+    createPost();
+  });
+
   console.log(`comparing user ${user} with userInfo.user_id ${userInfo.user_id}`);
   if (user == userInfo.user_id) {
     postBtn.classList.remove("hide");
