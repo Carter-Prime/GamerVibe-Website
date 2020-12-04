@@ -91,28 +91,17 @@ const fetch_post = async (req, res) => {
 };
 
 // Get n amount of posts
-const get_n_posts = async (req, res) => {
+const get_discover_posts = async (req, res) => {
   // Check validation results
   if (checks.hasBodyErrors(req, res)) return;
 
-  // TODO: delet this
-  // Parse timestamp from body
-  let time = Date.parse(req.body.beginTime);
-  if (isNaN(time)) {
-    const date = new Date();
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    time = date.toISOString().replace('T', ' ').replace('Z', '');
-  } else {
-    time = new Date(req.body.beginTime).toISOString().
-        replace('T', ' ').
-        replace('Z', '');
-  }
+  const user = req.user;
 
   // Get posts from database
-  const fetchedPosts = await postModel.get_posts(
+  const fetchedPosts = await postModel.get_discover_posts(
       req.body.amount,
-      req.user ? req.user.user_id : 0,
-      time,
+      user ? user.user_id : 0,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
   );
 
   // If error when fetching posts, send it to res
@@ -214,7 +203,7 @@ module.exports = {
   new_post,
   fetch_post,
   delete_post,
-  get_n_posts,
+  get_discover_posts,
   getPostsByUser,
   getHomePosts,
 };
