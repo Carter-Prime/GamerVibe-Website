@@ -63,10 +63,13 @@ const get_home_posts = async (uid, pid, amount) => {
         'AND f.following_id = p.user_id ' +
         'WHERE p.deleted_at IS NULL ' +
         'AND p.banned_at IS NULL ' +
-        'AND u.user_id != ? ' +
         'AND u.banned_at IS NULL ' +
+        'AND ' +
+        '( ' +
+        'u.user_id != ? ' +
         'AND f.approved = 1 ' +
-        'OR p.user_id = ? ' +
+        'OR u.user_id = ? ' +
+        ') ' +
         'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
         'LIMIT ?', [uid, uid, uid, pid, amount],
