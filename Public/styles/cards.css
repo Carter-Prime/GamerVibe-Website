@@ -13,6 +13,10 @@
   border: 1px solid var(--lightBorderColor);
 }
 
+.my-post-card {
+  background-color: var(--alteralternativeBackground);
+}
+
 .card-details-container {
   display: flex;
   flex-direction: row;
@@ -24,6 +28,11 @@
 .card > img {
   width: 100%;
   height: 200px;
+}
+
+.card > h1 {
+  color: var(--textColor);
+  font-size: clamp(1rem, 0.8846rem + 0.5128vw, 1.5rem);
 }
 
 .tags {

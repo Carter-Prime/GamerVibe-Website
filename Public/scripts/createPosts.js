@@ -33,8 +33,8 @@ const createActionBar = (userType, post) => {
 
   backSpan.addEventListener("click", (Event) => {
     Event.preventDefault();
-    if(window.location.pathname === "/home.html") {
-      getHomePosts()
+    if (window.location.pathname === "/home.html") {
+      getHomePosts();
     } else {
       getDiscoverPosts();
     }
@@ -204,6 +204,13 @@ const createDiscoverCards = (posts) => {
     const newCard = document.createElement("div");
     newCard.classList.add("card");
 
+    if (user == post.content.post_id) {
+      newCard.classList.add("my-post-card");
+    }
+
+    const postCreator = document.createElement("h1");
+    postCreator.innerText = post.content.username;
+
     const newImg = document.createElement("img");
     newImg.src = url + "/thumbnails/" + post.content.imgfilename;
 
@@ -226,13 +233,13 @@ const createDiscoverCards = (posts) => {
         newTags.innerText += ` #${post.tags[i].tag}`;
       }
       detailsContainer.append(newTags, newUpVote);
-      newCard.append(newImg, detailsContainer, newCaption);
+      newCard.append(postCreator, newImg, detailsContainer, newCaption);
     } else {
       newTags.classList.add("tags");
       newTags.innerText += "Tags:";
       detailsContainer.append(newTags, newUpVote);
     }
-    newCard.append(newImg, detailsContainer, newCaption);
+    newCard.append(postCreator, newImg, detailsContainer, newCaption);
 
     newCard.addEventListener("click", (Event) => {
       Event.preventDefault();
