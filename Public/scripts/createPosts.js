@@ -25,7 +25,10 @@ const createActionBar = (userType, post) => {
     deleteSpan.addEventListener("click", (Event) => {
       Event.preventDefault();
       const check = confirm("are you sure you want to delete this post?");
-      console.log("post will be deleted " + check);
+      if (check) {
+        console.log(post.content.post_id);
+        deletePostById(post.content.post_id);
+      }
     });
   } else {
     actionButtons.append(backSpan);
@@ -280,6 +283,7 @@ const getDiscoverPosts = async () => {
   }
 };
 
+//Finds post by search for post ID
 const getPostById = async (postId) => {
   try {
     const options = {
@@ -291,6 +295,27 @@ const getPostById = async (postId) => {
     const json = await response.json();
 
     return json;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+//Deletes post by search for post ID
+const deletePostById = async (postId) => {
+  try {
+    const options = {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+    const response = await fetch(url + `/post/id/` + postId, options);
+    const json = await response.json();
+    if (json != null) {
+      alert(`${postId} was deleted`);
+      console.log(json);
+      // location.reload();
+    }
   } catch (e) {
     console.log(e.message);
   }
@@ -405,7 +430,8 @@ const createPost = () => {
       const response = await fetch(url + "/post/", fetchOptions);
       const json = await response.json();
       console.log("json response", json);
-      if (json) {
+      if (json.caption != null) {
+        location.reload();
       }
     } catch (e) {
       console.log("error: " + e);
