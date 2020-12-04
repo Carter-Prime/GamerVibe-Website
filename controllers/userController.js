@@ -1,10 +1,10 @@
-'use strict';
-const userModel = require('../models/userModel');
-const followModel = require('../models/followModel');
-const moderatorModel = require('../models/moderatorModel');
-const {errorJson} = require('../utils/json_messages');
-const {validationResult} = require('express-validator');
-const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
+"use strict";
+const userModel = require("../models/userModel");
+const followModel = require("../models/followModel");
+const moderatorModel = require("../models/moderatorModel");
+const { errorJson } = require("../utils/json_messages");
+const { validationResult } = require("express-validator");
+const { delete_file, make_thumbnail } = require("../utils/my_random_stuff");
 
 // Get single user
 const getUser = async (req, res) => {
@@ -20,12 +20,15 @@ const getUser = async (req, res) => {
   }
 
   //User is not following this user or is not moderator
-  const follow = await followModel.is_following(user.user_id, wantedUser.user_id)
-  const mod = await moderatorModel.get_mod(user.user_id)
+  const follow = await followModel.is_following(
+    user.user_id,
+    wantedUser.user_id
+  );
+  const mod = await moderatorModel.get_mod(user.user_id);
 
   // User is not following current user or user is not moderator
-  if(follow['error'] && mod['error']) {
-    return res.status(400).json(errorJson('No rights to view this user'))
+  if (follow["error"] && mod["error"]) {
+    return res.status(400).json(errorJson("No rights to view this user"));
   }
 
   // console.log('userController getUser user', user);
@@ -34,7 +37,7 @@ const getUser = async (req, res) => {
 
 // Get users list by name
 const usersByName = async (req, res) => {
-  const name = req.params.name
+  const name = req.params.name;
   const users = await userModel.getUsersByName(`%${name}%`);
   res.json(users);
 };

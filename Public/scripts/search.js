@@ -21,7 +21,9 @@ const doFetch = async () => {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const res = await fetch(url + "/user/search/" + input.value, options);
+    const res = await fetch(url + "/post/search/tag/" + input.value, options);
+    // /user/search/name/
+    // /post/search/tag/
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";

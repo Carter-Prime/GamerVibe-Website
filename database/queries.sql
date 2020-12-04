@@ -236,6 +236,18 @@ SELECT u.user_id,
     u.youtube,
     u.twitch
 FROM User AS u
-WHERE (username LIKE '%$name%' OR fname LIKE '%$name%' OR lname LIKE '%$name%')
+WHERE (
+        username LIKE '%$name%'
+        OR fname LIKE '%$name%'
+        OR lname LIKE '%$name%'
+    )
     AND deleted_at IS NULL
     AND banned_at IS NULL;
+-- Search tags with given tagname
+SELECT t.post_id,
+    t.tag,
+    t.tagged_at,
+    t.untagged_at
+FROM PostTag AS t
+WHERE (tag LIKE '%$tagname%')
+    AND untagged_at IS NULL;
