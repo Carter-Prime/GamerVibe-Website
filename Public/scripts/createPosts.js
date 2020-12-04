@@ -204,7 +204,8 @@ const createDiscoverCards = (posts) => {
     const newCard = document.createElement("div");
     newCard.classList.add("card");
 
-    if (user == post.content.post_id) {
+    console.log(user + post.content.user_id);
+    if (user == post.content.user_id) {
       newCard.classList.add("my-post-card");
     }
 
@@ -376,7 +377,7 @@ const createPost = () => {
     Event.preventDefault();
     console.log("upload clicked");
     const tags = postTags.value;
-    const tagsArray = tags.split(" ");
+    const tagsArray = tags.trim.split(" ");
     console.log("tags before split: " + tags);
     console.log("tagsArray: " + tagsArray);
     const caption = postCaption.value;
