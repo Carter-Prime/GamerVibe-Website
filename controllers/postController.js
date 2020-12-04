@@ -7,6 +7,7 @@ const commentModel = require('../models/commentModel');
 const postTagModel = require('../models/postTagModel');
 const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
+const followModel = require('../models/followModel')
 const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
 
 // Make new post
@@ -82,8 +83,19 @@ const fetch_post = async (req, res) => {
     return res.status(400).json(content);
   }
 
-  // TODO: user can only get post if moderator or user is allowed to see that
   const user = req.user;
+  //console.log('user', user)
+
+  //User is not posted this post
+  if(user.user_id !== content.user_id) {
+    const follow = await followModel.is_following(user.user_id, content.user_id)
+    const mod = await moderatorModel.get_mod(user.user_id)
+
+    // User is not following current user or user is not moderator
+    if(follow['error'] && mod['error']) {
+      return res.status(400).json(errorJson('No rights to view this post'))
+    }
+  }
 
   // Include all comments, tags and upvotes for that post
   post.content = content;
@@ -109,9 +121,9 @@ const get_n_posts = async (req, res) => {
   let time = Date.parse(req.body.beginTime);
   // console.log('postController get_n_posts time', time);
   if (isNaN(time)) {
-    const date = new Date()
+    const date = new Date();
     // console.log('date', date)
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset())
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     // console.log('date', date)
     time = date.toISOString().replace('T', ' ').replace('Z', '');
   } else {
@@ -134,22 +146,10 @@ const get_n_posts = async (req, res) => {
     return res.status(400).json(fetchedPosts);
   }
 
-  const posts = [];
-  for (let i = 0; i < fetchedPosts.length; i++) {
-    const post = fetchedPosts[i];
-    // console.log('post', post, 'index', i)
-    const postObj = {};
-
-    // Include all comments, tags and upvotes for every post
-    postObj.content = post;
-    postObj.comments = await commentModel.get_post_comments(post.post_id);
-    postObj.tags = await postTagModel.get_tags(post.post_id);
-    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
-    posts.push(postObj);
-  }
+  const featExtras = await get_extras(fetchedPosts)
 
   // Send posts to res
-  res.json(posts);
+  res.json(featExtras);
 };
 
 // Delete post (set posts deleted at timestamp)
@@ -203,8 +203,43 @@ const getPostsByUser = async (req, res) => {
     return res.status(400).json(posts);
   }
 
-  res.json(posts)
+  res.json(posts);
 };
+
+const getHomePosts = async (req, res) => {
+  const valRes = validationResult(req)
+  if(!valRes.isEmpty()) {
+    return res.status(400).json(errorJson(valRes['errors']))
+  }
+
+  const user = req.user;
+  const query = await postModel.get_home_posts(
+      user.user_id,
+      req.body.startId ? req.body.startId : Number.MAX_SAFE_INTEGER,
+      req.body.amount ? req.body.amount : 30
+  )
+
+  const featExtras = await get_extras(query)
+
+  res.json(featExtras)
+};
+
+const get_extras = async (fetchedPosts) => {
+  const posts = [];
+  for (let i = 0; i < fetchedPosts.length; i++) {
+    const post = fetchedPosts[i];
+    // console.log('post', post, 'index', i)
+    const postObj = {};
+
+    // Include all comments, tags and upvotes for every post
+    postObj.content = post;
+    postObj.comments = await commentModel.get_post_comments(post.post_id);
+    postObj.tags = await postTagModel.get_tags(post.post_id);
+    postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
+    posts.push(postObj);
+  }
+  return posts
+}
 
 module.exports = {
   new_post,
@@ -212,4 +247,5 @@ module.exports = {
   delete_post,
   get_n_posts,
   getPostsByUser,
+  getHomePosts,
 };

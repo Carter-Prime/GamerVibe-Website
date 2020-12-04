@@ -115,13 +115,6 @@
 }
 
 /* Toggle classes for showing and hiding elements*/
-.hide {
-  display: none;
-}
-
-.show {
-  display: flex;
-}
 
 /* Identifies the active html page */
 .active-page {
@@ -181,6 +174,9 @@ footer > p {
 
 /* standard button css*/
 .button {
+  display: flex;
+  width: fit-content;
+  align-self: flex-end;
   margin-top: 30px;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -227,6 +223,14 @@ footer > p {
   box-shadow: -8px -8px 12px 0 rgba(0, 0, 0, 0.3), 12px 12px 16px rgba(255, 255, 255, 0.25) inset;
 }
 
+.hide {
+  display: none;
+}
+
+.show {
+  display: flex;
+}
+
 /* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
 @media screen and (min-width: 700px) {
   .main-nav {
@@ -268,26 +272,6 @@ footer > p {
 
   .game-tag-div > h3 {
     text-align: start;
-  }
-
-  .user-div {
-    flex-direction: row;
-    margin-left: -50px;
-  }
-
-  #js-profile-img {
-    width: 300px;
-    clip-path: circle(80px at center);
-    margin-left: 10px;
-  }
-
-  .profile-detail {
-    margin-left: -50px;
-    margin-right: 5vw;
-  }
-
-  .media-div {
-    margin-right: 5vw;
   }
 
   /* for screens greater than 1200px wide - laptops and desktops*/

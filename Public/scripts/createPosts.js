@@ -2,7 +2,7 @@
 
 const mainBody = document.getElementById("js-main-body");
 
-const createActionBar = (userType) => {
+const createActionBar = (userType, post) => {
   const actionButtons = document.createElement("div");
   actionButtons.classList.add("action-button-container");
 
@@ -10,19 +10,24 @@ const createActionBar = (userType) => {
   backSpan.setAttribute("id", "js-back-btn");
   backSpan.innerHTML = `<i class="fas fa-arrow-left fa-2x"></i><p>Back</p>`;
 
-  const blockSpan = document.createElement("span");
-  blockSpan.setAttribute("id", "js-block-btn");
-  blockSpan.innerHTML = `<i class="fas fa-ban fa-2x"></i><p>Block</p>`;
+  const postCreator = document.createElement("h1");
+  postCreator.innerText = post.content.username;
 
   const deleteSpan = document.createElement("span");
   deleteSpan.setAttribute("id", "js-delete-btn");
   deleteSpan.innerHTML = `<i class="fas fa-times fa-2x"></i><p>Delete</p>`;
 
-  if (userType == "moderator") {
-    actionButtons.append(backSpan, blockSpan, deleteSpan);
-  } else if (userType == "registered") {
-    actionButtons.append(backSpan, blockSpan);
-  } else if (userType == "anonymous") {
+  if (userType == "anonymous") {
+    actionButtons.append(backSpan, postCreator);
+  } else if (user == post.content.user_id || userType == "moderator") {
+    actionButtons.append(backSpan, deleteSpan);
+
+    deleteSpan.addEventListener("click", (Event) => {
+      Event.preventDefault();
+      const check = confirm("are you sure you want to delete this post?");
+      console.log("post will be deleted " + check);
+    });
+  } else {
     actionButtons.append(backSpan);
   }
 
@@ -59,6 +64,30 @@ const detailedPost = (post) => {
   const newUpVote = document.createElement("p");
   newUpVote.classList.add("upvotes");
   newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="far fa-thumbs-up fa-2x"></i></span>`;
+
+  newUpVote.addEventListener("click", async (Event) => {
+    Event.preventDefault();
+    try {
+      const fetchOptions = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          postId: post.content.post_id,
+        }),
+      };
+
+      const response = await fetch(url + "/post/upvote/", fetchOptions);
+      const json = await response.json();
+      console.log(json);
+      const refreshed = await getPostById(post.content.post_id);
+      detailedPost(refreshed);
+    } catch (e) {
+      console.log("comment post error: " + e);
+    }
+  });
 
   const newTags = document.createElement("p");
   //checks for tags then builds element if present
@@ -133,7 +162,6 @@ const detailedPost = (post) => {
     // Click event that will submit the comment and refresh the detailed view of the post
     postCommentbtn.addEventListener("click", async (event) => {
       event.preventDefault();
-      console.log(commentInput.value);
       try {
         const fetchOptions = {
           method: "POST",

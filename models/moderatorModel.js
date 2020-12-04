@@ -9,8 +9,11 @@ const get_mod = async (id) => {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Moderator ' +
         'WHERE moderator_id = ? ' +
-        'AND TIMESTAMPDIFF(MINUTE, NOW(), moderator_until) > 0 ' +
-        'OR moderator_until IS NULL', [id],
+        'AND ' +
+        '(' +
+        'TIMESTAMPDIFF(MINUTE, NOW(), moderator_until) > 0 ' +
+        'OR moderator_until IS NULL ' +
+        ')', [id],
     );
     // console.log('moderatorModel get_mod rows', rows);
     return rows[0] ? rows[0] : errorJson('No moderator with given id');

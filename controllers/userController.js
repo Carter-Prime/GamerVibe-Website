@@ -1,12 +1,13 @@
-"use strict";
-const userModel = require("../models/userModel");
-const { errorJson } = require("../utils/json_messages");
-const { validationResult } = require("express-validator");
-const { delete_file, make_thumbnail } = require("../utils/my_random_stuff");
+'use strict';
+const userModel = require('../models/userModel');
+const followModel = require('../models/followModel');
+const moderatorModel = require('../models/moderatorModel');
+const {errorJson} = require('../utils/json_messages');
+const {validationResult} = require('express-validator');
+const {delete_file, make_thumbnail} = require('../utils/my_random_stuff');
 
 // Get single user
 const getUser = async (req, res) => {
-  // TODO: check if user follows wantedUser or user is moderator
   const user = req.user;
   // console.log('userController getUser req.user', user);
   // console.log('userController getUser params', req.params.id)
@@ -16,6 +17,15 @@ const getUser = async (req, res) => {
   // If errors in getting user, then send it to res
   if (wantedUser["error"]) {
     return res.status(400).json(errorJson("No users found"));
+  }
+
+  //User is not following this user or is not moderator
+  const follow = await followModel.is_following(user.user_id, wantedUser.user_id)
+  const mod = await moderatorModel.get_mod(user.user_id)
+
+  // User is not following current user or user is not moderator
+  if(follow['error'] && mod['error']) {
+    return res.status(400).json(errorJson('No rights to view this user'))
   }
 
   // console.log('userController getUser user', user);

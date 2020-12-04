@@ -67,16 +67,27 @@
         <div class="user-div" id="user-info">
           <div class="profile-detail" id="profile-details">
             <h1 id="js-username"></h1>
-            <button class="button post-btn" id="js-post-btn">Post</button>
+            <div class="btn-container">
+              <button class="button profile-btn" id="js-post-btn">Post</button>
+              <button class="button profile-btn" id="js-follow-btn">Follow</button>
+            </div>
           </div>
         </div>
         <div class="account-faq-div">
-          <p id="js-posts"></p>
-          <p id="js-followers"></p>
-          <p id="js-following"></p>
+          <div class="follower-info">
+            <p id="js-posts"></p>
+            <p id="js-followers"></p>
+            <p id="js-following"></p>
+          </div>
+          <div class="ban-icon" id="js-block-btn">
+            <span
+              ><i class="fas fa-ban"></i>
+              <p class="icon-text">Block</p></span
+            >
+          </div>
         </div>
       </div>
-      <div class="card-container"></div>
+      <div class="card-container" id="js-main-body"></div>
     </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>

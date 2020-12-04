@@ -22,8 +22,10 @@ const registerUser = addUserForm.addEventListener("submit", async (event) => {
     console.log("json response", json);
     // save token
     if (json.user) {
+      // save token
       sessionStorage.setItem("token", json.token);
-      sessionStorage.setItem("user", JSON.stringify(json.user));
+      sessionStorage.setItem("userId", JSON.stringify(json.user.user_id));
+      sessionStorage.setItem("moderatorSince", JSON.stringify(json.user.moderator_since));
       //open user profile
       window.open(url + "/home.html", "_self", false);
     } else {

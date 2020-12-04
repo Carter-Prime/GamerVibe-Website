@@ -35,12 +35,13 @@ const logout = async () => {
     console.log(json);
     // remove token
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
     sessionStorage.removeItem("userId");
     sessionStorage.removeItem("moderator_since");
     sessionStorage.removeItem("clickedPostUserId");
 
     alert(json.message);
-    window.location.href = "/";
+    window.open(url + "/index.html", "_self", false);
   } catch (e) {
     console.log(e.message);
   }
@@ -77,4 +78,10 @@ if (user != null) {
 //event listeners
 navToggleBtn.addEventListener("click", toggleMenu);
 
-logoutTab.addEventListener("click", logout);
+logoutTab.addEventListener("click", (Event) => {
+  Event.preventDefault();
+  const confirmLogout = confirm("Are you sure you want to logout?");
+  if (confirmLogout) {
+    logout();
+  }
+});

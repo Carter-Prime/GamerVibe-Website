@@ -25,7 +25,7 @@ const get_posts = async (n, uid, beginTime) => {
   try {
     // console.log('n', n, 'beginTime', beginTime, 'uid', uid)
     const [rows] = await promisePool.execute(
-        'SELECT p.post_id, p.user_id, p.caption, p.created_at, p.imgfilename ' +
+        'SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename ' +
         'FROM Post AS p, User AS u, User AS u2 ' +
         'WHERE p.deleted_at IS NULL ' +
         'AND p.banned_at IS NULL ' +
@@ -46,14 +46,72 @@ const get_posts = async (n, uid, beginTime) => {
   }
 };
 
+const get_home_posts = async (uid, pid, amount) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'SELECT DISTINCT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename, ' +
+        '(' +
+        'SELECT count(*) ' +
+        'FROM Upvote l ' +
+        'WHERE p.post_id = l.post_id ' +
+        'AND l.unliked_at IS NULL ' +
+        ') Upvotes, ' +
+        '(' +
+        'SELECT count(*) ' +
+        'FROM Following f ' +
+        'WHERE f.following_id = u.user_id ' +
+        //'AND f.approved = 1 ' +
+        ') PosterFollowers, ' +
+        '(' +
+        'SELECT count(*) ' +
+        'FROM Blocking AS b ' +
+        'WHERE b.blocking_id = u.user_id ' +
+        ') HiddenFrom ' +
+        'FROM Post AS p, User AS u, Following AS f, Blocking AS b ' +
+        'WHERE p.deleted_at IS NULL ' +
+        'AND p.banned_at IS NULL ' +
+        'AND u.user_id != ? ' +
+        'AND u.user_id = p.user_id ' +
+        'AND ' +
+        '( ' +
+        'u.private_acc = 0 ' +
+        'OR ' +
+        '( ' +
+        'f.follower_id = ? ' +
+        'AND f.following_id = u.user_id ' +
+        //'AND f.approved = 1' +
+        ') ' +
+        ') ' +
+        'AND u.deleted_at IS NULL ' +
+        'AND u.banned_at IS NULL ' +
+        'AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0 ' +
+        'AND NOT ' +
+        '(' +
+        'b.blocker_id = ? ' +
+        'AND b.blocking_id = u.user_id ' +
+        'AND b.unblocked_at IS NULL ' +
+        ') ' +
+        'AND p.post_id < ? ' +
+        'ORDER BY created_at DESC ' +
+        'LIMIT ?;', [uid, uid, uid, pid, amount],
+    );
+    return rows;
+  } catch (e) {
+    // console.error('postModel get_home_posts error', e.message);
+    return errorJson(e.message);
+  }
+};
+
 // Get single post with given id
 const get_post = async (id) => {
   try {
     const [rows] = await promisePool.execute(
-        'SELECT p.post_id, p.user_id, p.caption, p.created_at, p.imgfilename FROM Post AS p ' +
-        'WHERE post_id = ? ' +
-        'AND deleted_at IS NULL ' +
-        'AND banned_at IS NULL', [id],
+        'SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename ' +
+        'FROM Post AS p, User AS u ' +
+        'WHERE p.post_id = ? ' +
+        'AND p.user_id = u.user_id ' +
+        'AND p.deleted_at IS NULL ' +
+        'AND p.banned_at IS NULL', [id],
     );
     return rows[0] ? rows[0] : errorJson('No posts found');
   } catch (e) {
@@ -118,4 +176,5 @@ module.exports = {
   delete_temp_post,
   delete_post,
   get_posts_by_user,
+  get_home_posts,
 };
