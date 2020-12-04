@@ -18,16 +18,18 @@ const getUser = async (req, res) => {
     return res.status(400).json(errorJson("No users found"));
   }
 
-  //User is not following this user or is not moderator
-  const follow = await followModel.is_following(user.user_id, wantedUser.user_id)
-  const mod = await moderatorModel.get_mod(user.user_id)
+  // Wanted user is not same as current user
+  if(user.user_id !== req.params.id) {
+    //User is not following this user or is not moderator
+    const follow = await followModel.is_following(user.user_id, wantedUser.user_id)
+    const mod = await moderatorModel.get_mod(user.user_id)
 
-  // User is not following current user or user is not moderator
-  if(follow['error'] && mod['error']) {
-    return res.status(400).json(errorJson('No rights to view this user'))
+    // User is not following current user or user is not moderator
+    if(follow['error'] && mod['error']) {
+      return res.status(400).json(errorJson('No rights to view this user'))
+    }
   }
 
-  // console.log('userController getUser user', user);
   res.json(wantedUser);
 };
 
