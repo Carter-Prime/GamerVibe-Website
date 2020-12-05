@@ -84,7 +84,7 @@ function publishUsers(data) {
     const html = `<hr>
         <article>
             <header>
-                <p>${user.username}</p>
+                <a href="${url}/tag/${user.username}">${user.username}</a>
             </header>
         </article>`;
     results.innerHTML += html;
@@ -95,15 +95,15 @@ function publishTags(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
-  data.forEach((user) => {
-    !user.tag ? (tagname = "name not available") : (tagname = user.tag);
+  data.forEach((item) => {
+    !item.tag ? (tagname = "name not available") : (tagname = item.tag);
 
-    console.log(user.tag);
+    console.log(item.tag);
 
     const html = `<hr>
         <article>
             <header>
-                <a href="${url}/tag/${user.tag}">${user.tag}</a>
+                <a href="${url}/tag/${item.tag}">${user.tag}</a>
             </header>
         </article>`;
     results.innerHTML += html;
