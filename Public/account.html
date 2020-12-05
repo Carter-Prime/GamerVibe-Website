@@ -21,7 +21,7 @@
       <ul class="main-nav" id="js-menu">
         <li id="js-search-tab "><a class="nav-links" href="./search.html">Search</a></li>
         <li class="loggedInTab hide" id="js-home-tab">
-          <a class="nav-links" href="./home.html">MyFeed</a>
+          <a class="nav-links" href="./home.html">My Feed</a>
         </li>
         <li id="js-discover-tab">
           <a class="nav-links" href="./discover.html">Discovery Posts</a>
@@ -96,7 +96,18 @@
           </div>
         </div>
       </div>
-      <div class="card-container" id="js-main-body"></div>
+      <div class="card-container" id="js-main-body">
+        <form class="account-form" id="js-user-account-form">
+          <div class="account-info" id="js-personal-info">
+            <label>First Name</label>
+            <input type="text" maxlength="255" name="fname" placeholder="First Name" />
+            <label>Last Name</label>
+            <input type="text" maxlength="255" name="lname" placeholder="First Name" />
+            <label>Email:</label>
+            <input class="input" type="email" maxlength="255" name="email" placeholder="email" />
+          </div>
+        </form>
+      </div>
     </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>

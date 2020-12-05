@@ -36,6 +36,7 @@ const getUserByID = async (userId, hideBtn) => {
 };
 
 const setProfileBanner = (userInfo) => {
+  console.log(userInfo);
   if (user == userInfo.user_id) {
   }
 
