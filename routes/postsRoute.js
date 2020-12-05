@@ -46,4 +46,16 @@ router.route('/feed').post(
     postController.getPostsByUser,
 );
 
+router.route('/user/:name').post(
+  passport.authenticate('jwt', passportOptions),
+  [
+    body('beginId').
+        if(body('beginId').exists()).
+        isInt(),
+    body('amount').if(body('amount').exists()).
+        isInt(),
+  ],
+  postController.getPostsByUserName,
+);
+
 module.exports = router;

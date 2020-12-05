@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="head-title">GamerVibe Discover</title>
+    <script src="./scripts/authentication.js"></script>
+    <script
+      src="https://kit.fontawesome.com/593688387c.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/profileBanner.css" />
+    <link rel="stylesheet" href="./styles/cards.css" />
+  </head>
+  <body class="body-wrapper">
+    <nav class="navbar">
+      <div class="logo" id="js-logo">
+        <img
+          class="logo-img"
+          src="./resources/images/title image 36px.png"
+          alt="tigerpic"
+        />
+        <div class="logo-text">
+          <a class="nav-links" id="logo-title" href="./index.html">GamerVibe</a>
+        </div>
+      </div>
+      <ul class="main-nav" id="js-menu">
+        <li id="js-search-tab ">
+          <a class="nav-links" href="./search.html">Search</a>
+        </li>
+        <li class="loggedInTab hide" id="js-home-tab">
+          <a class="nav-links" href="./home.html">My Feed</a>
+        </li>
+        <li id="js-discover-tab">
+          <a class="nav-links active-page" href="./discover.html"
+            >Discovery Posts</a
+          >
+        </li>
+        <li class="loggedInTab hide" id="js-followers-tab">
+          <a class="nav-links" href="./followers.html">Followers</a>
+        </li>
+        <li class="loggedInTab hide" id="js-account-tab">
+          <a class="nav-links" href="./account.html">Account</a>
+        </li>
+        <li class="loggedInTab" id="js-login-tab">
+          <a class="nav-links" href="./login.html">Login</a>
+        </li>
+        <li class="loggedInTab hide" id="js-logout-tab">
+          <a class="nav-links">Logout</a>
+        </li>
+        <li class="loggedInTab" id="js-signup-tab">
+          <a class="nav-links" href="./signUp.html">Sign Up</a>
+        </li>
+      </ul>
+      <p class="navbar-toggle" id="js-navbar-toggle">Menu</p>
+    </nav>
+    <main class="main-wrapper">
+      <div class="profile" id="js-profile-container">
+        <div class="media-div">
+          <ul class="media-links">
+            <li class="profile-links">
+              <a
+                href="https://discord.com/"
+                target="_blank"
+                id="js-discord-link"
+                ><i class="fab fa-discord fa-2x"></i
+              ></a>
+            </li>
+            <li class="profile-links">
+              <a
+                href="https://www.youtube.com/"
+                target="_blank"
+                id="js-youtube-link"
+                ><i class="fab fa-youtube fa-2x"></i
+              ></a>
+            </li>
+            <li class="profile-links">
+              <a
+                href="https://www.twitch.tv/"
+                target="_blank"
+                id="js-twitch-link"
+                ><i class="fab fa-twitch fa-2x"></i
+              ></a>
+            </li>
+          </ul>
+        </div>
+        <div class="user-div" id="user-info">
+          <div class="profile-detail" id="profile-details">
+            <h1 id="js-username"></h1>
+            <div class="btn-container">
+              <button class="button profile-btn" id="js-post-btn">
+                Add Post
+              </button>
+              <button class="button profile-btn" id="js-follow-btn">
+                Follow
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="account-faq-div">
+          <div class="follower-info">
+            <p id="js-posts"></p>
+            <p id="js-followers"></p>
+            <p id="js-following"></p>
+          </div>
+          <div class="admin-icons">
+            <div class="ban-icon hide" id="js-ban-btn">
+              <span
+                ><i class="fas fa-skull-crossbones fa-2x"></i>
+                <p class="icon-text">Ban</p></span
+              >
+            </div>
+            <div class="block-icon" id="js-block-btn">
+              <span
+                ><i class="fas fa-ban fa-2x"></i>
+                <p class="icon-text">Block</p></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-container" id="js-main-body"></div>
+    </main>
+    <footer>
+      <p>©Copyright to WebDev Team 2020</p>
+    </footer>
+  </body>
+  <script src="./scripts/base.js"></script>
+  <script src="./scripts/profileBanner.js"></script>
+  <script src="./scripts/serialize.js"></script>
+  <script src="./scripts/profile.js"></script>
+  <script src="./scripts/discover.js"></script>
+</html>

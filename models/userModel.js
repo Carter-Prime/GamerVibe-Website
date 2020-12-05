@@ -140,7 +140,8 @@ const getUsersByName = async (name) => {
         "FROM User AS u " +
         "WHERE (username LIKE ?)" +
         "AND deleted_at IS NULL " +
-        "AND banned_at IS NULL",
+        "AND banned_at IS NULL" +
+        "AND private = 0",
       [name]
     );
     // console.log('userModel getUser user', rows[0])
