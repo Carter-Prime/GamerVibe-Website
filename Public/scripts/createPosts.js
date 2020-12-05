@@ -201,13 +201,11 @@ const detailedPost = (post) => {
 
 const createDiscoverCards = (posts) => {
   mainBody.innerHTML = "";
-  console.log(posts);
   posts.forEach((post) => {
     //create new card
     const newCard = document.createElement("div");
     newCard.classList.add("card");
 
-    console.log(user + post.content.user_id);
     if (user == post.content.user_id) {
       newCard.classList.add("my-post-card");
     }
@@ -314,7 +312,7 @@ const deletePostById = async (postId) => {
     if (json != null) {
       alert(`${postId} was deleted`);
       console.log(json);
-      // location.reload();
+      location.reload();
     }
   } catch (e) {
     console.log(e.message);
