@@ -51,12 +51,31 @@ const blockUser = async (uid, bid) => {
         'INSERT INTO Blocking(blocker_id, blocking_id) ' +
         'VALUES(?,?)', [uid, bid],
     );
-    // console.log('blockingModel get_users_banned_by_user rows', rows);
+    // console.log('blockingModel blockUser rows', rows);
     return rows['affectedRows'] === 1 ?
         messageJson('User blocked successfully') :
         errorJson('User already blocked');
   } catch (e) {
-    // console.log('blockingModel get_users_banned_by_user error', e.message);
+    // console.log('blockingModel blockUser error', e.message);
+    return errorJson(e.message);
+  }
+};
+
+const unblockUser = async (uid, bid) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'UPDATE Blocking ' +
+        'SET unblocked_at = NOW() ' +
+        'WHERE blocker_id = ? ' +
+        'AND blocking_id = ? ' +
+        'AND unblocked_at IS NULL', [uid, bid],
+    );
+    // console.log('blockingModel unblockUser rows', rows);
+    return rows['affectedRows'] === 1 ?
+        messageJson('User unblocked successfully') :
+        errorJson('User is not blocked');
+  } catch (e) {
+    // console.log('blockingModel unblockUser error', e.message);
     return errorJson(e.message);
   }
 };
@@ -64,5 +83,6 @@ const blockUser = async (uid, bid) => {
 module.exports = {
   get_users_banned_by_user,
   blockUser,
-  checkBlocked
+  checkBlocked,
+  unblockUser
 };

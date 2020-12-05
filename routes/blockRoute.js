@@ -8,6 +8,9 @@ router.route('/').
     get(blockingController.get_blocked_users_by_user).
     put([
         body('blockedId').trim().isInt()
-    ], blockingController.block_user);
+    ], blockingController.block_user).
+    delete([
+      body('blockedId').trim().isInt()
+    ], blockingController.unblock_user);
 
 module.exports = router;
