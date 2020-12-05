@@ -72,7 +72,7 @@ const get_discover_posts = async (n, uid, beginId) => {
   }
 };
 
-const get_home_posts = async (uid, pid, amount) => {
+const get_following_posts = async (uid, pid, amount) => {
   // console.log('uid', uid, 'pid', pid, 'amount', amount);
   try {
     const [rows] = await promisePool.execute(
@@ -218,6 +218,6 @@ module.exports = {
   delete_temp_post,
   delete_post,
   get_posts_by_user,
-  get_home_posts,
+  get_following_posts,
   getTagsByName,
 };

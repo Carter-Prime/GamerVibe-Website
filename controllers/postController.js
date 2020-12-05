@@ -166,14 +166,14 @@ const getPostsByUser = async (req, res) => {
   res.json(posts);
 };
 
-const getHomePosts = async (req, res) => {
+const getFollowingPosts = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
 
   if (checks.hasBodyErrors(req, res)) return;
 
   const user = req.user;
-  const query = await postModel.get_home_posts(
+  const query = await postModel.get_following_posts(
       user.user_id,
       req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
       req.body.amount ? req.body.amount : 30,
@@ -221,6 +221,6 @@ module.exports = {
   delete_post,
   get_discover_posts,
   getPostsByUser,
-  getHomePosts,
+  getFollowingPosts,
   tagsByName,
 };

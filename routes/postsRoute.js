@@ -22,7 +22,7 @@ router.route('/discover').post((req, res, next) => {
   body('beginId').if(body('beginId').exists()).trim().isNumeric(),
 ], postController.get_discover_posts);
 
-router.route('/home').post(
+router.route('/following').post(
     passport.authenticate('jwt', passportOptions),
     [
       body('beginId').
@@ -31,7 +31,7 @@ router.route('/home').post(
       body('amount').if(body('amount').exists()).
           isNumeric(),
     ],
-    postController.getHomePosts,
+    postController.getFollowingPosts,
 );
 
 module.exports = router;
