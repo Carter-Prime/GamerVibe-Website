@@ -428,3 +428,22 @@ ORDER BY created_at DESC
 
 
 -- Query of users a user is blocking
+-- including blocked friends
+-- including deleted and banned accounts - I would need more time for that
+SELECT DISTINCT 
+  b.blocker_id,
+        b.blocking_id,
+        b.blocked_at,
+        b.unblocked_at,
+        (
+        SELECT username
+        FROM User bu
+        WHERE b.blocking_id = bu.user_id
+    ) BlockedUsername
+FROM 
+    User AS u,
+    Following AS f,
+    Blocking AS b
+WHERE u.user_id = b.blocker_id
+     AND u.user_id = 7
+     AND b.unblocked_at IS NULL
