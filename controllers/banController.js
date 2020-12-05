@@ -25,6 +25,11 @@ const ban_user = async (req, res) => {
   res.json(messageJson(`User ${req.body.bannedId} banned for ${req.body.reason}`));
 };
 
+const unban_user = async (req, res) => {
+
+}
+
 module.exports = {
   ban_user,
+  unban_user
 };

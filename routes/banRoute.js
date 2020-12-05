@@ -4,9 +4,13 @@ const router = express.Router();
 const {body} = require('express-validator');
 const banController = require('../controllers/banController');
 
-router.route('/').put([
-    body('bannedId').trim().isNumeric(),
-    body('reason').trim().isLength({min: 1, max: 255}).escape()
-], banController.ban_user)
+router.route('/').
+    put([
+      body('bannedId').trim().isInt(),
+      body('reason').trim().isLength({min: 1, max: 255}).escape(),
+    ], banController.ban_user).
+    delete([
+      body('userId').trim().isInt(),
+    ], banController.unban_user);
 
-module.exports = router
+module.exports = router;
