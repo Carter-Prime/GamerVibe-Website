@@ -84,7 +84,7 @@ function publishUsers(data) {
     const html = `<hr>
         <article>
             <header>
-                <a href="${url}/tag/${user.username}">${user.username}</a>
+                <a href="${url}/user/${user.username}">${user.username}</a>
             </header>
         </article>`;
     results.innerHTML += html;
