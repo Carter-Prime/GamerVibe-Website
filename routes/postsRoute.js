@@ -18,8 +18,8 @@ router.route('/discover').post((req, res, next) => {
     next();
   })(req, res, next);
 }, [
-  body('amount').trim().isNumeric(),
-  body('beginId').if(body('beginId').exists()).trim().isNumeric(),
+  body('amount').trim().isInt(),
+  body('beginId').if(body('beginId').exists()).trim().isInt(),
 ], postController.get_discover_posts);
 
 router.route('/following').post(
@@ -27,9 +27,9 @@ router.route('/following').post(
     [
       body('beginId').
           if(body('beginId').exists()).
-          isNumeric(),
+          isInt(),
       body('amount').if(body('amount').exists()).
-          isNumeric(),
+          isInt(),
     ],
     postController.getFollowingPosts,
 );
@@ -39,9 +39,9 @@ router.route('/feed').post(
     [
       body('beginId').
           if(body('beginId').exists()).
-          isNumeric(),
+          isInt(),
       body('amount').if(body('amount').exists()).
-          isNumeric(),
+          isInt(),
     ],
     postController.getPostsByUser,
 );
