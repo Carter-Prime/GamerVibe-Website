@@ -115,7 +115,7 @@ const get_home_posts = async (uid, pid, amount) => {
         'AND b.blocking_id = u.user_id ' +
         'AND b.unblocked_at IS NULL ' +
         ') ' +
-        'AND p.post_id < ?' +
+        'AND p.post_id < ? ' +
         'ORDER BY created_at DESC ' +
         'LIMIT ?', [uid, uid, uid, pid, amount],
     );
