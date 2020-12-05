@@ -34,6 +34,8 @@ router
   .route("/upvote")
   .post([body("postId").trim().isNumeric()], upvoteController.addUpvote);
 
+router.route('/upvote/:id').get(upvoteController.checkUpvote)
+
 router
   .route("/")
   .post(
