@@ -7,7 +7,10 @@ const blockingController = require('../controllers/blockingController');
 router.route('/').
     get(blockingController.get_blocked_users_by_user).
     put([
-        body('blockedId').trim().isNumeric()
-    ], blockingController.block_user);
+        body('blockedId').trim().isInt()
+    ], blockingController.block_user).
+    delete([
+      body('blockedId').trim().isInt()
+    ], blockingController.unblock_user);
 
 module.exports = router;

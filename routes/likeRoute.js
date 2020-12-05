@@ -5,7 +5,7 @@ const {body} = require('express-validator');
 const likeController = require('../controllers/upvoteController')
 
 router.route('/').post([
-    body('postId').trim().isNumeric()
+    body('postId').trim().isInt()
 ], likeController.addLike)
 
 module.exports = router

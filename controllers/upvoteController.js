@@ -38,6 +38,17 @@ const addUpvote = async (req, res) => {
   res.json(messageJson('Upvoted successfully'));
 };
 
+const checkUpvote = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
+  const query = await upvoteModel.get_upvote(req.user.user_id, req.params.id)
+
+  return query['error'] ?
+      res.json(false) : res.json(query.length !== 0)
+}
+
 module.exports = {
   addUpvote,
+  checkUpvote
 };

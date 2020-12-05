@@ -5,7 +5,7 @@ const {body} = require('express-validator');
 const followController = require('../controllers/followController');
 
 router.route('/').post([
-  body('user').trim().isNumeric()
+  body('user').trim().isInt()
 ], followController.followUser)
 
 module.exports = router

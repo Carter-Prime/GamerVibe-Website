@@ -39,7 +39,29 @@ const block_user = async (req, res) => {
       res.json(query);
 };
 
+const unblock_user = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
+  // Check body for errors
+  if (checks.hasBodyErrors(req, res)) return;
+
+  const check = await blockingModel.checkBlocked(req.user.user_id,
+      req.body.blockedId);
+  if (check['error']) {
+    return res.status(400).json(check);
+  }
+
+  const query = await blockingModel.unblockUser(req.user.user_id,
+      req.body.blockedId);
+
+  return query['error'] ?
+      res.status(400).json(query) :
+      res.json(query);
+};
+
 module.exports = {
   get_blocked_users_by_user,
   block_user,
+  unblock_user
 };

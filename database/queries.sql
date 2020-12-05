@@ -447,3 +447,31 @@ FROM
 WHERE u.user_id = b.blocker_id
      AND u.user_id = 7
      AND b.unblocked_at IS NULL
+
+-- Ban user
+UPDATE User
+SET banned_at = NOW(),
+banned_by = ?,
+banned_reason = ?
+WHERE user_id = ?
+AND deleted_at IS NULL
+AND banned_at IS NULL
+
+-- Unban
+UPDATE User
+SET banned_at = NULL,
+banned_by = NULL,
+banned_reason = NULL
+WHERE user_id = ?
+AND banned_at IS NOT NULL
+
+-- Block
+INSERT INTO Blocking(blocker_id, blocking_id)
+VALUES(?,?)
+
+-- Unblock
+UPDATE Blocking
+SET unblocked_at = NOW()
+WHERE blocker_id = ?
+AND blocking_id = ?
+AND unblocked_at IS NULL

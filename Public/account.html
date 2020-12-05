@@ -8,6 +8,7 @@
     <script src="https://kit.fontawesome.com/593688387c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/profileBanner.css" />
+    <link rel="stylesheet" href="./styles/cards.css" />
     <link rel="stylesheet" href="./styles/account.css" />
   </head>
   <body class="body-wrapper">
@@ -21,7 +22,7 @@
       <ul class="main-nav" id="js-menu">
         <li id="js-search-tab "><a class="nav-links" href="./search.html">Search</a></li>
         <li class="loggedInTab hide" id="js-home-tab">
-          <a class="nav-links" href="./home.html">MyFeed</a>
+          <a class="nav-links" href="./home.html">My Feed</a>
         </li>
         <li id="js-discover-tab">
           <a class="nav-links" href="./discover.html">Discovery Posts</a>
@@ -29,8 +30,8 @@
         <li class="loggedInTab hide" id="js-followers-tab">
           <a class="nav-links" href="./followers.html">Followers</a>
         </li>
-        <li class="loggedInTab hide active-page" id="js-account-tab">
-          <a class="nav-links" href="./account.html">Account</a>
+        <li class="loggedInTab hide" id="js-account-tab">
+          <a class="nav-links active-page" href="./account.html">Account</a>
         </li>
         <li class="loggedInTab" id="js-login-tab">
           <a class="nav-links" href="./login.html">Login</a>
@@ -96,7 +97,75 @@
           </div>
         </div>
       </div>
-      <div class="card-container" id="js-main-body"></div>
+      <div class="card-container" id="js-main-body">
+        <form class="card-detail account-form" id="js-user-account-form">
+          <div class="account-info" id="js-personal-info">
+            <h1>Personal Details</h1>
+            <label class="account-labels">First Name</label>
+            <input
+              class="input-account"
+              type="text"
+              maxlength="255"
+              name="fname"
+              placeholder="First Name"
+            />
+            <label class="account-labels">Last Name</label>
+            <input
+              class="input-account"
+              type="text"
+              maxlength="255"
+              name="lname"
+              placeholder="First Name"
+            />
+            <label class="account-labels">Email:</label>
+            <input
+              class="input-account"
+              type="email"
+              maxlength="255"
+              name="email"
+              placeholder="Email"
+            />
+          </div>
+          <div class="account-info" id="js-banner-info">
+            <h1>Account Details</h1>
+            <label class="account-labels">Username</label>
+            <input
+              class="input-account"
+              type="text"
+              maxlength="255"
+              name="user"
+              placeholder="Username"
+            />
+            <label class="account-labels">Discord</label>
+            <input
+              class="input-account"
+              type="url"
+              maxlength="255"
+              name="discord"
+              placeholder="Discord URL"
+            />
+            <label class="account-labels">YouTube</label>
+            <input
+              class="input-account"
+              type="url"
+              maxlength="255"
+              name="youtube"
+              placeholder="YouTube URL"
+            />
+            <label class="account-labels">Twitch</label>
+            <input
+              class="input-account"
+              type="url"
+              maxlength="255"
+              name="twitch"
+              placeholder="Twitch URL"
+            />
+          </div>
+          <button class="button account-btn" id="js-account-btn" type="button">
+            Submit Changes
+          </button>
+        </form>
+      </div>
     </main>
     <footer>
       <p>©Copyright to WebDev Team 2020</p>
@@ -104,5 +173,7 @@
   </body>
   <script src="./scripts/base.js"></script>
   <script src="./scripts/profileBanner.js"></script>
+  <script src="./scripts/serialize.js"></script>
+  <script src="./scripts/createPosts.js"></script>
   <script src="./scripts/account.js"></script>
 </html>

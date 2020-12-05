@@ -24,7 +24,7 @@ router
   .route("/comment")
   .post(
     [
-      body("postId").trim().isNumeric(),
+      body("postId").trim().isInt(),
       body("content").trim().isLength({ min: 1, max: 255 }).escape(),
     ],
     commentController.addComment
@@ -32,7 +32,9 @@ router
 
 router
   .route("/upvote")
-  .post([body("postId").trim().isNumeric()], upvoteController.addUpvote);
+  .post([body("postId").trim().isInt()], upvoteController.addUpvote);
+
+router.route('/upvote/:id').get(upvoteController.checkUpvote)
 
 router
   .route("/")

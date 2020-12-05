@@ -156,28 +156,40 @@ const delete_post = async (req, res) => {
 
 // Get all posts by current user
 const getPostsByUser = async (req, res) => {
-  const user = req.user;
-  const posts = await postModel.get_posts_by_user(user.user_id);
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+  if (checks.hasBodyErrors(req, res)) return;
+
+  const posts = await postModel.get_posts_by_user(
+      req.user.user_id,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
+      req.body.amount ? req.body.amount : 30,
+  );
 
   if (posts['error']) {
     return res.status(400).json(posts);
   }
+  const featExtras = await get_extras(posts);
 
-  res.json(posts);
+  res.json(featExtras);
 };
 
-const getHomePosts = async (req, res) => {
+const getFollowingPosts = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
 
   if (checks.hasBodyErrors(req, res)) return;
 
   const user = req.user;
-  const query = await postModel.get_home_posts(
+  const query = await postModel.get_following_posts(
       user.user_id,
       req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
       req.body.amount ? req.body.amount : 30,
   );
+
+  if (query['error']) {
+    return res.status(400).json(query);
+  }
 
   const featExtras = await get_extras(query);
 
@@ -217,6 +229,6 @@ module.exports = {
   delete_post,
   get_discover_posts,
   getPostsByUser,
-  getHomePosts,
+  getFollowingPosts,
   tagsByName,
 };

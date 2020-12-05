@@ -18,20 +18,32 @@ router.route('/discover').post((req, res, next) => {
     next();
   })(req, res, next);
 }, [
-  body('amount').trim().isNumeric(),
-  body('beginId').if(body('beginId').exists()).trim().isNumeric(),
+  body('amount').trim().isInt(),
+  body('beginId').if(body('beginId').exists()).trim().isInt(),
 ], postController.get_discover_posts);
 
-router.route('/home').post(
+router.route('/following').post(
     passport.authenticate('jwt', passportOptions),
     [
       body('beginId').
           if(body('beginId').exists()).
-          isNumeric(),
+          isInt(),
       body('amount').if(body('amount').exists()).
-          isNumeric(),
+          isInt(),
     ],
-    postController.getHomePosts,
+    postController.getFollowingPosts,
+);
+
+router.route('/feed').post(
+    passport.authenticate('jwt', passportOptions),
+    [
+      body('beginId').
+          if(body('beginId').exists()).
+          isInt(),
+      body('amount').if(body('amount').exists()).
+          isInt(),
+    ],
+    postController.getPostsByUser,
 );
 
 module.exports = router;
