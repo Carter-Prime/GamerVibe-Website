@@ -398,6 +398,33 @@ WHERE p.deleted_at IS NULL
 ORDER BY created_at DESC
 LIMIT 30;
 
--- Query for own posts only
+-- Query for own posts only that has not been banned or deleted
+SELECT DISTINCT p.post_id,
+    p.user_id,
+    p.caption,
+    u.username,
+    p.created_at,
+    p.imgfilename,
+    p.deleted_at,
+    p.banned_at,
+    (
+        SELECT count(post_id)
+        FROM Upvote l
+        WHERE p.post_id = l.post_id
+            AND l.unliked_at IS NULL
+    ) Upvotes
+FROM Post AS p,
+    User AS u,
+    Following AS f,
+    Blocking AS b
+WHERE p.deleted_at IS NULL
+    AND p.banned_at IS NULL
+    AND u.user_id = p.user_id
+     AND u.user_id = 3 
+    AND u.deleted_at IS NULL
+    AND u.banned_at IS NULL
+    AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0
+ORDER BY created_at DESC
+
 
 -- Query of users a user is blocking
