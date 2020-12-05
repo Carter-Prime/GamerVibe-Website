@@ -10,7 +10,7 @@ router.route('/').
       body('reason').trim().isLength({min: 1, max: 255}).escape(),
     ], banController.ban_user).
     delete([
-      body('userId').trim().isInt(),
+      body('bannedId').trim().isInt(),
     ], banController.unban_user);
 
 module.exports = router;

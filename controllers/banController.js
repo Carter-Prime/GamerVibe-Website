@@ -26,7 +26,23 @@ const ban_user = async (req, res) => {
 };
 
 const unban_user = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
 
+  // Check errors from body
+  if (checks.hasBodyErrors(req, res)) return;
+
+  // Check if user is moderator
+  if(await checks.hasModError(req, res)) return;
+
+  const query = await banModel.unbanUser(
+      req.body.bannedId,
+  );
+  if (query['error']) {
+    return res.status(400).json(query);
+  }
+
+  res.json(messageJson(`User ${req.body.bannedId} is unbanned`));
 }
 
 module.exports = {
