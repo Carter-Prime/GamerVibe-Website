@@ -34,12 +34,12 @@ const unbanUser = async (bid) => {
         'WHERE user_id = ? ' +
         'AND banned_at IS NOT NULL', [bid],
     );
-    // console.log('banModel banUser rows', rows);
+    // console.log('banModel unbanUser rows', rows);
     return rows['affectedRows'] === 1 ?
         messageJson('User banned') :
         errorJson('User is not banned');
   } catch (e) {
-    // console.log('banModel banUser error', e.message);
+    // console.log('banModel unbanUser error', e.message);
     return errorJson(e.message);
   }
 };
