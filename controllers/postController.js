@@ -179,6 +179,10 @@ const getHomePosts = async (req, res) => {
       req.body.amount ? req.body.amount : 30,
   );
 
+  if(query['error']) {
+    return res.status(400).json(query)
+  }
+
   const featExtras = await get_extras(query);
 
   res.json(featExtras);
