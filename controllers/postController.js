@@ -169,8 +169,9 @@ const getPostsByUser = async (req, res) => {
   if (posts['error']) {
     return res.status(400).json(posts);
   }
+  const featExtras = await get_extras(posts);
 
-  res.json(posts);
+  res.json(featExtras);
 };
 
 const getFollowingPosts = async (req, res) => {
