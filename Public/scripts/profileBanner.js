@@ -13,6 +13,7 @@ const youtubeLink = document.getElementById("js-youtube-link");
 const twitchLink = document.getElementById("js-twitch-link");
 const profileDetail = document.getElementById("js-profile-details");
 const blockBtn = document.getElementById("js-block-btn");
+const banBtn = document.getElementById("js-ban-btn");
 
 const htmlDecoder = (input) => {
   const doc = new DOMParser().parseFromString(input, "text/html");
@@ -35,9 +36,6 @@ const getUserByID = async (userId, hideBtn) => {
 };
 
 const setProfileBanner = (userInfo) => {
-  console.log(userInfo);
-
-  console.log(`${user} and userinfo id ${userInfo.user_id}`);
   if (user == userInfo.user_id) {
   }
 
@@ -70,11 +68,24 @@ const setProfileBanner = (userInfo) => {
 
   postBtn.addEventListener("click", (Event) => {
     Event.preventDefault();
-    console.log("post button clicked");
     createPost();
   });
 
-  console.log(`comparing user ${user} with userInfo.user_id ${userInfo.user_id}`);
+  // listener to block an account of a user can be done my moderator or registered user
+  blockBtn.addEventListener("click", (Event) => {
+    Event.stopImmediatePropagation();
+    Event.preventDefault();
+    console.log("block button pressed");
+  });
+
+  // listener to ban an account of a user can be done my moderator
+  banBtn.addEventListener("click", (Event) => {
+    Event.stopImmediatePropagation();
+    Event.preventDefault();
+    console.log("ban button pressed");
+  });
+
+  // comparing session user id with clicked user information and toggles UI elements visibility
   if (user == userInfo.user_id) {
     postBtn.classList.remove("hide");
     followBtn.classList.add("hide");
@@ -84,9 +95,15 @@ const setProfileBanner = (userInfo) => {
     followBtn.classList.remove("hide");
     blockBtn.classList.remove("hide");
   }
+
+  // extra features are visible for moderator accounts only
+  if (userType == "moderator" && user != userInfo.user_id) {
+    banBtn.classList.remove("hide");
+  } else {
+    banBtn.classList.add("hide");
+  }
 };
 
 if (userType != "anonymous") {
-  console.log("calling here " + user);
   getUserByID(user);
 }

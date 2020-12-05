@@ -84,11 +84,24 @@
   height: fit-content;
 }
 
-.ban-icon {
+.admin-icons {
   display: flex;
-  margin-top: 10px;
+  flex-direction: row;
   justify-content: flex-end;
   color: red;
+  padding: 5px;
+}
+
+.ban-icon {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 10px;
+}
+
+.block-icon {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 20px;
 }
 
 .icon-text {

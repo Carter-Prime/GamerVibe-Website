@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title id="head-title">GamerVibe Search</title>
     <script src="./scripts/authentication.js"></script>
-    <script
-      src="https://kit.fontawesome.com/593688387c.js"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://kit.fontawesome.com/593688387c.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./styles/base.css" />
     <link rel="stylesheet" href="./styles/profileBanner.css" />
     <link rel="stylesheet" href="./styles/search.css" />
@@ -17,11 +14,7 @@
   <body class="body-wrapper">
     <nav class="navbar">
       <div class="logo" id="js-logo">
-        <img
-          class="logo-img"
-          src="./resources/images/title image 36px.png"
-          alt="tigerpic"
-        />
+        <img class="logo-img" src="./resources/images/title image 36px.png" alt="tigerpic" />
         <div class="logo-text">
           <a class="nav-links" id="logo-title" href="./index.html">GamerVibe</a>
         </div>
@@ -31,10 +24,10 @@
           <a class="nav-links" href="./search.html">Search</a>
         </li>
         <li class="loggedInTab hide" id="js-home-tab">
-          <a class="nav-links" href="./home.html">Home</a>
+          <a class="nav-links" href="./home.html">MyFeed</a>
         </li>
         <li id="js-discover-tab">
-          <a class="nav-links" href="./discover.html">Discover</a>
+          <a class="nav-links" href="./discover.html">Discovery Posts</a>
         </li>
         <li class="loggedInTab hide" id="js-followers-tab">
           <a class="nav-links" href="./followers.html">Followers</a>
@@ -59,26 +52,17 @@
         <div class="media-div">
           <ul class="media-links">
             <li class="profile-links">
-              <a
-                href="https://discord.com/"
-                target="_blank"
-                id="js-discord-link"
+              <a href="https://discord.com/" target="_blank" id="js-discord-link"
                 ><i class="fab fa-discord fa-2x"></i
               ></a>
             </li>
             <li class="profile-links">
-              <a
-                href="https://www.youtube.com/"
-                target="_blank"
-                id="js-youtube-link"
+              <a href="https://www.youtube.com/" target="_blank" id="js-youtube-link"
                 ><i class="fab fa-youtube fa-2x"></i
               ></a>
             </li>
             <li class="profile-links">
-              <a
-                href="https://www.twitch.tv/"
-                target="_blank"
-                id="js-twitch-link"
+              <a href="https://www.twitch.tv/" target="_blank" id="js-twitch-link"
                 ><i class="fab fa-twitch fa-2x"></i
               ></a>
             </li>
@@ -88,10 +72,8 @@
           <div class="profile-detail" id="profile-details">
             <h1 id="js-username"></h1>
             <div class="btn-container">
-              <button class="button profile-btn" id="js-post-btn">Post</button>
-              <button class="button profile-btn" id="js-follow-btn">
-                Follow
-              </button>
+              <button class="button profile-btn" id="js-post-btn">Add Post</button>
+              <button class="button profile-btn" id="js-follow-btn">Follow</button>
             </div>
           </div>
         </div>
@@ -101,11 +83,19 @@
             <p id="js-followers"></p>
             <p id="js-following"></p>
           </div>
-          <div class="ban-icon" id="js-block-btn">
-            <span
-              ><i class="fas fa-ban"></i>
-              <p class="icon-text">Block</p></span
-            >
+          <div class="admin-icons">
+            <div class="ban-icon hide" id="js-ban-btn">
+              <span
+                ><i class="fas fa-skull-crossbones fa-2x"></i>
+                <p class="icon-text">Ban</p></span
+              >
+            </div>
+            <div class="block-icon" id="js-block-btn">
+              <span
+                ><i class="fas fa-ban fa-2x"></i>
+                <p class="icon-text">Block</p></span
+              >
+            </div>
           </div>
         </div>
       </div>
