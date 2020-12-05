@@ -34,4 +34,16 @@ router.route('/following').post(
     postController.getFollowingPosts,
 );
 
+router.route('/feed').post(
+    passport.authenticate('jwt', passportOptions),
+    [
+      body('beginId').
+          if(body('beginId').exists()).
+          isNumeric(),
+      body('amount').if(body('amount').exists()).
+          isNumeric(),
+    ],
+    postController.getPostsByUser,
+);
+
 module.exports = router;

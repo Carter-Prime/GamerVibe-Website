@@ -156,8 +156,15 @@ const delete_post = async (req, res) => {
 
 // Get all posts by current user
 const getPostsByUser = async (req, res) => {
-  const user = req.user;
-  const posts = await postModel.get_posts_by_user(user.user_id);
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+  if (checks.hasBodyErrors(req, res)) return;
+
+  const posts = await postModel.get_posts_by_user(
+      req.user.user_id,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
+      req.body.amount ? req.body.amount : 30,
+  );
 
   if (posts['error']) {
     return res.status(400).json(posts);
@@ -179,8 +186,8 @@ const getFollowingPosts = async (req, res) => {
       req.body.amount ? req.body.amount : 30,
   );
 
-  if(query['error']) {
-    return res.status(400).json(query)
+  if (query['error']) {
+    return res.status(400).json(query);
   }
 
   const featExtras = await get_extras(query);
