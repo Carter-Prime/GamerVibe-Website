@@ -120,7 +120,7 @@
 /* Identifies the active html page */
 .active-page {
   text-decoration: underline;
-  text-decoration-color: red;
+  text-decoration-color: var(--primaryAccentColor);
 }
 
 /* standard main body css formating*/
