@@ -103,7 +103,7 @@ function publishTags(data) {
     const html = `<hr>
         <article>
             <header>
-                <a href="${url}/tag/${item.tag}">${user.tag}</a>
+                <a href="${url}/tag/${item.tag}">${item.tag}</a>
             </header>
         </article>`;
     results.innerHTML += html;
