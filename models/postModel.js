@@ -274,31 +274,51 @@ const get_posts_by_user_name = async (name) => {
 // Get all posts by tag
 const get_posts_by_tag = async (name) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
-      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, " +
-        "p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
+    const [rows] = await promisePool.execute(
+      "SELECT DISTINCT p.post_id, " +
+        "p.user_id, " +
+        "p.caption, " +
+        "u.username, " +
+        "p.created_at, " +
+        "p.imgfilename, " +
+        "p.deleted_at, " +
+        "p.banned_at, " +
         "( " +
         "SELECT count(post_id) " +
         "FROM Upvote l " +
         "WHERE p.post_id = l.post_id " +
         "AND l.unliked_at IS NULL " +
-        ") Upvotes " +
-        "FROM Post AS p, User AS u, Following AS f, Blocking AS b " +
+        ") Upvotes, " +
+        "( " +
+        "SELECT count(approved) " +
+        "FROM Following f " +
+        "WHERE f.following_id = u.user_id " +
+        "AND f.approved = 1 " +
+        ") PosterFollowers, " +
+        "( " +
+        "SELECT count(blocked_at) " +
+        "FROM Blocking AS b " +
+        "WHERE b.blocking_id = u.user_id " +
+        ") HiddenFrom " +
+        "FROM Post AS p, " +
+        "User AS u, " +
+        "Following AS f, " +
+        "Blocking AS b, " +
+        "PostTag AS t " +
         "WHERE p.deleted_at IS NULL " +
         "AND p.banned_at IS NULL " +
         "AND u.user_id = p.user_id " +
-        "AND u.user_id = ? " +
         "AND u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL " +
-        "ORDER BY created_at DESC ",
+        "AND p.post_id = t.post_id " +
+        "AND t.tag LIKE ? " +
+        "ORDER BY HiddenFrom ASC, Upvotes DESC; ",
       [tagname]
     );
-    // console.log('postModel get_posts_by_user_name rows', rows)
+    // console.log('postModel get_posts_by_tag rows', rows)
     return rows;
   } catch (e) {
-    // console.error('postModel get_posts_by_user_name error', e.message);
+    // console.error('postModel get_posts_by_tag error', e.message);
     return errorJson(e.message);
   }
 };
