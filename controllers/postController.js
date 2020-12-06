@@ -235,6 +235,16 @@ const getPostsByUserName = async (req, res) => {
   res.json(featExtras);
 };
 
+get_posts_by_tag
+
+// Get posts by tag name
+const getPostsByTag = async (req, res) => {
+  const tagname = req.params.tagname;
+  const posts = await postModel.get_posts_by_tag(`${tagname}`);
+  res.json(posts);
+};
+
+
 module.exports = {
   new_post,
   fetch_post,
@@ -244,4 +254,5 @@ module.exports = {
   getFollowingPosts,
   tagsByName,
   getPostsByUserName,
+  getPostsByTag,
 };
