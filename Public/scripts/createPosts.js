@@ -451,9 +451,8 @@ const getHomePosts = async () => {
       }),
     };
 
-    const response = await fetch(url + "/posts/home", options);
+    const response = await fetch(url + "/posts/feed", options);
     const discoverPosts = await response.json();
-
     createDiscoverCards(discoverPosts);
     if (userType != "anonymous") {
       getUserByID(user);
