@@ -225,9 +225,11 @@ const tagsByName = async (req, res) => {
   res.json(tags);
 };
 
-// Get all posts by user's name
-const getPostsByUserName = async (req, res) => {
-  const posts = await postModel.get_posts_by_user_name(req.user.username);
+
+// Get posts by tag name
+const getPostsByTag = async (req, res) => {
+  const tagname = req.params.tagname;
+  const posts = await postModel.get_posts_by_tag(`${tagname}`);
   if (posts["error"]) {
     return res.status(400).json(posts);
   }
@@ -235,19 +237,15 @@ const getPostsByUserName = async (req, res) => {
   res.json(featExtras);
 };
 
-// Get posts by tag name
-const getPostsByTag = async (req, res) => {
-  console.log("x")
-  const tagname = req.params.tagname;
-  const posts = await postModel.get_posts_by_tag(`${tagname}`);
-  console.log("y")
+// Get posts by username
+const getPostsByUsername = async (req, res) => {
+  const username = req.params.username;
+  const posts = await postModel.get_posts_by_username(`${username}`);
   if (posts["error"]) {
     return res.status(400).json(posts);
   }
-  console.log("z")
   const featExtras = await get_extras(posts);
   res.json(featExtras);
-  console.log("zz")
 };
 
 module.exports = {
@@ -258,6 +256,6 @@ module.exports = {
   getPostsByUser,
   getFollowingPosts,
   tagsByName,
-  getPostsByUserName,
   getPostsByTag,
+  getPostsByUsername,
 };

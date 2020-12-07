@@ -54,5 +54,6 @@ router
 
 router.route("/search/tag/:tagname").get(postController.tagsByName);
 router.route("/tag/:tagname").get(postController.getPostsByTag);
+router.route("/username/:username").get(postController.getPostsByUsername);
 
 module.exports = router;

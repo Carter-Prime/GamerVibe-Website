@@ -91,6 +91,51 @@ function publishUsers(data) {
   });
 }
 
+
+function publishUsers(data) {
+  const empty = `<h2></h2>`;
+  results.innerHTML = empty;
+
+  data.forEach((user) => {
+    !user.username ? (tagname = "name not available") : (tagname = user.username);
+    console.log(user.username);
+    const hr = document.createElement("hr");
+    const article = document.createElement("article");
+    const p = document.createElement("p");
+    const a = document.createElement("a");
+    a.innerText = user.username;
+    p.appendChild(a);
+    article.appendChild(p);
+    results.appendChild(article);
+    results.appendChild(hr);
+    a.addEventListener("click", async () => {
+      state.innerText = "Loading ...";
+      try {
+        const options = {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        };
+        const res = await fetch(url + "/post/username/" + user.username, options);
+        if (!res.ok) throw new Error("Data not fetched!");
+        const data = await res.json();
+        state.innerText = "";
+        console.log(data);
+        if (data.length === 0) {
+          state.innerText = "Nothing found";
+        } else {
+          createDiscoverCards(data);
+        }
+      } catch (err) {
+        console.warn(err);
+        state.innerText = "Something went wrong ...";
+      }
+    });
+  });
+}
+
+
+
 function publishTags(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;

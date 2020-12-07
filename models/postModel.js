@@ -323,6 +323,55 @@ const get_posts_by_tag = async (tagname) => {
   }
 };
 
+// Get all posts by username
+const get_posts_by_username = async (username) => {
+  try {
+    const [rows] = await promisePool.execute(
+      "SELECT DISTINCT p.post_id, " +
+        "p.user_id, " +
+        "p.caption, " +
+        "u.username, " +
+        "p.created_at, " +
+        "p.imgfilename, " +
+        "p.deleted_at, " +
+        "p.banned_at, " +
+        "( " +
+        "SELECT count(post_id) " +
+        "FROM Upvote l " +
+        "WHERE p.post_id = l.post_id " +
+        "AND l.unliked_at IS NULL " +
+        ") Upvotes, " +
+        "( " +
+        "SELECT count(approved) " +
+        "FROM Following f " +
+        "WHERE f.following_id = u.user_id " +
+        "AND f.approved = 1 " +
+        ") PosterFollowers, " +
+        "( " +
+        "SELECT count(blocked_at) " +
+        "FROM Blocking AS b " +
+        "WHERE b.blocking_id = u.user_id " +
+        ") HiddenFrom " +
+        "FROM Post AS p, " +
+        "User AS u " +
+        "WHERE p.deleted_at IS NULL " +
+        "AND p.banned_at IS NULL " +
+        "AND u.user_id = p.user_id " +
+        "AND u.username LIKE ? " +
+        "AND u.deleted_at IS NULL " +
+        "AND u.banned_at IS NULL " +
+        "AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0 " +
+        "ORDER BY created_at DESC ",
+      [username]
+    );
+    // console.log('userModel get_posts_by_username rows', rows)
+    return rows;
+  } catch (e) {
+    // console.error('userModel get_posts_by_username error', e.message);
+    return errorJson(e.message);
+  }
+};
+
 module.exports = {
   add_new_post,
   get_post,
@@ -334,4 +383,5 @@ module.exports = {
   getTagsByName,
   get_posts_by_user_name,
   get_posts_by_tag,
+  get_posts_by_username,
 };
