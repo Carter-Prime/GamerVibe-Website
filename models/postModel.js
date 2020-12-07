@@ -223,7 +223,7 @@ const delete_temp_post = async (id) => {
   }
 };
 
-// Search tags with given tagname
+// Search tags with given tagname (uncludes tags on private posts)
 const getTagsByName = async (tagname) => {
   try {
     const [rows] = await promisePool.execute(
@@ -235,38 +235,6 @@ const getTagsByName = async (tagname) => {
     );
     return rows ? [...rows] : errorJson(`No users found with name: ${tagname}`);
   } catch (e) {
-    return errorJson(e.message);
-  }
-};
-
-// Get all posts by user´s name
-const get_posts_by_user_name = async (name) => {
-  try {
-    const [
-      rows,
-    ] = await promisePool.execute(
-      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, " +
-        "p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
-        "( " +
-        "SELECT count(post_id) " +
-        "FROM Upvote l " +
-        "WHERE p.post_id = l.post_id " +
-        "AND l.unliked_at IS NULL " +
-        ") Upvotes " +
-        "FROM Post AS p, User AS u, Following AS f, Blocking AS b " +
-        "WHERE p.deleted_at IS NULL " +
-        "AND p.banned_at IS NULL " +
-        "AND u.user_id = p.user_id " +
-        "AND u.user_id = ? " +
-        "AND u.deleted_at IS NULL " +
-        "AND u.banned_at IS NULL " +
-        "ORDER BY created_at DESC ",
-      [name]
-    );
-    // console.log('postModel get_posts_by_user_name rows', rows)
-    return rows;
-  } catch (e) {
-    // console.error('postModel get_posts_by_user_name error', e.message);
     return errorJson(e.message);
   }
 };
@@ -311,6 +279,7 @@ const get_posts_by_tag = async (tagname) => {
         "AND u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL " +
         "AND p.post_id = t.post_id " +
+        "AND u.private_acc = 0 " +
         "AND t.tag LIKE ? " +
         "ORDER BY HiddenFrom ASC, Upvotes DESC; ",
       [tagname]
@@ -359,6 +328,7 @@ const get_posts_by_username = async (username) => {
         "AND u.user_id = p.user_id " +
         "AND u.username LIKE ? " +
         "AND u.deleted_at IS NULL " +
+        "AND u.private_acc = 0 " +
         "AND u.banned_at IS NULL " +
         "AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0 " +
         "ORDER BY created_at DESC ",
