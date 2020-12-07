@@ -4,6 +4,7 @@ const form_tags = document.querySelector("#search-form-tags");
 const form_users = document.querySelector("#search-form-users");
 const input = document.querySelector("[name=search-field]");
 const state = document.querySelector("h3");
+const state_posts = document.querySelector("h4");
 let name;
 let tagname;
 
@@ -60,7 +61,7 @@ const doFetchUsers = async () => {
     state.innerText = "";
     console.log(data);
     if (data.length === 0) {
-      state.innerText = "Nothing found";
+      state.innerText = "This tag exists but has no public posts";
     } else {
       publishUsers(data);
       state.innerText = "Results:";
@@ -70,27 +71,6 @@ const doFetchUsers = async () => {
     state.innerText = "Something went wrong ...";
   }
 };
-
-// adds search results to html
-function publishUsers(data) {
-  const empty = `<h2></h2>`;
-  results.innerHTML = empty;
-
-  data.forEach((user) => {
-    !user.username ? (name = "name not available") : (name = user.username);
-
-    console.log(user.username);
-
-    const html = `<hr>
-        <article>
-            <header>
-                <a href="${url}/user/${user.username}">${user.username}</a>
-            </header>
-        </article>`;
-    results.innerHTML += html;
-  });
-}
-
 
 function publishUsers(data) {
   const empty = `<h2></h2>`;
@@ -109,7 +89,7 @@ function publishUsers(data) {
     results.appendChild(article);
     results.appendChild(hr);
     a.addEventListener("click", async () => {
-      state.innerText = "Loading ...";
+      state_posts.innerText = "Loading ...";
       try {
         const options = {
           headers: {
@@ -119,16 +99,16 @@ function publishUsers(data) {
         const res = await fetch(url + "/post/username/" + user.username, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
-        state.innerText = "";
+        state_posts.innerText = "";
         console.log(data);
         if (data.length === 0) {
-          state.innerText = "Nothing found";
+          state_posts.innerText = `User ${user.username} has no posts`;
         } else {
           createDiscoverCards(data);
         }
       } catch (err) {
         console.warn(err);
-        state.innerText = "Something went wrong ...";
+        state_posts.innerText = "Something went wrong ...";
       }
     });
   });
