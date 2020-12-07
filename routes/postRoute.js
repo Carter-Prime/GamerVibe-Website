@@ -56,7 +56,7 @@ router
   .route("/search/tag/:tagname")
   .get(
     [
-      check("tagname")
+      body("tagname")
         .trim()
         .isLength({ max: 100 })
         .escape(),

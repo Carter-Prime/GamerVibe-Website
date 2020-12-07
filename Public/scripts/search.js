@@ -23,6 +23,7 @@ form_tags.addEventListener("submit", (evt) => {
 // async/await fetch tags
 const doFetchTags = async () => {
   state.innerText = "Loading ...";
+  state_posts.innerText = "";
   try {
     const options = {
       headers: {
@@ -49,6 +50,7 @@ const doFetchTags = async () => {
 // async/await users
 const doFetchUsers = async () => {
   state.innerText = "Loading ...";
+  state_posts.innerText = "";
   try {
     const options = {
       headers: {
@@ -136,7 +138,7 @@ function publishTags(data) {
     results.appendChild(article);
     results.appendChild(hr);
     a.addEventListener("click", async () => {
-      state.innerText = "Loading ...";
+      state_posts.innerText = "Loading ...";
       try {
         const options = {
           headers: {
@@ -146,16 +148,16 @@ function publishTags(data) {
         const res = await fetch(url + "/post/tag/" + item.tag, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
-        state.innerText = "";
+        state_posts.innerText = "";
         console.log(data);
         if (data.length === 0) {
-          state.innerText = "Nothing found";
+          state_posts.innerText = "Nothing found";
         } else {
           createDiscoverCards(data);
         }
       } catch (err) {
         console.warn(err);
-        state.innerText = "Something went wrong ...";
+        state_posts.innerText = "Something went wrong ...";
       }
     });
   });

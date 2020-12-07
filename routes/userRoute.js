@@ -65,7 +65,12 @@ router.route("/id/:id").get(userController.getUser);
 router.route("/following").get(followController.getFollowing);
 router.route("/followers").get(followController.getFollowers);
 router.route("/posts").get(postController.getPostsByUser);
-router.route("/search/name/:name").get(userController.usersByName);
+router.route("/search/name/:name").get([
+  body("name")
+    .trim()
+    .isLength({ max: 255 })
+    .escape(),
+],userController.usersByName);
 
 
 module.exports = router;
