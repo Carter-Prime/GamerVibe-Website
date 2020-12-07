@@ -7,13 +7,10 @@ const state = document.querySelector("h3");
 const state_posts = document.querySelector("h4");
 let name;
 let tagname;
-let input_esc;
 
 form_users.addEventListener("submit", (evt) => {
   evt.preventDefault();
-
   console.log(input.value);
-
   doFetchUsers();
 });
 
@@ -64,7 +61,7 @@ const doFetchUsers = async () => {
     state.innerText = "";
     console.log(data);
     if (data.length === 0) {
-      state.innerText = "No public posts found...";
+      state.innerText = "Nothing found";
     } else {
       publishUsers(data);
       state.innerText = "Results:";
