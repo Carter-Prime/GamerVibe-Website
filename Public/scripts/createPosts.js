@@ -200,7 +200,7 @@ const detailedPost = (post) => {
 };
 
 const createDiscoverCards = (posts) => {
-  console.log(posts)
+  console.log(posts);
   mainBody.innerHTML = "";
   posts.forEach((post) => {
     //create new card
@@ -427,9 +427,9 @@ const createPost = () => {
       };
 
       const response = await fetch(url + "/post/", fetchOptions);
-      const json = await response.json();
-      console.log("json response", json);
-      if (json.caption != null) {
+      const post = await response.json();
+      console.log("json response", post);
+      if (post.caption != null) {
         location.reload();
       }
     } catch (e) {

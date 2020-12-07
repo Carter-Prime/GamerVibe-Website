@@ -105,7 +105,7 @@
             <input
               class="input-account"
               type="text"
-              maxlength="255"
+              maxlength="50"
               name="fname"
               placeholder="First Name"
             />
@@ -113,34 +113,29 @@
             <input
               class="input-account"
               type="text"
-              maxlength="255"
+              maxlength="50"
               name="lname"
               placeholder="First Name"
-            />
-            <label class="account-labels">Email:</label>
-            <input
-              class="input-account"
-              type="email"
-              maxlength="255"
-              name="email"
-              placeholder="Email"
             />
           </div>
           <div class="account-info" id="js-banner-info">
             <h1>Account Details</h1>
-            <label class="account-labels">Username</label>
+
+            <label class="account-labels">Profile Picture</label>
             <input
               class="input-account"
-              type="text"
-              maxlength="255"
-              name="user"
-              placeholder="Username"
+              type="file"
+              accept="image/*"
+              name="profilePic"
+              placeholder="Choose a file"
+              id="js-profile-pic-upload"
             />
+
             <label class="account-labels">Discord</label>
             <input
               class="input-account"
               type="url"
-              maxlength="255"
+              maxlength="100"
               name="discord"
               placeholder="Discord URL"
             />
@@ -148,7 +143,7 @@
             <input
               class="input-account"
               type="url"
-              maxlength="255"
+              maxlength="100"
               name="youtube"
               placeholder="YouTube URL"
             />
@@ -156,10 +151,17 @@
             <input
               class="input-account"
               type="url"
-              maxlength="255"
+              maxlength="100"
               name="twitch"
               placeholder="Twitch URL"
             />
+            <div class="radioDiv account-info" id="js-account-radio-div">
+              <label class="account-labels" id="radio-label">Private Account?</label>
+              <select name="private">
+                <option value="1" selected>Yes</option>
+                <option value="0">No</option>
+              </select>
+            </div>
           </div>
           <button class="button account-btn" id="js-account-btn" type="button">
             Submit Changes

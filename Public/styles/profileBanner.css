@@ -11,6 +11,7 @@
   color: var(--textColor);
   margin-bottom: 20px;
   width: 100%;
+  height: fit-content;
 }
 
 .media-div {
@@ -73,7 +74,7 @@
 
 #js-profile-img {
   display: none;
-  width: 150px;
+  width: 200px;
   clip-path: circle(40px at center);
 }
 
@@ -161,8 +162,8 @@
 
   #js-profile-img {
     display: flex;
-    width: 100px;
-    clip-path: circle(40px at center);
+    width: 175px;
+    clip-path: circle(50px at center);
   }
 
   .account-faq-div {
@@ -193,7 +194,7 @@
   }
 
   #js-profile-img {
-    width: 200px;
+    width: 300px;
     clip-path: circle(80px at center);
   }
 }
