@@ -200,6 +200,7 @@ const detailedPost = (post) => {
 };
 
 const createDiscoverCards = (posts) => {
+  console.log(posts)
   mainBody.innerHTML = "";
   posts.forEach((post) => {
     //create new card

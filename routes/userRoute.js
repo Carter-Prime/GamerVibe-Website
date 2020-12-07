@@ -67,4 +67,5 @@ router.route("/followers").get(followController.getFollowers);
 router.route("/posts").get(postController.getPostsByUser);
 router.route("/search/name/:name").get(userController.usersByName);
 
+
 module.exports = router;

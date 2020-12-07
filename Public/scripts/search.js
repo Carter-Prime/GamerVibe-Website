@@ -4,6 +4,7 @@ const form_tags = document.querySelector("#search-form-tags");
 const form_users = document.querySelector("#search-form-users");
 const input = document.querySelector("[name=search-field]");
 const state = document.querySelector("h3");
+const state_posts = document.querySelector("h4");
 let name;
 let tagname;
 
@@ -60,7 +61,7 @@ const doFetchUsers = async () => {
     state.innerText = "";
     console.log(data);
     if (data.length === 0) {
-      state.innerText = "Nothing found";
+      state.innerText = "This tag exists but has no public posts";
     } else {
       publishUsers(data);
       state.innerText = "Results:";
@@ -71,41 +72,88 @@ const doFetchUsers = async () => {
   }
 };
 
-// adds search results to html
 function publishUsers(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
   data.forEach((user) => {
-    !user.username ? (name = "name not available") : (name = user.username);
-
+    !user.username ? (tagname = "name not available") : (tagname = user.username);
     console.log(user.username);
-
-    const html = `<hr>
-        <article>
-            <header>
-                <p>${user.username}</p>
-            </header>
-        </article>`;
-    results.innerHTML += html;
+    const hr = document.createElement("hr");
+    const article = document.createElement("article");
+    const p = document.createElement("p");
+    const a = document.createElement("a");
+    a.innerText = user.username;
+    p.appendChild(a);
+    article.appendChild(p);
+    results.appendChild(article);
+    results.appendChild(hr);
+    a.addEventListener("click", async () => {
+      state_posts.innerText = "Loading ...";
+      try {
+        const options = {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        };
+        const res = await fetch(url + "/post/username/" + user.username, options);
+        if (!res.ok) throw new Error("Data not fetched!");
+        const data = await res.json();
+        state_posts.innerText = "";
+        console.log(data);
+        if (data.length === 0) {
+          state_posts.innerText = `User ${user.username} has no posts`;
+        } else {
+          createDiscoverCards(data);
+        }
+      } catch (err) {
+        console.warn(err);
+        state_posts.innerText = "Something went wrong ...";
+      }
+    });
   });
 }
+
+
 
 function publishTags(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
-  data.forEach((user) => {
-    !user.tag ? (tagname = "name not available") : (tagname = user.tag);
-
-    console.log(user.tag);
-
-    const html = `<hr>
-        <article>
-            <header>
-                <a href="${url}/tag/${user.tag}">${user.tag}</a>
-            </header>
-        </article>`;
-    results.innerHTML += html;
+  data.forEach((item) => {
+    !item.tag ? (tagname = "name not available") : (tagname = item.tag);
+    console.log(item.tag);
+    const hr = document.createElement("hr");
+    const article = document.createElement("article");
+    const p = document.createElement("p");
+    const a = document.createElement("a");
+    a.innerText = item.tag;
+    p.appendChild(a);
+    article.appendChild(p);
+    results.appendChild(article);
+    results.appendChild(hr);
+    a.addEventListener("click", async () => {
+      state.innerText = "Loading ...";
+      try {
+        const options = {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        };
+        const res = await fetch(url + "/post/tag/" + item.tag, options);
+        if (!res.ok) throw new Error("Data not fetched!");
+        const data = await res.json();
+        state.innerText = "";
+        console.log(data);
+        if (data.length === 0) {
+          state.innerText = "Nothing found";
+        } else {
+          createDiscoverCards(data);
+        }
+      } catch (err) {
+        console.warn(err);
+        state.innerText = "Something went wrong ...";
+      }
+    });
   });
 }

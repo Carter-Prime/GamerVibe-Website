@@ -140,7 +140,7 @@ const getUsersByName = async (name) => {
         "FROM User AS u " +
         "WHERE (username LIKE ?)" +
         "AND deleted_at IS NULL " +
-        "AND banned_at IS NULL",
+        "AND banned_at IS NULL ",
       [name]
     );
     // console.log('userModel getUser user', rows[0])
@@ -150,6 +150,8 @@ const getUsersByName = async (name) => {
   }
 };
 
+
+
 module.exports = {
   getAllUsers,
   getUser,
@@ -157,4 +159,5 @@ module.exports = {
   addUser,
   updateUser,
   getUsersByName,
+
 };
