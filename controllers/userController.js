@@ -79,6 +79,8 @@ const updateUser = async (req, res) => {
     }
   }
 
+  const user = req.user;
+
   const body = req.body;
   // All good so far
   const params = [
