@@ -223,7 +223,7 @@ const delete_temp_post = async (id) => {
   }
 };
 
-// Search tags with given tagname (uncludes tags on private posts)
+// Search tags with given tagname
 const getTagsByName = async (tagname) => {
   try {
     const [rows] = await promisePool.execute(
@@ -279,7 +279,6 @@ const get_posts_by_tag = async (tagname) => {
         "AND u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL " +
         "AND p.post_id = t.post_id " +
-        "AND u.private_acc = 0 " +
         "AND t.tag LIKE ? " +
         "ORDER BY HiddenFrom ASC, Upvotes DESC; ",
       [tagname]
@@ -328,7 +327,6 @@ const get_posts_by_username = async (username) => {
         "AND u.user_id = p.user_id " +
         "AND u.username LIKE ? " +
         "AND u.deleted_at IS NULL " +
-        "AND u.private_acc = 0 " +
         "AND u.banned_at IS NULL " +
         "AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0 " +
         "ORDER BY created_at DESC ",
@@ -351,7 +349,6 @@ module.exports = {
   get_posts_by_user,
   get_following_posts,
   getTagsByName,
-  get_posts_by_user_name,
   get_posts_by_tag,
   get_posts_by_username,
 };

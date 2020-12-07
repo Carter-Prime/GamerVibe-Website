@@ -7,10 +7,13 @@ const state = document.querySelector("h3");
 const state_posts = document.querySelector("h4");
 let name;
 let tagname;
+let input_esc;
 
 form_users.addEventListener("submit", (evt) => {
   evt.preventDefault();
+
   console.log(input.value);
+
   doFetchUsers();
 });
 
@@ -61,7 +64,7 @@ const doFetchUsers = async () => {
     state.innerText = "";
     console.log(data);
     if (data.length === 0) {
-      state.innerText = "This tag exists but has no public posts";
+      state.innerText = "No public posts found...";
     } else {
       publishUsers(data);
       state.innerText = "Results:";
@@ -77,7 +80,9 @@ function publishUsers(data) {
   results.innerHTML = empty;
 
   data.forEach((user) => {
-    !user.username ? (tagname = "name not available") : (tagname = user.username);
+    !user.username
+      ? (tagname = "name not available")
+      : (tagname = user.username);
     console.log(user.username);
     const hr = document.createElement("hr");
     const article = document.createElement("article");
@@ -96,7 +101,10 @@ function publishUsers(data) {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(url + "/post/username/" + user.username, options);
+        const res = await fetch(
+          url + "/post/username/" + user.username,
+          options
+        );
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
@@ -113,8 +121,6 @@ function publishUsers(data) {
     });
   });
 }
-
-
 
 function publishTags(data) {
   const empty = `<h2></h2>`;
