@@ -9,6 +9,7 @@ const userRoute = require('./routes/userRoute');
 const followRoute = require('./routes/followRoute');
 const banRoute = require('./routes/banRoute');
 const blockRoute = require('./routes/blockRoute');
+const searchRoute = require('./routes/searchRoute');
 const app = express();
 const passport = require('./utils/pass');
 const passportOptions = {
@@ -40,3 +41,4 @@ app.use('/follow', passport.authenticate('jwt', passportOptions), followRoute);
 app.use('/ban', passport.authenticate('jwt', passportOptions), banRoute);
 app.use('/block', passport.authenticate('jwt', passportOptions), blockRoute);
 app.use('/tag', passport.authenticate('jwt', passportOptions), postRoute);
+app.use('/search', searchRoute);

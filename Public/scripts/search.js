@@ -30,7 +30,7 @@ const doFetchTags = async () => {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const res = await fetch(url + "/post/search/tag/" + input.value, options);
+    const res = await fetch(url + "/search/tagname/" + input.value, options);
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
@@ -57,7 +57,7 @@ const doFetchUsers = async () => {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const res = await fetch(url + "/user/search/name/" + input.value, options);
+    const res = await fetch(url + "/search/user/" + input.value, options);
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
@@ -101,7 +101,7 @@ function publishUsers(data) {
           },
         };
         const res = await fetch(
-          url + "/post/username/" + user.username,
+          url + "/search/username/" + user.username,
           options
         );
         if (!res.ok) throw new Error("Data not fetched!");
@@ -145,7 +145,7 @@ function publishTags(data) {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(url + "/post/tag/" + item.tag, options);
+        const res = await fetch(url + "/search/tag/" + item.tag, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";

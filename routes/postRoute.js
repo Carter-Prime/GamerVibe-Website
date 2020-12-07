@@ -52,19 +52,4 @@ router
   .get(postController.fetch_post)
   .delete(postController.delete_post);
 
-router
-  .route("/search/tag/:tagname")
-  .get(
-    [
-      body("tagname")
-        .trim()
-        .isLength({ max: 100 })
-        .escape(),
-    ],
-    postController.tagsByName
-  );
-
-router.route("/tag/:tagname").get(postController.getPostsByTag);
-router.route("/username/:username").get(postController.getPostsByUsername);
-
 module.exports = router;
