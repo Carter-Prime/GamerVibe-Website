@@ -36,13 +36,6 @@ const getUser = async (req, res) => {
   res.json(wantedUser);
 };
 
-// Get users list by name
-const usersByName = async (req, res) => {
-  const name = req.params.name;
-  const users = await userModel.getUsersByName(`%${name}%`);
-  res.json(users);
-};
-
 // Update users information
 const updateUser = async (req, res) => {
   const profilePicPath = "./profilePics";
@@ -132,6 +125,13 @@ const updateUser = async (req, res) => {
   }
 
   res.send(await userModel.getUser(req.user.user_id));
+};
+
+// Get users list by name
+const usersByName = async (req, res) => {
+  const name = req.params.name;
+  const users = await userModel.getUsersByName(`%${name}%`);
+  res.json(users);
 };
 
 module.exports = {

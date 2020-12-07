@@ -7,13 +7,10 @@ const state = document.querySelector("h3");
 const state_posts = document.querySelector("h4");
 let name;
 let tagname;
-let input_esc;
 
 form_users.addEventListener("submit", (evt) => {
   evt.preventDefault();
-
   console.log(input.value);
-
   doFetchUsers();
 });
 
@@ -26,13 +23,14 @@ form_tags.addEventListener("submit", (evt) => {
 // async/await fetch tags
 const doFetchTags = async () => {
   state.innerText = "Loading ...";
+  state_posts.innerText = "";
   try {
     const options = {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const res = await fetch(url + "/post/search/tag/" + input.value, options);
+    const res = await fetch(url + "/search/tagname/" + input.value, options);
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
@@ -52,19 +50,20 @@ const doFetchTags = async () => {
 // async/await users
 const doFetchUsers = async () => {
   state.innerText = "Loading ...";
+  state_posts.innerText = "";
   try {
     const options = {
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const res = await fetch(url + "/user/search/name/" + input.value, options);
+    const res = await fetch(url + "/search/user/" + input.value, options);
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
     console.log(data);
     if (data.length === 0) {
-      state.innerText = "No public posts found...";
+      state.innerText = "Nothing found";
     } else {
       publishUsers(data);
       state.innerText = "Results:";
@@ -102,7 +101,7 @@ function publishUsers(data) {
           },
         };
         const res = await fetch(
-          url + "/post/username/" + user.username,
+          url + "/search/username/" + user.username,
           options
         );
         if (!res.ok) throw new Error("Data not fetched!");
@@ -110,7 +109,7 @@ function publishUsers(data) {
         state_posts.innerText = "";
         console.log(data);
         if (data.length === 0) {
-          state_posts.innerText = `User ${user.username} has no posts`;
+          state_posts.innerText = `User ${user.username} has no public posts`;
         } else {
           createDiscoverCards(data);
         }
@@ -139,26 +138,26 @@ function publishTags(data) {
     results.appendChild(article);
     results.appendChild(hr);
     a.addEventListener("click", async () => {
-      state.innerText = "Loading ...";
+      state_posts.innerText = "Loading ...";
       try {
         const options = {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(url + "/post/tag/" + item.tag, options);
+        const res = await fetch(url + "/search/tag/" + item.tag, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
-        state.innerText = "";
+        state_posts.innerText = "";
         console.log(data);
         if (data.length === 0) {
-          state.innerText = "Nothing found";
+          state_posts.innerText = `No public posts found for tag ${item.tag}`;
         } else {
           createDiscoverCards(data);
         }
       } catch (err) {
         console.warn(err);
-        state.innerText = "Something went wrong ...";
+        state_posts.innerText = "Something went wrong ...";
       }
     });
   });

@@ -1,7 +1,7 @@
 "use strict";
 const express = require("express");
 const router = express.Router();
-const { body } = require("express-validator");
+const { body, check } = require("express-validator");
 const multer = require("multer");
 const upload = multer({
   dest: "./uploads",
@@ -34,7 +34,7 @@ router
   .route("/upvote")
   .post([body("postId").trim().isInt()], upvoteController.addUpvote);
 
-router.route('/upvote/:id').get(upvoteController.checkUpvote)
+router.route("/upvote/:id").get(upvoteController.checkUpvote);
 
 router
   .route("/")
@@ -51,9 +51,5 @@ router
   .route("/id/:id")
   .get(postController.fetch_post)
   .delete(postController.delete_post);
-
-router.route("/search/tag/:tagname").get(postController.tagsByName);
-router.route("/tag/:tagname").get(postController.getPostsByTag);
-router.route("/username/:username").get(postController.getPostsByUsername);
 
 module.exports = router;
