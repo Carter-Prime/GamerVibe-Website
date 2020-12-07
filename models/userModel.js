@@ -7,7 +7,7 @@ const { errorJson } = require("../utils/json_messages");
 const getAllUsers = async () => {
   try {
     const [rows] = await promisePool.execute(
-      "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
+      "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.private_acc, u.imagename, " +
         "u.discord, u.youtube, u.twitch " +
         "FROM User AS u " +
         "WHERE u.deleted_at IS NULL " +
@@ -27,7 +27,7 @@ const getUser = async (id) => {
       rows,
     ] = await promisePool.execute(
       "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
-        "u.discord, u.youtube, u.twitch," +
+        "u.discord, u.youtube, u.twitch, u.private_acc, " +
         "(SELECT COUNT(*) " +
         " FROM Following AS f " +
         " WHERE f.follower_id = ? " +
@@ -136,7 +136,7 @@ const getUsersByName = async (name) => {
       rows,
     ] = await promisePool.execute(
       "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
-        "u.discord, u.youtube, u.twitch " +
+        "u.discord, u.youtube, u.twitch, u.private_acc " +
         "FROM User AS u " +
         "WHERE (username LIKE ?)" +
         "AND deleted_at IS NULL " +
