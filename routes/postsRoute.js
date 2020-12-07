@@ -58,4 +58,5 @@ router.route('/user/:name').post(
   postController.getPostsByUserName,
 );
 
+
 module.exports = router;

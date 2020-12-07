@@ -53,5 +53,6 @@ router
   .delete(postController.delete_post);
 
 router.route("/search/tag/:tagname").get(postController.tagsByName);
+router.route("/tag/:tagname").get(postController.getPostsByTag);
 
 module.exports = router;

@@ -97,15 +97,38 @@ function publishTags(data) {
 
   data.forEach((item) => {
     !item.tag ? (tagname = "name not available") : (tagname = item.tag);
-
     console.log(item.tag);
-
-    const html = `<hr>
-        <article>
-            <header>
-                <a href="${url}/tag/${item.tag}">${item.tag}</a>
-            </header>
-        </article>`;
-    results.innerHTML += html;
+    const hr = document.createElement("hr");
+    const article = document.createElement("article");
+    const p = document.createElement("p");
+    const a = document.createElement("a");
+    a.innerText = item.tag;
+    p.appendChild(a);
+    article.appendChild(p);
+    results.appendChild(article);
+    results.appendChild(hr);
+    a.addEventListener("click", async () => {
+      state.innerText = "Loading ...";
+      try {
+        const options = {
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+          },
+        };
+        const res = await fetch(url + "/post/tag/" + item.tag, options);
+        if (!res.ok) throw new Error("Data not fetched!");
+        const data = await res.json();
+        state.innerText = "";
+        console.log(data);
+        if (data.length === 0) {
+          state.innerText = "Nothing found";
+        } else {
+          createDiscoverCards(data);
+        }
+      } catch (err) {
+        console.warn(err);
+        state.innerText = "Something went wrong ...";
+      }
+    });
   });
 }

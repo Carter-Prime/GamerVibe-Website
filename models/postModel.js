@@ -272,7 +272,7 @@ const get_posts_by_user_name = async (name) => {
 };
 
 // Get all posts by tag
-const get_posts_by_tag = async (name) => {
+const get_posts_by_tag = async (tagname) => {
   try {
     const [rows] = await promisePool.execute(
       "SELECT DISTINCT p.post_id, " +

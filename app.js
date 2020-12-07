@@ -39,3 +39,4 @@ app.use('/user', passport.authenticate('jwt', passportOptions), userRoute);
 app.use('/follow', passport.authenticate('jwt', passportOptions), followRoute);
 app.use('/ban', passport.authenticate('jwt', passportOptions), banRoute);
 app.use('/block', passport.authenticate('jwt', passportOptions), blockRoute);
+app.use('/tag', passport.authenticate('jwt', passportOptions), postRoute);

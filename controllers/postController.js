@@ -235,15 +235,20 @@ const getPostsByUserName = async (req, res) => {
   res.json(featExtras);
 };
 
-get_posts_by_tag
-
 // Get posts by tag name
 const getPostsByTag = async (req, res) => {
+  console.log("x")
   const tagname = req.params.tagname;
   const posts = await postModel.get_posts_by_tag(`${tagname}`);
-  res.json(posts);
+  console.log("y")
+  if (posts["error"]) {
+    return res.status(400).json(posts);
+  }
+  console.log("z")
+  const featExtras = await get_extras(posts);
+  res.json(featExtras);
+  console.log("zz")
 };
-
 
 module.exports = {
   new_post,
