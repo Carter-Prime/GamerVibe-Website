@@ -278,6 +278,7 @@ const get_posts_by_tag = async (tagname) => {
         "AND u.user_id = p.user_id " +
         "AND u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL " +
+        "AND u.private_acc = 0 " +
         "AND p.post_id = t.post_id " +
         "AND t.tag LIKE ? " +
         "ORDER BY HiddenFrom ASC, Upvotes DESC; ",
@@ -326,6 +327,7 @@ const get_posts_by_username = async (username) => {
         "AND p.banned_at IS NULL " +
         "AND u.user_id = p.user_id " +
         "AND u.username LIKE ? " +
+        "AND u.private_acc = 0 " +
         "AND u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL " +
         "AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0 " +

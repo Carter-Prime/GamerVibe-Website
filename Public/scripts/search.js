@@ -109,7 +109,7 @@ function publishUsers(data) {
         state_posts.innerText = "";
         console.log(data);
         if (data.length === 0) {
-          state_posts.innerText = `User ${user.username} has no posts`;
+          state_posts.innerText = `User ${user.username} has no public posts`;
         } else {
           createDiscoverCards(data);
         }
@@ -151,7 +151,7 @@ function publishTags(data) {
         state_posts.innerText = "";
         console.log(data);
         if (data.length === 0) {
-          state_posts.innerText = "Nothing found";
+          state_posts.innerText = `No public posts found for tag ${item.tag}`;
         } else {
           createDiscoverCards(data);
         }
