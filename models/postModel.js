@@ -239,38 +239,6 @@ const getTagsByName = async (tagname) => {
   }
 };
 
-// Get all posts by user´s name
-const get_posts_by_user_name = async (name) => {
-  try {
-    const [
-      rows,
-    ] = await promisePool.execute(
-      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, " +
-        "p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
-        "( " +
-        "SELECT count(post_id) " +
-        "FROM Upvote l " +
-        "WHERE p.post_id = l.post_id " +
-        "AND l.unliked_at IS NULL " +
-        ") Upvotes " +
-        "FROM Post AS p, User AS u, Following AS f, Blocking AS b " +
-        "WHERE p.deleted_at IS NULL " +
-        "AND p.banned_at IS NULL " +
-        "AND u.user_id = p.user_id " +
-        "AND u.user_id = ? " +
-        "AND u.deleted_at IS NULL " +
-        "AND u.banned_at IS NULL " +
-        "ORDER BY created_at DESC ",
-      [name]
-    );
-    // console.log('postModel get_posts_by_user_name rows', rows)
-    return rows;
-  } catch (e) {
-    // console.error('postModel get_posts_by_user_name error', e.message);
-    return errorJson(e.message);
-  }
-};
-
 // Get all posts by tag
 const get_posts_by_tag = async (tagname) => {
   try {
@@ -381,7 +349,6 @@ module.exports = {
   get_posts_by_user,
   get_following_posts,
   getTagsByName,
-  get_posts_by_user_name,
   get_posts_by_tag,
   get_posts_by_username,
 };
