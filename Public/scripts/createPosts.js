@@ -50,7 +50,7 @@ const detailedPost = (post) => {
   mainBody.innerHTML = "";
   console.log(post);
   if (userType != "anonymous") {
-    getUserByID(post.content.user_id, true);
+    getUserByID(post.content.user_id);
   }
 
   const newCard = document.createElement("div");
@@ -393,6 +393,15 @@ const createPost = () => {
     Event.preventDefault();
     console.log("upload back button pressed");
     location.reload();
+    if (user == userInfo.user_id) {
+      postBtn.classList.remove("hide");
+      followBtn.classList.add("hide");
+      blockBtn.classList.add("hide");
+    } else {
+      postBtn.classList.add("hide");
+      followBtn.classList.remove("hide");
+      blockBtn.classList.remove("hide");
+    }
   });
 
   postForm.append(infoDiv, capDiv, tagsDiv, postImg, uploadBtn);

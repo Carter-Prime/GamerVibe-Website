@@ -213,7 +213,7 @@ textarea {
   margin-top: 10px;
 }
 
-.upload-info-div > h1 {
+h1 {
   font-size: clamp(1.5rem, 1.3846rem + 0.5128vw, 2rem);
 }
 
@@ -261,6 +261,23 @@ select {
   font-size: clamp(0.7rem, 0.5846rem + 0.5128vw, 1.2rem);
   padding: 5px;
   margin: 5px;
+}
+
+.accountDetails {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  padding: 10px;
+  height: fit-content;
+}
+
+.accountDetails > p {
+  font-size: clamp(0.7rem, 0.5846rem + 0.5128vw, 1.2rem);
+}
+
+.accountDetails > * {
+  width: 100%;
+  padding: 5px 10px;
 }
 
 /* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
