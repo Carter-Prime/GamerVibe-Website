@@ -259,6 +259,7 @@ WHERE (tag LIKE '%$tagname%')
 -- For discover page
 -- Doesn't show posts from users that user is blocked or from users that accounts are private
 -- !!!!I tested this nd this IMHO does not exclude deleted users
+-- Now it work and it's used - Joonas
 SELECT p.post_id,
     p.user_id,
     u.username,
@@ -274,7 +275,9 @@ WHERE p.deleted_at IS NULL
     AND u.user_id != 3
     AND u.private_acc != 1
     AND u.banned_at IS NULL
+    AND u.deleted_at IS NULL
     AND b.blocked_at IS NULL
+    AND p.post_id < 9999999
 ORDER BY created_at DESC
 LIMIT 30 
 
