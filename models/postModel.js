@@ -64,7 +64,6 @@ const get_following_posts = async (uid, pid, amount) => {
         "SELECT count(approved) " +
         "FROM Following f " +
         "WHERE f.following_id = u.user_id " +
-        "AND f.approved = 1 " +
         ") PosterFollowers, " +
         "( " +
         "SELECT count(blocked_at) " +
@@ -79,7 +78,6 @@ const get_following_posts = async (uid, pid, amount) => {
         "AND ( " +
         "f.follower_id = ? " +
         "AND f.following_id = u.user_id " +
-        "AND f.approved = 1 " +
         "AND ( " +
         "u.private_acc = 0 " +
         "OR u.private_acc = 1 " +
