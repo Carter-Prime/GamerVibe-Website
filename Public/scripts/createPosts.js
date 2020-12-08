@@ -473,4 +473,27 @@ const getHomePosts = async () => {
 };
 
 // get posts of all the currently logged in users followers
-const getFollowerPosts = async () => {};
+const getFollowerPosts = async () => {
+  try {
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: 20,
+      }),
+    };
+
+    const response = await fetch(url + "/posts/following", options);
+    const followingPosts = await response.json();
+
+    createDiscoverCards(followingPosts);
+    if (userType != "anonymous") {
+      getUserByID(user);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
