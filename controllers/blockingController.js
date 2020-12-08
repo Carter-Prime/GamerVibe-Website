@@ -25,6 +25,10 @@ const block_user = async (req, res) => {
   // Check body for errors
   if (checks.hasBodyErrors(req, res)) return;
 
+  if(req.user.user_id.toString() === req.body.blockedId.toString()) {
+    return res.status(400).json(errorJson('You can\'t block yourself'))
+  }
+
   const check = await blockingModel.checkBlocked(req.user.user_id,
       req.body.blockedId);
   if (check['error']) {
