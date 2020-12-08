@@ -93,7 +93,9 @@ const detailedPost = (post) => {
 
       const response = await fetch(url + "/post/upvote/", fetchOptions);
       const json = await response.json();
-      console.log(json);
+      if (json.message != "Upvoted successfully") {
+        console.log("upvote unsuccessful");
+      }
       const refreshed = await getPostById(post.content.post_id);
       detailedPost(refreshed);
     } catch (e) {
@@ -491,7 +493,6 @@ const getFollowerPosts = async () => {
 };
 
 const isLiked = async (postId, newUpVote, post) => {
-  console.log("postId is: " + postId);
   try {
     const options = {
       method: "GET",
@@ -503,12 +504,9 @@ const isLiked = async (postId, newUpVote, post) => {
 
     const response = await fetch(url + "/post/upvote/" + postId, options);
     const likedResponse = await response.json();
-    console.log("liked: " + likedResponse);
     if (likedResponse) {
-      console.log("is liked is true place code here");
       newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="fas fa-thumbs-up fa-2x"></i></span>`;
     } else {
-      console.log("is liked is false place code here");
       newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="far fa-thumbs-up fa-2x"></i></span>`;
     }
   } catch (e) {
