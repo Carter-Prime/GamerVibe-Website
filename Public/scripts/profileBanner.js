@@ -29,7 +29,7 @@ const getUserByID = async (userId) => {
     };
     const response = await fetch(url + `/user/id/` + userId, options);
     const user = await response.json();
-    console.log("this is the returned user from getUserbyId" + JSON.stringify(user));
+    console.log("this is the returned user from getUserbyId" + JSON.stringify(user, null, 1));
     if (user != null) {
       setProfileBanner(user);
     }
@@ -71,7 +71,7 @@ const setProfileBanner = (userInfo) => {
 
         const response = await fetch(url + "/follow/", options);
         const followPosts = await response.json();
-        console.log("followPost contains: " + followPosts);
+        console.log("followPost contains: " + JSON.stringify(followPosts, null, 1));
       } catch (e) {
         console.log(e.message);
       }
@@ -119,10 +119,29 @@ const setProfileBanner = (userInfo) => {
   });
 
   // listener to block an account of a user can be done my moderator or registered user
-  blockBtn.addEventListener("click", (Event) => {
+  blockBtn.addEventListener("click", async (Event) => {
     Event.stopImmediatePropagation();
     Event.preventDefault();
-    console.log("block button pressed");
+    console.log("block button pressed" + userInfo.user_id);
+    try {
+      const options = {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          blockedId: userInfo.user_id,
+        }),
+      };
+
+      const response = await fetch(url + "/block/", options);
+      const blockedUserResponse = await response.json();
+      console.log("blocked user response " + JSON.stringify(blockedUserResponse, null, 1));
+      if (blockedUserResponse != null) {
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
   });
 
   // listener to ban an account of a user can be done my moderator
