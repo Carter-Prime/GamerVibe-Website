@@ -20,6 +20,7 @@ const postController = require("../controllers/postController");
 const commentController = require("../controllers/commentController");
 const upvoteController = require("../controllers/upvoteController");
 
+// Make new comment to post
 router
   .route("/comment")
   .post(
@@ -30,12 +31,15 @@ router
     commentController.addComment
   );
 
+// Add new upvote to post
 router
   .route("/upvote")
   .post([body("postId").trim().isInt()], upvoteController.addUpvote);
 
+// Check if user is already upvoted post
 router.route("/upvote/:id").get(upvoteController.checkUpvote);
 
+// Make new post
 router
   .route("/")
   .post(
@@ -47,6 +51,8 @@ router
     postController.new_post
   );
 
+// Get post with id
+// or delete it
 router
   .route("/id/:id")
   .get(postController.fetch_post)

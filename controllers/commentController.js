@@ -2,6 +2,7 @@
 const commentModel = require('../models/commentModel');
 const checks = require('../utils/checks');
 
+// For adding new comment to post
 const addComment = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -18,11 +19,9 @@ const addComment = async (req, res) => {
       req.body.postId,
       req.body.content,
   );
-  if (addQuery['error']) {
-    return res.status(400).json(addQuery);
-  }
-
-  res.json(await commentModel.get_comment(addQuery['insertId']));
+  return addQuery['error'] ?
+      res.status(400).json(addQuery) :
+      res.json(await commentModel.get_comment(addQuery['insertId']));
 };
 
 module.exports = {

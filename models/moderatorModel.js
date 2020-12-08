@@ -15,10 +15,8 @@ const get_mod = async (id) => {
         'OR moderator_until IS NULL ' +
         ')', [id],
     );
-    // console.log('moderatorModel get_mod rows', rows);
     return rows[0] ? rows[0] : errorJson('No moderator with given id');
   } catch (e) {
-    // console.error('moderatorModel get_mod error', e.message)
     return errorJson(e.message);
   }
 };

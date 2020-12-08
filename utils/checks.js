@@ -5,6 +5,7 @@ const modModel = require('../models/moderatorModel');
 const postModel = require('../models/postModel');
 const userModel = require('../models/userModel');
 
+// Check body for errors
 const hasBodyErrors = (req, res) => {
   const valRes = validationResult(req);
   if (!valRes.isEmpty()) {
@@ -14,6 +15,7 @@ const hasBodyErrors = (req, res) => {
   return false;
 };
 
+// Checks if current user is moderator
 const hasModError = async (req, res) => {
   const mod = await modModel.get_mod(req.user.user_id);
   if (mod['error']) {
@@ -23,6 +25,7 @@ const hasModError = async (req, res) => {
   return false;
 };
 
+// Checks if posts exists
 const isPost = async (req, res) => {
   const checkPost = await postModel.get_post(req.body.postId);
   if (checkPost['error']) {
@@ -32,6 +35,7 @@ const isPost = async (req, res) => {
   return true;
 };
 
+// Checks if user is banned or deleted
 const isUserBanned = async (req, res) => {
   const user = await userModel.getUser(req.user.user_id);
   if (user['error']) {

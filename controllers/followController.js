@@ -1,6 +1,6 @@
 'use strict';
 const followingModel = require('../models/followModel');
-const {errorJson, messageJson} = require('../utils/json_messages');
+const {messageJson} = require('../utils/json_messages');
 const checks = require('../utils/checks');
 
 // Get users who current user is following
@@ -8,11 +8,9 @@ const getFollowing = async (req, res) => {
   const query = await followingModel.get_following(req.user.user_id);
 
   // If there is error in query, send it to res
-  if (query['error']) {
-    return res.status(400).json(query);
-  }
-
-  res.json(query);
+  return query['error'] ?
+      res.status(400).json(query) :
+      res.json(query);
 };
 
 // Get list of users that are following current user
@@ -20,13 +18,25 @@ const getFollowers = async (req, res) => {
   const query = await followingModel.get_followers(req.user.user_id);
 
   // If there is error in query, send it to res
-  if (query['error']) {
-    return res.status(400).json(query);
-  }
-
-  res.json(query);
+  return query['error'] ?
+      res.status(400).json(query) :
+      res.json(query);
 };
 
+// Return true if user is following given id
+const isFollowingUserId = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
+  const isFollowing = await followingModel.is_following(req.user.user_id,
+      req.params.id);
+
+  return isFollowing['error'] ?
+      res.json(false) :
+      res.json(isFollowing.length !== 0);
+}
+
+// For following user
 const followUser = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -34,7 +44,6 @@ const followUser = async (req, res) => {
   // Check body for errors
   if (checks.hasBodyErrors(req, res)) return;
 
-  // TODO: clean this check
   // Check if user is already following other user
   const isFollowing = await followingModel.is_following(req.user.user_id,
       req.body.user);
@@ -50,16 +59,15 @@ const followUser = async (req, res) => {
   // Add following user
   const follow = await followingModel.follow_user(req.user.user_id,
       req.body.user);
-  if (follow['error']) {
-    return res.status(400).json(follow);
-  }
-
-  res.json(
-      messageJson(`User ${req.user.user_id} followed user ${req.body.user}`));
+  return follow['error'] ?
+      res.status(400).json(follow) :
+      res.json(messageJson(
+          `User ${req.user.user_id} followed user ${req.body.user}`));
 };
 
 module.exports = {
   getFollowing,
   getFollowers,
   followUser,
+  isFollowingUserId
 };

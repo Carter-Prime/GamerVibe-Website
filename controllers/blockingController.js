@@ -3,11 +3,12 @@ const blockingModel = require('../models/blockingModel');
 const checks = require('../utils/checks');
 const {errorJson} = require('../utils/json_messages')
 
+// Returns list of blocked users blocked by current user
 const get_blocked_users_by_user = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
 
-  const query = await blockingModel.get_users_banned_by_user(
+  const query = await blockingModel.getUsersBlockedByUser(
       req.user.user_id,
   );
 
@@ -16,6 +17,7 @@ const get_blocked_users_by_user = async (req, res) => {
       res.json(query);
 };
 
+// For blocking user
 const block_user = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -39,6 +41,7 @@ const block_user = async (req, res) => {
       res.json(query);
 };
 
+// For unblocking user
 const unblock_user = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;

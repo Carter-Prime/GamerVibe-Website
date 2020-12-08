@@ -4,6 +4,8 @@ const router = express.Router();
 const {body} = require('express-validator');
 const banController = require('../controllers/banController');
 
+// Ban user
+// or remove ban from user
 router.route('/').
     put([
       body('bannedId').trim().isInt(),

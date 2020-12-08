@@ -5,19 +5,13 @@ const { errorJson, messageJson } = require("../utils/json_messages");
 
 // Make new post
 const add_new_post = async (uid, caption, imgFilename) => {
-  // console.log('uid', uid)
-  // console.log('caption', caption)
-  // console.log('imgFilename', imgFilename)
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "INSERT INTO Post(user_id, caption, imgfilename) VALUES(?,?,?)",
       [uid, caption, imgFilename]
     );
     return rows;
   } catch (e) {
-    // console.error('postModel add_new_post error', e.message);
     return errorJson(e.message);
   }
 };
@@ -26,10 +20,7 @@ const add_new_post = async (uid, caption, imgFilename) => {
 // and are older than beginTime
 const get_discover_posts = async (n, uid, beginId) => {
   try {
-    // console.log('n', n, 'beginId', beginId, 'uid', uid)
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "SELECT p.post_id, " +
         "p.user_id, u.username, p.caption, p.created_at, p.imgfilename " +
         "FROM Post AS p " +
@@ -49,21 +40,20 @@ const get_discover_posts = async (n, uid, beginId) => {
         "ORDER BY created_at DESC " +
         "LIMIT ?", [uid, uid, beginId, n]
     );
-    // console.log('postModel get_posts rows', rows);
     return rows;
   } catch (e) {
-    // console.log('postModel get_posts error', e.message);
     return errorJson(e.message);
   }
 };
 
+// Gets posts from users that user is following
 const get_following_posts = async (uid, pid, amount) => {
-  // console.log('uid', uid, 'pid', pid, 'amount', amount);
   try {
     const [
       rows,
     ] = await promisePool.execute(
-      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
+      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, " +
+        "p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
         "( " +
         "SELECT count(post_id) " +
         "FROM Upvote l " +
@@ -109,7 +99,6 @@ const get_following_posts = async (uid, pid, amount) => {
     );
     return rows;
   } catch (e) {
-    // console.error('postModel get_home_posts error', e.message);
     return errorJson(e.message);
   }
 };
@@ -117,9 +106,7 @@ const get_following_posts = async (uid, pid, amount) => {
 // Get single post with given id
 const get_post = async (id) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "SELECT p.post_id, p.user_id, u.username, p.caption, p.created_at, p.imgfilename " +
         "FROM Post AS p, User AS u " +
         "WHERE p.post_id = ? " +
@@ -130,7 +117,6 @@ const get_post = async (id) => {
     );
     return rows[0] ? rows[0] : errorJson("No posts found");
   } catch (e) {
-    // console.error('postModel get_post error', e.message);
     return errorJson(e.message);
   }
 };
@@ -138,18 +124,14 @@ const get_post = async (id) => {
 // Set posts deleted_at property
 const delete_post = async (id) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "UPDATE Post SET deleted_at = NOW() WHERE post_id = ? AND deleted_at IS NULL",
       [id]
     );
-    // console.log('postModel delete_post rows', rows)
     return rows["affectedRows"] === 0
       ? errorJson("No posts deleted")
       : messageJson("Post deleted successfully");
   } catch (e) {
-    // console.error('postModel delete_post error', e.message);
     return errorJson(e.message);
   }
 };
@@ -157,9 +139,7 @@ const delete_post = async (id) => {
 // Get all posts by user
 const get_posts_by_user = async (uid, pid, n) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, " +
         "p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
         "( " +
@@ -180,10 +160,8 @@ const get_posts_by_user = async (uid, pid, n) => {
         "LIMIT ? ",
       [uid, pid, n]
     );
-    // console.log('postModel get_posts_by_user rows', rows)
     return rows;
   } catch (e) {
-    // console.error('postModel get_posts_by_user error', e.message);
     return errorJson(e.message);
   }
 };
@@ -191,13 +169,9 @@ const get_posts_by_user = async (uid, pid, n) => {
 // Only used when error happens when making thumbnail
 const delete_temp_post = async (id) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute("DELETE FROM Post WHERE post_id = ?", [id]);
-    // console.log('postModel delete_post rows', rows);
+    const [rows] = await promisePool.execute("DELETE FROM Post WHERE post_id = ?", [id]);
     return rows;
   } catch (e) {
-    // console.error('postModel delete_post error', e.message);
     return errorJson(e.message);
   }
 };
@@ -263,10 +237,8 @@ const get_posts_by_tag = async (tagname) => {
         "ORDER BY HiddenFrom ASC, Upvotes DESC; ",
       [tagname]
     );
-    // console.log('postModel get_posts_by_tag rows', rows)
     return rows;
   } catch (e) {
-    // console.error('postModel get_posts_by_tag error', e.message);
     return errorJson(e.message);
   }
 };
@@ -313,10 +285,8 @@ const get_posts_by_username = async (username) => {
         "ORDER BY created_at DESC ",
       [username]
     );
-    // console.log('userModel get_posts_by_username rows', rows)
     return rows;
   } catch (e) {
-    // console.error('userModel get_posts_by_username error', e.message);
     return errorJson(e.message);
   }
 };

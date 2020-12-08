@@ -14,10 +14,8 @@ const get_following = async (userid) => {
         'ON u.user_id = f.following_id ' +
         'AND f.follower_id = ?', [userid],
     );
-    // console.log('followingModel get_following rows', rows);
     return rows;
   } catch (e) {
-    // console.error('followingModel get_following error', e.message)
     return errorJson(e.message);
   }
 };
@@ -33,39 +31,38 @@ const get_followers = async (userid) => {
         'ON u.user_id = f.follower_id ' +
         'AND f.following_id = ?', [userid],
     );
-    // console.log('followingModel get_followers rows', rows);
     return rows;
   } catch (e) {
-    // console.error('followingModel get_following error', e.message)
     return errorJson(e.message);
   }
 };
 
+// For following user
 const follow_user = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Following(follower_id, following_id) ' +
         'VALUES(?,?)', [uid, fid],
     );
-    // console.log('followingModel follow_user rows', rows);
     return rows;
   } catch (e) {
-    // console.error('followingModel follow_user error', e.message)
     return errorJson(e.message);
   }
 };
 
+// Checks if user is following given user
 const is_following = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Following ' +
         'WHERE follower_id = ? ' +
-        'AND following_id = ? ', [uid, fid],
+        'AND following_id = ? ' +
+        'AND canceled_at IS NULL', [uid, fid],
     );
-    // console.log('followingModel is_following rows', rows);
-    return rows[0] ? rows[0] : errorJson(`User ${uid} is not following user ${fid}`);
+    return rows[0] ?
+        rows[0] :
+        errorJson(`User ${uid} is not following user ${fid}`);
   } catch (e) {
-    // console.error('followingModel is_following error', e.message)
     return errorJson(e.message);
   }
 }

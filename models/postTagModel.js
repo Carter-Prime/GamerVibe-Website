@@ -15,15 +15,11 @@ const get_tags = async (postId) => {
         "AND untagged_at IS NULL",
       [postId]
     );
-    // console.log('followingModel get_following rows', rows);
     return rows;
   } catch (e) {
-    // console.error('followingModel get_following error', e.message)
     return errorJson(e.message);
   }
 };
-
-
 
 // Add one tag to given post
 const add_tag = async (postId, tag) => {
@@ -34,10 +30,8 @@ const add_tag = async (postId, tag) => {
       "INSERT INTO PostTag(post_id, tag) VALUES(?, ?) ",
       [postId, tag]
     );
-    // console.log('postTagModel add_tag rows', rows)
     return rows;
   } catch (e) {
-    // console.error('postTagModel add_tag error', e.message)
     return errorJson(e.message);
   }
 };
@@ -45,5 +39,4 @@ const add_tag = async (postId, tag) => {
 module.exports = {
   get_tags,
   add_tag,
-  
 };

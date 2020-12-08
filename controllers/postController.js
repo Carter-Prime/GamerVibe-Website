@@ -1,8 +1,6 @@
 "use strict";
 const postModel = require("../models/postModel");
-const { validationResult } = require("express-validator");
 const { errorJson } = require("../utils/json_messages");
-const userModel = require("../models/userModel");
 const commentModel = require("../models/commentModel");
 const postTagModel = require("../models/postTagModel");
 const upvoteModel = require("../models/upvoteModel");
@@ -92,7 +90,7 @@ const fetch_post = async (req, res) => {
   res.json(featExtras);
 };
 
-// Get n amount of posts
+// Get discover posts
 const get_discover_posts = async (req, res) => {
   // Check validation results
   if (checks.hasBodyErrors(req, res)) return;
@@ -153,7 +151,9 @@ const delete_post = async (req, res) => {
 
   // User can delete post
   const query = await postModel.delete_post(req.params.id);
-  return query["error"] ? res.status(400).json(query) : res.json(query);
+  return query["error"] ?
+      res.status(400).json(query) :
+      res.json(query);
 };
 
 // Get all posts by current user
@@ -176,6 +176,7 @@ const getPostsByUser = async (req, res) => {
   res.json(featExtras);
 };
 
+// Get following posts
 const getFollowingPosts = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -198,6 +199,7 @@ const getFollowingPosts = async (req, res) => {
   res.json(featExtras);
 };
 
+// Sets extras to list of posts
 const get_extras = async (fetchedPosts) => {
   const posts = [];
   for (let i = 0; i < fetchedPosts.length; i++) {
@@ -207,10 +209,9 @@ const get_extras = async (fetchedPosts) => {
   return posts;
 };
 
+// Include all comments, tags and upvotes for every post
 const add_extras_one_post = async (post) => {
   const postObj = {};
-
-  // Include all comments, tags and upvotes for every post
   postObj.content = post;
   postObj.comments = await commentModel.get_post_comments(post.post_id);
   postObj.tags = await postTagModel.get_tags(post.post_id);

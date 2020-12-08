@@ -20,6 +20,7 @@ const upload = multer({
   },
 });
 
+// Updates user information
 router.route("/").put(
   upload.single("profilePic"),
   [
@@ -61,9 +62,16 @@ router.route("/").put(
   userController.updateUser
 );
 
+// Get user with id
 router.route("/id/:id").get(userController.getUser);
+
+// Get users that current user is following
 router.route("/following").get(followController.getFollowing);
+
+// Get users that are following current user
 router.route("/followers").get(followController.getFollowers);
+
+// Get all posts from current user
 router.route("/posts").get(postController.getPostsByUser);
 
 module.exports = router;

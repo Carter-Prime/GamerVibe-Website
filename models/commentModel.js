@@ -21,20 +21,20 @@ const get_post_comments = async (postId) => {
   }
 };
 
+// Add new comment
 const add_comment = async (uid, pid, content) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Comments(user_id, post_id, content) ' +
         'VALUES(?,?,?)', [uid, pid, content],
     );
-    // console.log('commentModel add_comment rows', rows);
     return rows;
   } catch (e) {
-    // console.error('commentModel add_comment error', e.message);
     return errorJson(e.message);
   }
 };
 
+// Get comment by id
 const get_comment = async (id) => {
   try {
     const [rows] = await promisePool.execute(
@@ -42,10 +42,8 @@ const get_comment = async (id) => {
         'WHERE comment_id = ? ' +
         'AND deleted_at IS NULL', [id],
     );
-    // console.log('commentModel get_comment rows', rows);
     return rows[0] ? rows[0] : errorJson('No comments found');
   } catch (e) {
-    // console.error('commentModel get_comment error', e.message);
     return errorJson(e.message);
   }
 };

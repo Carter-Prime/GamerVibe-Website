@@ -4,10 +4,6 @@ const router = express.Router();
 const { body } = require("express-validator");
 const postController = require("../controllers/postController");
 const userController = require("../controllers/userController");
-const passport = require("../utils/pass");
-const passportOptions = {
-  session: false,
-};
 
 router
   .route("/user/:name")

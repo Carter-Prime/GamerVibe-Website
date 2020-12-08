@@ -3,7 +3,8 @@ const pool = require('../database/db');
 const promisePool = pool.promise();
 const {errorJson, messageJson} = require('../utils/json_messages');
 
-const get_users_banned_by_user = async (uid) => {
+// Get list of users that are
+const getUsersBlockedByUser = async (uid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT b.blocker_id, b.blocking_id, b.blocked_at, b.unblocked_at, ' +
@@ -20,14 +21,13 @@ const get_users_banned_by_user = async (uid) => {
         'AND u.user_id = ? ' +
         'AND b.unblocked_at IS NULL', [uid],
     );
-    // console.log('blockingModel get_users_banned_by_user rows', rows);
     return rows;
   } catch (e) {
-    // console.log('blockingModel get_users_banned_by_user error', e.message);
     return errorJson(e.message);
   }
 };
 
+// Checks if user is already blocked by user
 const checkBlocked = async (uid, bid) => {
   try {
     const [rows] = await promisePool.execute(
@@ -37,30 +37,28 @@ const checkBlocked = async (uid, bid) => {
         'AND blocking_id = ? ' +
         'AND unblocked_at IS NULL', [uid, bid],
     );
-    // console.log('blockingModel get_users_banned_by_user rows', rows);
     return rows;
   } catch (e) {
-    // console.log('blockingModel get_users_banned_by_user error', e.message);
     return errorJson(e.message);
   }
 };
 
+// For blocking user
 const blockUser = async (uid, bid) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Blocking(blocker_id, blocking_id) ' +
         'VALUES(?,?)', [uid, bid],
     );
-    // console.log('blockingModel blockUser rows', rows);
     return rows['affectedRows'] === 1 ?
         messageJson('User blocked successfully') :
         errorJson('User already blocked');
   } catch (e) {
-    // console.log('blockingModel blockUser error', e.message);
     return errorJson(e.message);
   }
 };
 
+// For unblocking user
 const unblockUser = async (uid, bid) => {
   try {
     const [rows] = await promisePool.execute(
@@ -70,18 +68,16 @@ const unblockUser = async (uid, bid) => {
         'AND blocking_id = ? ' +
         'AND unblocked_at IS NULL', [uid, bid],
     );
-    // console.log('blockingModel unblockUser rows', rows);
     return rows['affectedRows'] === 1 ?
         messageJson('User unblocked successfully') :
         errorJson('User is not blocked');
   } catch (e) {
-    // console.log('blockingModel unblockUser error', e.message);
     return errorJson(e.message);
   }
 };
 
 module.exports = {
-  get_users_banned_by_user,
+  getUsersBlockedByUser,
   blockUser,
   checkBlocked,
   unblockUser

@@ -1,8 +1,9 @@
 'use strict';
 const banModel = require('../models/banModel');
 const checks = require('../utils/checks');
-const {errorJson, messageJson} = require('../utils/json_messages')
+const {messageJson} = require('../utils/json_messages')
 
+// For banning user
 const ban_user = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -18,13 +19,13 @@ const ban_user = async (req, res) => {
       req.body.bannedId,
       req.body.reason,
   );
-  if (query['error']) {
-    return res.status(400).json(query);
-  }
-
-  res.json(messageJson(`User ${req.body.bannedId} banned for ${req.body.reason}`));
+  return query['error'] ?
+      res.status(400).json(query) :
+      res.json(messageJson(
+          `User ${req.body.bannedId} banned for ${req.body.reason}`));
 };
 
+// For unbanning user
 const unban_user = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -38,11 +39,9 @@ const unban_user = async (req, res) => {
   const query = await banModel.unbanUser(
       req.body.bannedId,
   );
-  if (query['error']) {
-    return res.status(400).json(query);
-  }
-
-  res.json(messageJson(`User ${req.body.bannedId} is unbanned`));
+  return query['error'] ?
+      res.status(400).json(query) :
+      res.json(messageJson(`User ${req.body.bannedId} is unbanned`));
 }
 
 module.exports = {

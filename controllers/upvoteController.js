@@ -3,6 +3,7 @@ const {errorJson, messageJson} = require('../utils/json_messages');
 const upvoteModel = require('../models/upvoteModel');
 const checks = require('../utils/checks');
 
+// Add upvote for post
 const addUpvote = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -31,13 +32,12 @@ const addUpvote = async (req, res) => {
       req.user.user_id,
       req.body.postId,
   );
-  if (addQuery['error']) {
-    return res.status(400).json(addQuery);
-  }
-
-  res.json(messageJson('Upvoted successfully'));
+  return addQuery['error'] ?
+      res.status(400).json(addQuery) :
+      res.json(messageJson('Upvoted successfully'));
 };
 
+// Checks if user is already upvoted given post
 const checkUpvote = async (req, res) => {
   // Check that is user banned or deleted
   if (await checks.isUserBanned(req, res)) return;
@@ -45,7 +45,8 @@ const checkUpvote = async (req, res) => {
   const query = await upvoteModel.get_upvote(req.user.user_id, req.params.id)
 
   return query['error'] ?
-      res.json(false) : res.json(query.length !== 0)
+      res.json(false) :
+      res.json(query.length !== 0)
 }
 
 module.exports = {

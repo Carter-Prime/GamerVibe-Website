@@ -3,7 +3,6 @@ const userModel = require("../models/userModel");
 const followModel = require("../models/followModel");
 const moderatorModel = require("../models/moderatorModel");
 const { errorJson } = require("../utils/json_messages");
-const { validationResult } = require("express-validator");
 const { delete_file, make_thumbnail } = require("../utils/my_random_stuff");
 const checks = require("../utils/checks");
 

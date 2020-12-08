@@ -13,7 +13,6 @@ const getAllUsers = async () => {
         "WHERE u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL"
     );
-    // console.log('userModel getAllUsers rows', rows);
     return rows;
   } catch (e) {
     return errorJson(e.message);
@@ -23,9 +22,7 @@ const getAllUsers = async () => {
 // Get user with given id
 const getUser = async (id) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
         "u.discord, u.youtube, u.twitch, u.private_acc, " +
         "(SELECT COUNT(*) " +
@@ -48,7 +45,6 @@ const getUser = async (id) => {
         "AND u.banned_at IS NULL",
       [id, id, id, id]
     );
-    // console.log('userModel getUser user', rows[0])
     return rows[0] ? rows[0] : errorJson(`No users found with id: ${id}`);
   } catch (e) {
     return errorJson(e.message);
@@ -58,9 +54,7 @@ const getUser = async (id) => {
 // Get users login information
 const getUserLogin = async (email) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
+    const [rows] = await promisePool.execute(
       "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.passwd, " +
         "u.imagename, u.theme, u.discord, u.youtube, u.twitch, u.created_at, " +
         "u.private_acc, m.moderator_since " +
@@ -74,7 +68,6 @@ const getUserLogin = async (email) => {
         "AND u.banned_at IS NULL",
       [email]
     );
-    // console.log('userModel getUserLogin rows', rows);
     return rows;
   } catch (e) {
     return errorJson(e.message);
@@ -98,10 +91,8 @@ const updateUser = async (params) => {
         "AND banned_at IS NULL",
       params
     );
-    // console.log('userModel updateUser rows', rows);
     return rows;
   } catch (e) {
-    // console.error('userModel updateUser error', e.message);
     return errorJson(e.message);
   }
 };
@@ -113,12 +104,8 @@ const addUser = async (params) => {
       "INSERT INTO User(username, email, passwd, imagename) VALUES(?,?,?,?)",
       params
     );
-    // console.log('addUser rows', rows);
-
     return await getUser(rows["insertId"]);
   } catch (e) {
-    // console.error('addUser error', e.message);
-
     // Email or username is already in use
     if (e.code === "ER_DUP_ENTRY") {
       const sliced = e.message.split("'");
@@ -143,14 +130,11 @@ const getUsersByName = async (name) => {
         "AND banned_at IS NULL ",
       [name]
     );
-    // console.log('userModel getUser user', rows[0])
     return rows ? [...rows] : errorJson(`No users found with name: ${name}`);
   } catch (e) {
     return errorJson(e.message);
   }
 };
-
-
 
 module.exports = {
   getAllUsers,
