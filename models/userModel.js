@@ -28,10 +28,12 @@ const getUser = async (id) => {
         "(SELECT COUNT(*) " +
         " FROM Following AS f " +
         " WHERE f.follower_id = ? " +
+        "AND f.canceled_at IS NULL " +
         ") AS following, " +
         "(SELECT COUNT(*) " +
         " FROM Following AS f " +
         " WHERE f.following_id = ? " +
+        "AND f.canceled_at IS NULL " +
         ") AS followers, " +
         "(SELECT COUNT(*) " +
         " FROM Post AS p " +
