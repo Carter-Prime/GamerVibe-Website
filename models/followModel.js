@@ -59,9 +59,7 @@ const is_following = async (uid, fid) => {
         'AND following_id = ? ' +
         'AND canceled_at IS NULL', [uid, fid],
     );
-    return rows[0] ?
-        rows[0] :
-        errorJson(`User ${uid} is not following user ${fid}`);
+    return rows;
   } catch (e) {
     return errorJson(e.message);
   }
