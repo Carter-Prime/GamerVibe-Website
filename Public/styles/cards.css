@@ -273,6 +273,7 @@ select {
   width: fit-content;
   padding: 10px;
   height: fit-content;
+  height: -moz-max-content;
 }
 
 .accountDetails > p {

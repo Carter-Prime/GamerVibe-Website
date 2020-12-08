@@ -49,6 +49,8 @@ const setProfileBanner = (userInfo) => {
     followBtn.classList.remove("hide");
     blockBtn.classList.remove("hide");
 
+    // check to see if already following, if true hides follow button
+    isFollower(userInfo.user_id, followBtn);
     followBtn.addEventListener("click", async (Event) => {
       Event.preventDefault();
       console.log("follow btn is clicked");
@@ -69,7 +71,7 @@ const setProfileBanner = (userInfo) => {
 
         const response = await fetch(url + "/follow/", options);
         const followPosts = await response.json();
-        console.log(followPosts);
+        console.log("followPost contains: " + followPosts);
       } catch (e) {
         console.log(e.message);
       }

@@ -514,3 +514,24 @@ const isLiked = async (postId, newUpVote, post) => {
     console.log(e.message);
   }
 };
+
+const isFollower = async (userId, followBtn) => {
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(url + "/follow/" + userId, options);
+    const followResponse = await response.json();
+    console.log(followResponse);
+    if (followResponse == true) {
+      followBtn.classList.add("hide");
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
