@@ -29,7 +29,6 @@ const getUserByID = async (userId) => {
     };
     const response = await fetch(url + `/user/id/` + userId, options);
     const user = await response.json();
-    console.log("get user id called: " + user.user_id);
     if (user.user_id != null) {
       setProfileBanner(user);
     }
@@ -39,8 +38,6 @@ const getUserByID = async (userId) => {
 };
 
 const setProfileBanner = (userInfo) => {
-  console.log("set profile called: userinfo: " + userInfo.user_id + " logged in user id: " + user);
-
   // comparing session user id with clicked user information and toggles UI elements visibility
   if (user == userInfo.user_id) {
     postBtn.classList.remove("hide");

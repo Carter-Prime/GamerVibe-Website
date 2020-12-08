@@ -26,7 +26,6 @@ const createActionBar = (userType, post) => {
       Event.preventDefault();
       const check = confirm("are you sure you want to delete this post?");
       if (check) {
-        console.log(post.content.post_id);
         deletePostById(post.content.post_id);
       }
     });
@@ -40,6 +39,8 @@ const createActionBar = (userType, post) => {
       getHomePosts();
     } else if (window.location.pathname === "/followers.html") {
       getFollowerPosts();
+    } else if (window.location.pathname === "/search.html") {
+      location.reload();
     } else {
       getDiscoverPosts();
     }
@@ -50,7 +51,7 @@ const createActionBar = (userType, post) => {
 
 const detailedPost = (post) => {
   mainBody.innerHTML = "";
-  console.log(post);
+
   if (userType != "anonymous") {
     getUserByID(post.content.user_id);
   }
@@ -72,7 +73,9 @@ const detailedPost = (post) => {
 
   const newUpVote = document.createElement("p");
   newUpVote.classList.add("upvotes");
-  newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="far fa-thumbs-up fa-2x"></i></span>`;
+
+  //checks the post to see if user has already liked the post and changes the icon appropriately
+  isLiked(post.content.post_id, newUpVote, post);
 
   newUpVote.addEventListener("click", async (Event) => {
     Event.preventDefault();
@@ -121,7 +124,6 @@ const detailedPost = (post) => {
   userComments.append(commentTitle);
 
   userComments.classList.add("comments-container");
-  console.log(post.comments.length);
   if (post.comments.length != 0) {
     for (let i = 0; i < post.comments.length; i++) {
       const comment = document.createElement("p");
@@ -202,7 +204,6 @@ const detailedPost = (post) => {
 };
 
 const createDiscoverCards = (posts) => {
-  console.log(posts);
   mainBody.innerHTML = "";
   posts.forEach((post) => {
     //create new card
@@ -248,7 +249,6 @@ const createDiscoverCards = (posts) => {
 
     newCard.addEventListener("click", (Event) => {
       Event.preventDefault();
-      console.log(post.content.post_id);
       sessionStorage.setItem("postId", JSON.stringify(post.content.post_id));
 
       detailedPost(post);
@@ -274,7 +274,6 @@ const getDiscoverPosts = async () => {
 
     const response = await fetch(url + "/posts/discover", options);
     const discoverPosts = await response.json();
-
     createDiscoverCards(discoverPosts);
     if (userType != "anonymous") {
       getUserByID(user);
@@ -314,7 +313,6 @@ const deletePostById = async (postId) => {
     const json = await response.json();
     if (json != null) {
       alert(`${postId} was deleted`);
-      console.log(json);
       location.reload();
     }
   } catch (e) {
@@ -393,7 +391,6 @@ const createPost = () => {
 
   backSpan.addEventListener("click", (Event) => {
     Event.preventDefault();
-    console.log("upload back button pressed");
     location.reload();
     if (user == userInfo.user_id) {
       postBtn.classList.remove("hide");
@@ -411,23 +408,18 @@ const createPost = () => {
 
   uploadBtn.addEventListener("click", async (Event) => {
     Event.preventDefault();
-    console.log("upload clicked");
     const tags = postTags.value;
     const tagsArray = tags.trim().split(" ");
-    console.log("tags before split: " + tags);
-    console.log("tagsArray: " + tagsArray);
     const caption = postCaption.value;
 
     const data = new FormData();
 
     for (let i = 0; i < tagsArray.length; i++) {
-      console.log(tagsArray[i]);
       data.append(`tags[]`, tagsArray[i]);
     }
     data.append("gameImage", postImg.files[0]);
     data.append("caption", caption);
 
-    console.log("form data: " + data);
     try {
       const fetchOptions = {
         method: "POST",
@@ -439,7 +431,6 @@ const createPost = () => {
 
       const response = await fetch(url + "/post/", fetchOptions);
       const post = await response.json();
-      console.log("json response", post);
       if (post.caption != null) {
         location.reload();
       }
@@ -490,10 +481,35 @@ const getFollowerPosts = async () => {
 
     const response = await fetch(url + "/posts/following", options);
     const followingPosts = await response.json();
-    console.log(followingPosts);
     createDiscoverCards(followingPosts);
     if (userType != "anonymous") {
       getUserByID(user);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+const isLiked = async (postId, newUpVote, post) => {
+  console.log("postId is: " + postId);
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+    };
+
+    const response = await fetch(url + "/post/upvote/" + postId, options);
+    const likedResponse = await response.json();
+    console.log("liked: " + likedResponse);
+    if (likedResponse) {
+      console.log("is liked is true place code here");
+      newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="fas fa-thumbs-up fa-2x"></i></span>`;
+    } else {
+      console.log("is liked is false place code here");
+      newUpVote.innerHTML = `Likes: ${post.upvotes.length} <span id="js-like-btn"><i class="far fa-thumbs-up fa-2x"></i></span>`;
     }
   } catch (e) {
     console.log(e.message);
