@@ -210,25 +210,33 @@ const detailedPost = (post) => {
     Event.preventDefault();
     console.log("block button pressed" + post.content.user_id);
     const data = post.content.user_id;
-    try {
-      const options = {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          blockedId: data,
-        }),
-      };
+    const check = confirm(`"Do you want to block ${post.content.username}?`);
+    if (check) {
+      console.log("block successful " + check);
+      try {
+        const options = {
+          method: "PUT",
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            blockedId: data,
+          }),
+        };
 
-      const response = await fetch(url + "/block/", options);
-      const blockedUserResponse = await response.json();
-      console.log("blocked user response " + JSON.stringify(blockedUserResponse, null, 1));
-      if (blockedUserResponse != null) {
+        const response = await fetch(url + "/block/", options);
+        const blockedUserResponse = await response.json();
+        console.log("blocked user response " + JSON.stringify(blockedUserResponse, null, 1));
+        if (blockedUserResponse != null) {
+          alert(`${post.content.username} has been blocked`);
+          location.reload();
+        }
+      } catch (e) {
+        console.log(e.message);
       }
-    } catch (e) {
-      console.log(e.message);
+    } else {
+      alert(`${post.content.username} was not blocked`);
     }
   });
 
@@ -237,28 +245,35 @@ const detailedPost = (post) => {
     Event.preventDefault();
     console.log("ban button pressed" + post.content.user_id);
     const check = prompt("Reason for banning?");
+    const confirmation = confirm(`"Do you want to ban ${post.content.username}?`);
     const data = post.content.user_id;
     console.log(check);
-    try {
-      const options = {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          bannedId: data,
-          reason: check,
-        }),
-      };
+    if (check != "" && confirmation) {
+      try {
+        const options = {
+          method: "PUT",
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            bannedId: data,
+            reason: check,
+          }),
+        };
 
-      const response = await fetch(url + "/ban/", options);
-      const bannedUserResponse = await response.json();
-      console.log("banned user response " + JSON.stringify(bannedUserResponse, null, 1));
-      if (bannedUserResponse != null) {
+        const response = await fetch(url + "/ban/", options);
+        const bannedUserResponse = await response.json();
+        console.log("banned user response " + JSON.stringify(bannedUserResponse, null, 1));
+        if (bannedUserResponse != null) {
+          alert(`${post.content.username} has been banned`);
+          location.reload();
+        }
+      } catch (e) {
+        console.log(e.message);
       }
-    } catch (e) {
-      console.log(e.message);
+    } else {
+      alert(`${post.content.username} was not banned`);
     }
   });
 };
