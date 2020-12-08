@@ -204,6 +204,63 @@ const detailedPost = (post) => {
     newCard.append(actionButtons, newImg, detailsContainer, newCaption, userComments);
   }
   mainBody.append(newCard);
+
+  blockBtn.addEventListener("click", async (Event) => {
+    Event.stopImmediatePropagation();
+    Event.preventDefault();
+    console.log("block button pressed" + post.content.user_id);
+    const data = post.content.user_id;
+    try {
+      const options = {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          blockedId: data,
+        }),
+      };
+
+      const response = await fetch(url + "/block/", options);
+      const blockedUserResponse = await response.json();
+      console.log("blocked user response " + JSON.stringify(blockedUserResponse, null, 1));
+      if (blockedUserResponse != null) {
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  });
+
+  banBtn.addEventListener("click", async (Event) => {
+    Event.stopImmediatePropagation();
+    Event.preventDefault();
+    console.log("ban button pressed" + post.content.user_id);
+    const check = prompt("Reason for banning?");
+    const data = post.content.user_id;
+    console.log(check);
+    try {
+      const options = {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + sessionStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bannedId: data,
+          reason: check,
+        }),
+      };
+
+      const response = await fetch(url + "/ban/", options);
+      const bannedUserResponse = await response.json();
+      console.log("banned user response " + JSON.stringify(bannedUserResponse, null, 1));
+      if (bannedUserResponse != null) {
+      }
+    } catch (e) {
+      console.log(e.message);
+    }
+  });
 };
 
 const createDiscoverCards = (posts) => {

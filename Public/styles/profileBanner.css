@@ -196,8 +196,8 @@
   }
 
   #js-profile-img {
-    width: 300px;
-    clip-path: circle(100px at center);
+    width: 200px;
+    clip-path: circle(80px at center);
   }
 }
 /* for screens greater than 1600px wide - desktops and large screens*/

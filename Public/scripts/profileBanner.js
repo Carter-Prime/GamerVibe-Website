@@ -39,6 +39,8 @@ const getUserByID = async (userId) => {
 };
 
 const setProfileBanner = (userInfo) => {
+  console.log("setProfileBanner" + JSON.stringify(userInfo, null, 1));
+
   // comparing session user id with clicked user information and toggles UI elements visibility
   if (user == userInfo.user_id) {
     postBtn.classList.remove("hide");
@@ -116,39 +118,6 @@ const setProfileBanner = (userInfo) => {
   postBtn.addEventListener("click", (Event) => {
     Event.preventDefault();
     createPost();
-  });
-
-  // listener to block an account of a user can be done my moderator or registered user
-  blockBtn.addEventListener("click", async (Event) => {
-    Event.stopImmediatePropagation();
-    Event.preventDefault();
-    console.log("block button pressed" + userInfo.user_id);
-    try {
-      const options = {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + sessionStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          blockedId: userInfo.user_id,
-        }),
-      };
-
-      const response = await fetch(url + "/block/", options);
-      const blockedUserResponse = await response.json();
-      console.log("blocked user response " + JSON.stringify(blockedUserResponse, null, 1));
-      if (blockedUserResponse != null) {
-      }
-    } catch (e) {
-      console.log(e.message);
-    }
-  });
-
-  // listener to ban an account of a user can be done my moderator
-  banBtn.addEventListener("click", (Event) => {
-    Event.stopImmediatePropagation();
-    Event.preventDefault();
-    console.log("ban button pressed");
   });
 };
 
