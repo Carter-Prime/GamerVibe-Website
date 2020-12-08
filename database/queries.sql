@@ -408,6 +408,37 @@ WHERE p.deleted_at IS NULL
 ORDER BY created_at DESC
 LIMIT 30;
 
+-- Friends query 2.0
+SELECT p.post_id, p.user_id, u.username, p.caption, p.imgfilename, p.created_at, p.deleted_at, p.banned_at, f.follower_id, f.following_id, f.canceled_at,
+    (
+    	SELECT COUNT(*)
+        FROM Upvote l
+        WHERE p.post_id = l.post_id AND l.unliked_at IS NULL
+	) Upvotes,
+    (
+    	SELECT COUNT(*)
+        FROM Following f
+        WHERE f.following_id = u.user_id
+	) PosterFollowers,
+    (
+        SELECT COUNT(*)
+        FROM Blocking AS b
+        WHERE b.blocking_id = u.user_id
+    ) HiddenFrom
+FROM Post AS p
+INNER JOIN User AS u
+ON p.user_id = u.user_id
+LEFT JOIN Following AS f
+ON f.following_id = p.user_id
+WHERE f.follower_id = 76
+AND f.canceled_at IS NULL
+AND p.deleted_at IS NULL
+AND p.banned_at IS NULL
+AND u.deleted_at IS NULL
+AND u.banned_at IS NULL
+ORDER BY p.created_at DESC
+LIMIT 30
+
 -- Query for own posts only that has not been banned or deleted
 SELECT DISTINCT p.post_id,
     p.user_id,
