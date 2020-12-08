@@ -29,7 +29,8 @@ const getUserByID = async (userId) => {
     };
     const response = await fetch(url + `/user/id/` + userId, options);
     const user = await response.json();
-    if (user.user_id != null) {
+    console.log("this is the returned user from getUserbyId" + JSON.stringify(user));
+    if (user != null) {
       setProfileBanner(user);
     }
   } catch (e) {
@@ -47,6 +48,32 @@ const setProfileBanner = (userInfo) => {
     postBtn.classList.add("hide");
     followBtn.classList.remove("hide");
     blockBtn.classList.remove("hide");
+
+    followBtn.addEventListener("click", async (Event) => {
+      Event.preventDefault();
+      console.log("follow btn is clicked");
+
+      const data = userInfo.user_id;
+      console.log(data);
+      try {
+        const options = {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + sessionStorage.getItem("token"),
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: data,
+          }),
+        };
+
+        const response = await fetch(url + "/follow/", options);
+        const followPosts = await response.json();
+        console.log(followPosts);
+      } catch (e) {
+        console.log(e.message);
+      }
+    });
   }
 
   // extra features are visible for moderator accounts only
@@ -102,13 +129,9 @@ const setProfileBanner = (userInfo) => {
     Event.preventDefault();
     console.log("ban button pressed");
   });
-
-  // followBtn.addEventListener("click"),
-  //   async (Event) => {
-  //     Event.preventDefault();
-  //   };
 };
 
 if (userType != "anonymous") {
+  console.log(user);
   getUserByID(user);
 }

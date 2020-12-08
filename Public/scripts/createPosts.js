@@ -53,6 +53,7 @@ const detailedPost = (post) => {
   mainBody.innerHTML = "";
 
   if (userType != "anonymous") {
+    console.log("detailed post called: " + post.content.user_id);
     getUserByID(post.content.user_id);
   }
 
