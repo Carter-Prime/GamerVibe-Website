@@ -1,6 +1,6 @@
 'use strict';
 const followingModel = require('../models/followModel');
-const {messageJson} = require('../utils/json_messages');
+const {messageJson, errorJson} = require('../utils/json_messages');
 const checks = require('../utils/checks');
 
 // Get users who current user is following
@@ -43,6 +43,10 @@ const followUser = async (req, res) => {
 
   // Check body for errors
   if (checks.hasBodyErrors(req, res)) return;
+
+  if(req.user.user_id.toString() === req.body.user.toString()) {
+    return res.status(400).json(errorJson('You can\'t follow yourself'));
+  }
 
   // Check if user is already following other user
   const isFollowing = await followingModel.is_following(req.user.user_id,
