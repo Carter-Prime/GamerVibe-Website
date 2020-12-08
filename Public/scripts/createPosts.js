@@ -38,6 +38,8 @@ const createActionBar = (userType, post) => {
     Event.preventDefault();
     if (window.location.pathname === "/home.html") {
       getHomePosts();
+    } else if (window.location.pathname === "/followers.html") {
+      getFollowerPosts();
     } else {
       getDiscoverPosts();
     }
@@ -488,7 +490,7 @@ const getFollowerPosts = async () => {
 
     const response = await fetch(url + "/posts/following", options);
     const followingPosts = await response.json();
-
+    console.log(followingPosts);
     createDiscoverCards(followingPosts);
     if (userType != "anonymous") {
       getUserByID(user);
