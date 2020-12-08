@@ -27,7 +27,7 @@ const getUser = async (req, res) => {
     const mod = await moderatorModel.get_mod(user.user_id);
 
     // User is not following current user or user is not moderator
-    if (follow["error"] && mod["error"]) {
+    if (wantedUser.private_acc === 1 && follow["error"] && mod["error"]) {
       return res.status(400).json(errorJson("No rights to view this user"));
     }
   }
