@@ -12,7 +12,8 @@ const get_following = async (userid) => {
         'FROM User AS u ' +
         'INNER JOIN Following AS f ' +
         'ON u.user_id = f.following_id ' +
-        'AND f.follower_id = ?', [userid],
+        'AND f.follower_id = ? ' +
+        'AND canceled_at IS NULL', [userid],
     );
     return rows;
   } catch (e) {
@@ -29,7 +30,8 @@ const get_followers = async (userid) => {
         'FROM User AS u ' +
         'INNER JOIN Following AS f ' +
         'ON u.user_id = f.follower_id ' +
-        'AND f.following_id = ?', [userid],
+        'AND f.following_id = ? ' +
+        'AND f.canceled_at IS NULL', [userid],
     );
     return rows;
   } catch (e) {
@@ -50,6 +52,21 @@ const follow_user = async (uid, fid) => {
   }
 };
 
+// For unfollowing user
+const unfollow_user = async (uid, fid) => {
+  try {
+    const [rows] = await promisePool.execute(
+        'UPDATE Following ' +
+        'SET canceled_at = NOW() ' +
+        'WHERE follower_id = ? ' +
+        'AND following_id = ?', [uid, fid],
+    );
+    return rows;
+  } catch (e) {
+    return errorJson(e.message);
+  }
+};
+
 // Checks if user is following given user
 const is_following = async (uid, fid) => {
   try {
@@ -63,11 +80,12 @@ const is_following = async (uid, fid) => {
   } catch (e) {
     return errorJson(e.message);
   }
-}
+};
 
 module.exports = {
   get_following,
   get_followers,
   follow_user,
-  is_following
+  is_following,
+  unfollow_user,
 };
