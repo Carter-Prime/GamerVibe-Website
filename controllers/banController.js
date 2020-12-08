@@ -1,7 +1,7 @@
 'use strict';
 const banModel = require('../models/banModel');
 const checks = require('../utils/checks');
-const {messageJson} = require('../utils/json_messages')
+const {messageJson, errorJson} = require('../utils/json_messages')
 
 // For banning user
 const ban_user = async (req, res) => {
@@ -13,6 +13,10 @@ const ban_user = async (req, res) => {
 
   // Check if user is moderator
   if(await checks.hasModError(req, res)) return;
+
+  if(req.user.user_id.toString() === req.body.bannedId.toString()) {
+    return res.status(400).json(errorJson('You can\'t ban yourself'))
+  }
 
   const query = await banModel.banUser(
       req.user.user_id,
