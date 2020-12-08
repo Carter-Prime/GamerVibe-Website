@@ -1,7 +1,8 @@
 'use strict';
 const blockingModel = require('../models/blockingModel');
+const followModel = require('../models/followModel');
 const checks = require('../utils/checks');
-const {errorJson} = require('../utils/json_messages')
+const {errorJson} = require('../utils/json_messages');
 
 // Returns list of blocked users blocked by current user
 const get_blocked_users_by_user = async (req, res) => {
@@ -40,9 +41,16 @@ const block_user = async (req, res) => {
   const query = await blockingModel.blockUser(req.user.user_id,
       req.body.blockedId);
 
-  return query['error'] ?
-      res.status(400).json(query) :
-      res.json(query);
+  if(query['error']) {
+    return res.status(400).json(query);
+  }
+
+  // If current user is following user, then cancel it
+  await followModel.unfollow_user(req.user.user_id, req.body.blockedId);
+  // If user is following current user, then cancel it
+  await followModel.unfollow_user(req.body.blockedId, req.user.user_id);
+
+  res.json(query);
 };
 
 // For unblocking user

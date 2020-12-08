@@ -1,6 +1,6 @@
 'use strict';
 const followingModel = require('../models/followModel');
-const {messageJson} = require('../utils/json_messages');
+const {messageJson, errorJson} = require('../utils/json_messages');
 const checks = require('../utils/checks');
 
 // Get users who current user is following
@@ -44,6 +44,10 @@ const followUser = async (req, res) => {
   // Check body for errors
   if (checks.hasBodyErrors(req, res)) return;
 
+  if(req.user.user_id.toString() === req.body.user.toString()) {
+    return res.status(400).json(errorJson('You can\'t follow yourself'));
+  }
+
   // Check if user is already following other user
   const isFollowing = await followingModel.is_following(req.user.user_id,
       req.body.user);
@@ -65,9 +69,39 @@ const followUser = async (req, res) => {
           `User ${req.user.user_id} followed user ${req.body.user}`));
 };
 
+// For unfollowing user
+const unfollowUser = async (req, res) => {
+  // Check that is user banned or deleted
+  if (await checks.isUserBanned(req, res)) return;
+
+  // Check body for errors
+  if (checks.hasBodyErrors(req, res)) return;
+
+  // Check if user is already following other user
+  const isFollowing = await followingModel.is_following(req.user.user_id,
+      req.body.user);
+  if (isFollowing['error']) {
+    // Error happened
+    return res.status(400).json(isFollowing);
+  } else if (isFollowing.length !== 0) {
+    // User is not following given user
+    return res.json(messageJson(
+        `User ${req.user.user_id} is not following user ${req.body.user}`));
+  }
+
+  // Unfollowing user
+  const unfollow = await followingModel.follow_user(req.user.user_id,
+      req.body.user);
+  return unfollow['error'] ?
+      res.status(400).json(unfollow) :
+      res.json(messageJson(
+          `User ${req.user.user_id} unfollowed user ${req.body.user}`));
+};
+
 module.exports = {
   getFollowing,
   getFollowers,
   followUser,
-  isFollowingUserId
+  isFollowingUserId,
+  unfollowUser
 };
