@@ -447,6 +447,7 @@ const createPost = () => {
   });
 };
 
+// get posts from the currently logged in user
 const getHomePosts = async () => {
   try {
     const options = {
@@ -470,3 +471,6 @@ const getHomePosts = async () => {
     console.log(e.message);
   }
 };
+
+// get posts of all the currently logged in users followers
+const getFollowerPosts = async () => {};

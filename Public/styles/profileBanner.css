@@ -53,6 +53,7 @@
 .profile-btn {
   margin: 5px;
   font-size: clamp(0.7rem, 0.5154rem + 0.8205vw, 1.5rem);
+  cursor: pointer;
 }
 
 .icon-span {
@@ -91,6 +92,7 @@
   justify-content: flex-end;
   color: red;
   padding: 5px;
+  cursor: pointer;
 }
 
 .ban-icon {
