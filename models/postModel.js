@@ -49,51 +49,38 @@ const get_discover_posts = async (n, uid, beginId) => {
 // Gets posts from users that user is following
 const get_following_posts = async (uid, pid, amount) => {
   try {
-    const [
-      rows,
-    ] = await promisePool.execute(
-      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, " +
-        "p.created_at, p.imgfilename, p.deleted_at, p.banned_at, " +
+    const [rows] = await promisePool.execute(
+      "SELECT p.post_id, p.user_id, u.username, p.caption, p.imgfilename, " +
+        "p.created_at, p.deleted_at, p.banned_at, f.follower_id, f.following_id, f.canceled_at, " +
         "( " +
-        "SELECT count(post_id) " +
+        "SELECT COUNT(*) " +
         "FROM Upvote l " +
-        "WHERE p.post_id = l.post_id " +
-        "AND l.unliked_at IS NULL " +
+        "WHERE p.post_id = l.post_id AND l.unliked_at IS NULL " +
         ") Upvotes, " +
         "( " +
-        "SELECT count(approved) " +
+        "SELECT COUNT(*) " +
         "FROM Following f " +
         "WHERE f.following_id = u.user_id " +
         ") PosterFollowers, " +
         "( " +
-        "SELECT count(blocked_at) " +
+        "SELECT COUNT(*) " +
         "FROM Blocking AS b " +
         "WHERE b.blocking_id = u.user_id " +
         ") HiddenFrom " +
-        "FROM Post AS p, User AS u, Following AS f, Blocking AS b " +
-        "WHERE p.deleted_at IS NULL " +
+        "FROM Post AS p " +
+        "INNER JOIN User AS u " +
+        "ON p.user_id = u.user_id " +
+        "LEFT JOIN Following AS f " +
+        "ON f.following_id = p.user_id " +
+        "WHERE f.follower_id = ? " +
+        "AND f.canceled_at IS NULL " +
+        "AND p.deleted_at IS NULL " +
         "AND p.banned_at IS NULL " +
-        "AND u.user_id = p.user_id " +
-        "AND u.user_id != ? " +
-        "AND ( " +
-        "f.follower_id = ? " +
-        "AND f.following_id = u.user_id " +
-        "AND ( " +
-        "u.private_acc = 0 " +
-        "OR u.private_acc = 1 " +
-        ") " +
-        ") " +
         "AND u.deleted_at IS NULL " +
         "AND u.banned_at IS NULL " +
-        "AND NOT ( " +
-        "b.blocker_id = ? " +
-        "AND b.blocking_id = u.user_id " +
-        "AND b.unblocked_at IS NULL " +
-        ") " +
         "AND p.post_id < ? " +
-        "ORDER BY created_at DESC " +
-        "LIMIT ?",
-      [uid, uid, uid, pid, amount]
+        "ORDER BY p.created_at DESC " +
+        "LIMIT ?", [uid, pid, amount]
     );
     return rows;
   } catch (e) {
