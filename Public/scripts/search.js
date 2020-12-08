@@ -14,7 +14,7 @@ form_users.addEventListener("submit", (evt) => {
   doFetchUsers();
 });
 
-form_tags.addEventListener("submit", (evt) => {
+form_tags.addEventListener("click", (evt) => {
   evt.preventDefault();
   console.log(input.value);
   doFetchTags();
@@ -75,24 +75,18 @@ const doFetchUsers = async () => {
 };
 
 function publishUsers(data) {
-  const empty = `<h2></h2>`;
-  results.innerHTML = empty;
+  results.innerHTML = "";
 
   data.forEach((user) => {
-    !user.username
-      ? (tagname = "name not available")
-      : (tagname = user.username);
+    !user.username ? (tagname = "name not available") : (tagname = user.username);
     console.log(user.username);
-    const hr = document.createElement("hr");
-    const article = document.createElement("article");
+
     const p = document.createElement("p");
-    const a = document.createElement("a");
-    a.innerText = user.username;
-    p.appendChild(a);
-    article.appendChild(p);
-    results.appendChild(article);
-    results.appendChild(hr);
-    a.addEventListener("click", async () => {
+    p.classList.add("result-item");
+    p.innerText = user.username;
+    results.appendChild(p);
+
+    p.addEventListener("click", async () => {
       state_posts.innerText = "Loading ...";
       try {
         const options = {
@@ -100,10 +94,7 @@ function publishUsers(data) {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(
-          url + "/search/username/" + user.username,
-          options
-        );
+        const res = await fetch(url + "/search/username/" + user.username, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
@@ -128,16 +119,13 @@ function publishTags(data) {
   data.forEach((item) => {
     !item.tag ? (tagname = "name not available") : (tagname = item.tag);
     console.log(item.tag);
-    const hr = document.createElement("hr");
-    const article = document.createElement("article");
+
     const p = document.createElement("p");
-    const a = document.createElement("a");
-    a.innerText = item.tag;
-    p.appendChild(a);
-    article.appendChild(p);
-    results.appendChild(article);
-    results.appendChild(hr);
-    a.addEventListener("click", async () => {
+    p.classList.add("result-item");
+    p.innerText = item.tag;
+    results.appendChild(p);
+
+    p.addEventListener("click", async () => {
       state_posts.innerText = "Loading ...";
       try {
         const options = {
