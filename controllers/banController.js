@@ -53,7 +53,7 @@ const unban_user = async (req, res) => {
 };
 
 const is_banned = async (req, res) => {
-  const user = await userModel.getUser(req.user.user_id);
+  const user = await userModel.get_user(req.user.user_id);
   if (user['error']) {
     // User query returns error
     req.logout();
