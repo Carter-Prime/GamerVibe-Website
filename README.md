@@ -11,10 +11,10 @@ Basics in web development project
 > openssl x509 -req -in certrequest.csr -signkey ssl-key.pem -out ssl-cert.pem
 
 ### Environment variables in .env
-> DB_HOST=`<your-db>`\
-> DB_USER=`<your-db-user>`\
-> DB_PASS=`<your-db-password>`\
-> DB_NAME=`<your-db-name>`\
+> DB_HOST=\<your-db\>\
+> DB_USER=\<your-db-user\>\
+> DB_PASS=\<your-db-password\>\
+> DB_NAME=\<your-db-name\>\
 > PROXY_PASS=/app\
 > HTTPS_PORT=8000\
 > HTTP_PORT=3000
