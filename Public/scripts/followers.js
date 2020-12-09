@@ -40,7 +40,35 @@ const createBlockList = (list) => {
     unblockSpan.addEventListener("click", async (Event) => {
       Event.stopImmediatePropagation();
       Event.preventDefault();
-      console.log(list[i]);
+      console.log(list[i].blocking_id);
+      const data = list[i].blocking_id;
+      const check = confirm(`"Do you want to unblock ${list[i].BlockedUsername}?`);
+      if (check) {
+        try {
+          const options = {
+            method: "DELETE",
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              blockedId: data,
+            }),
+          };
+
+          const response = await fetch(url + "/block/", options);
+          const blockedUserResponse = await response.json();
+          console.log("blocked user response " + JSON.stringify(blockedUserResponse, null, 1));
+          if (blockedUserResponse != null) {
+            alert(`${list[i].BlockedUsername} has been unblocked`);
+            location.reload();
+          }
+        } catch (e) {
+          console.log(e.message);
+        }
+      } else {
+        alert(`${list[i].BlockedUsername} was not blocked`);
+      }
     });
   }
   mainBody.append(newCard);

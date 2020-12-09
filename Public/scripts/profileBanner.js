@@ -52,6 +52,7 @@ const setProfileBanner = (userInfo) => {
 
     // check to see if already following, if true hides follow button
     isFollower(userInfo.user_id, followBtn);
+
     followBtn.addEventListener("click", async (Event) => {
       Event.preventDefault();
       console.log("follow btn is clicked");
@@ -114,6 +115,7 @@ const setProfileBanner = (userInfo) => {
     const decode = htmlDecoder(userInfo.twitch);
     twitchLink.setAttribute("href", decode);
   }
+
   postBtn.addEventListener("click", (Event) => {
     Event.preventDefault();
     createPost();

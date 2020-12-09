@@ -212,6 +212,7 @@ const detailedPost = (post) => {
   }
   mainBody.append(newCard);
 
+  // Block button handler
   blockBtn.addEventListener("click", async (Event) => {
     Event.stopImmediatePropagation();
     Event.preventDefault();
@@ -247,6 +248,7 @@ const detailedPost = (post) => {
     }
   });
 
+  // Ban button handler will prompt user for confirmation
   banBtn.addEventListener("click", async (Event) => {
     Event.stopImmediatePropagation();
     Event.preventDefault();
@@ -331,8 +333,6 @@ const createDiscoverCards = (posts) => {
 
     newCard.addEventListener("click", (Event) => {
       Event.preventDefault();
-      sessionStorage.setItem("postId", JSON.stringify(post.content.post_id));
-
       detailedPost(post);
     });
 
