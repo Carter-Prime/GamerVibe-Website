@@ -15,11 +15,21 @@ const profileDetail = document.getElementById("js-profile-details");
 const blockBtn = document.getElementById("js-block-btn");
 const banBtn = document.getElementById("js-ban-btn");
 
+/**
+ *
+ * @param {*} input escaped url address to be decoded
+ *  Decodes escaped url links and returns a clean url.
+ */
 const htmlDecoder = (input) => {
   const doc = new DOMParser().parseFromString(input, "text/html");
   return doc.documentElement.textContent;
 };
 
+/**
+ *
+ * @param {*} userId user Id to be fetched
+ *  Fetches user data and calls setProfileBanner based on the response information
+ */
 const getUserByID = async (userId) => {
   try {
     const options = {
@@ -37,10 +47,18 @@ const getUserByID = async (userId) => {
   }
 };
 
+/**
+ *
+ * @param {*} userInfo a array of information on a user
+ *
+ *  Sets the profile banner with the information from the server. This includes usernames,
+ *  profile pictures, media links and follower information.
+ */
 const setProfileBanner = (userInfo) => {
-  //console.log("setProfileBanner" + JSON.stringify(userInfo, null, 1));
-
-  // comparing session user id with clicked user information and toggles UI elements visibility
+  /**
+   *  Checks that the user requested is the currently logged in account, and shows
+   *  buttons appropriately.
+   */
   if (user == userInfo.user_id) {
     postBtn.classList.remove("hide");
     followBtn.classList.add("hide");
@@ -50,7 +68,6 @@ const setProfileBanner = (userInfo) => {
     followBtn.classList.remove("hide");
     blockBtn.classList.remove("hide");
 
-    // check to see if already following, if true hides follow button
     isFollower(userInfo.user_id, followBtn);
 
     followBtn.addEventListener("click", async (Event) => {
@@ -73,9 +90,10 @@ const setProfileBanner = (userInfo) => {
 
           const response = await fetch(url + "/follow/", options);
           const followPosts = await response.json();
-          console.log("followPost contains: " + JSON.stringify(followPosts, null, 1));
-          followBtn.innerText = "un-Follow";
-          getUserByID(userInfo.user_id);
+          if (followPosts != null) {
+            followBtn.innerText = "un-Follow";
+            getUserByID(userInfo.user_id);
+          }
         } catch (e) {
           console.log(e.message);
         }
@@ -94,9 +112,10 @@ const setProfileBanner = (userInfo) => {
 
           const response = await fetch(url + "/follow/", options);
           const unfollowPosts = await response.json();
-          console.log("unfollowPost contains: " + JSON.stringify(unfollowPosts, null, 1));
-          followBtn.innerText = "Follow";
-          getUserByID(userInfo.user_id);
+          if (unfollowPosts != null) {
+            followBtn.innerText = "Follow";
+            getUserByID(userInfo.user_id);
+          }
         } catch (e) {
           console.log(e.message);
         }

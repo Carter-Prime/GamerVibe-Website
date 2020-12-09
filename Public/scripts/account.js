@@ -8,8 +8,13 @@ const lnamePara = document.getElementById("last-name-para");
 const emailPara = document.getElementById("email-para");
 const privacyPara = document.getElementById("privacy-para");
 
+/**
+ * Handles the change to user account details. On success will refresh
+ * account details and profile banner.
+ * Data is taken from the user-account-form
+ */
+
 accountBtn.addEventListener("click", async (Event) => {
-  console.log("button clicked");
   Event.preventDefault();
   try {
     const data = serializeJson(accountForm);
@@ -24,7 +29,6 @@ accountBtn.addEventListener("click", async (Event) => {
     putData.append("twitch", data.twitch);
     putData.append("private", data.private);
 
-    console.log("form data: " + putData);
     const fetchOptions = {
       method: "PUT",
       headers: {
@@ -42,6 +46,10 @@ accountBtn.addEventListener("click", async (Event) => {
   }
 });
 
+/**
+ * @param {*} userId current user ID
+ * Handles the setting of information to user tab
+ */
 const setAccountInfo = async (userId) => {
   try {
     const options = {

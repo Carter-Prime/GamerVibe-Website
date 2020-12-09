@@ -1,14 +1,5 @@
 /*main body content of webpage*/
 
-* {
-  --primaryThemeColor: #e6e9f0;
-  --contrastThemeColor: #cbf6e7;
-  --primaryAccentColor: #e05915;
-  --primaryAccentColor50: #e0591599;
-  --textColor: #431c5d;
-  --neutralColor: #e2eff3;
-}
-
 #main-img {
   display: flex;
   width: 100%;
@@ -55,21 +46,7 @@
   justify-content: flex-end;
 }
 
-/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
-
-@media screen and (min-width: 480px) {
-}
-
-/* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
-
-@media screen and (min-width: 700px) {
-}
-
-/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
-
-@media screen and (min-width: 900px) {
-}
-/* for screens greater than 1200px wide - laptops and desktops*/
+/* for screens greater than 1300px wide - laptops and desktops*/
 
 @media screen and (min-width: 1300px) {
   .main-wrapper {

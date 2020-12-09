@@ -1,5 +1,10 @@
 "use strict";
-
+/**
+ *
+ * @param {} list passes a list of blocked users specific to the current user.
+ *  creates the blocked list on the follower page. Each blocked username has a event listener
+ *  to make a call to unblock the user.
+ */
 const createBlockList = (list) => {
   mainBody.innerHTML = "";
   blockedListContainer.innerHTML = "";
@@ -61,6 +66,10 @@ const createBlockList = (list) => {
   }
 };
 
+/**
+ *  Call request to get a list of users blocked by current user. Then passes the response to
+ *  createBlockList function.
+ */
 const getBlockedList = async () => {
   try {
     const options = {

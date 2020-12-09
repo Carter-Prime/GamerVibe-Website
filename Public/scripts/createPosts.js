@@ -1,9 +1,14 @@
 "use strict";
-
 const mainBody = document.getElementById("js-main-body");
 const blockedListContainer = document.getElementById("js-blocked-list-cards");
 const blockListSection = document.getElementById("js-blocked-list-section");
 
+/**
+ *
+ * @param {*} userType the type of user currently logged in.
+ * @param {*} post the specific post to attach the action bar too.
+ * Decides which button to be displayed depending on userType.
+ */
 const createActionBar = (userType, post) => {
   const actionButtons = document.createElement("div");
   actionButtons.classList.add("action-button-container");
@@ -54,6 +59,12 @@ const createActionBar = (userType, post) => {
   return actionButtons;
 };
 
+/**
+ *
+ * @param {*} post idividual post containing information relevent for a detailed displayed
+ * Builds a detailed card of the post clicked. Users can comment and upvote. When an action
+ * is performed the card is refreshed.
+ */
 const detailedPost = (post) => {
   console.log(post);
   mainBody.innerHTML = "";
@@ -88,9 +99,9 @@ const detailedPost = (post) => {
   const newUpVote = document.createElement("p");
   newUpVote.classList.add("upvotes");
 
-  //checks the post to see if user has already liked the post and changes the icon appropriately
   isLiked(post.content.post_id, newUpVote, post);
 
+  // Adds an upvote to post
   newUpVote.addEventListener("click", async (Event) => {
     Event.preventDefault();
     try {
@@ -118,7 +129,7 @@ const detailedPost = (post) => {
   });
 
   const newTags = document.createElement("p");
-  //checks for tags then builds element if present
+
   if (post.tags.length !== 0) {
     newTags.classList.add("tags");
     newTags.innerText += "Tags:";
@@ -133,7 +144,9 @@ const detailedPost = (post) => {
     detailsContainer.append(newTags, newUpVote, newViews);
   }
 
-  // builds the comments section of a post detail card
+  /**
+   *
+   */
   const userComments = document.createElement("div");
   const commentTitle = document.createElement("p");
   commentTitle.innerText = "Comments:";
@@ -174,7 +187,7 @@ const detailedPost = (post) => {
 
   newPostComment.append(postLabel, commentInput, postCommentbtn);
 
-  //  check to see if logged in and will show add comments
+  // checks for anonymous user and only adds components relevent.
   if (userType != "anonymous") {
     newCard.append(
       actionButtons,
@@ -185,7 +198,7 @@ const detailedPost = (post) => {
       newPostComment
     );
 
-    // Click event that will submit the comment and refresh the detailed view of the post
+    // Submits a comment to the post
     postCommentbtn.addEventListener("click", async (event) => {
       event.preventDefault();
       try {
@@ -218,7 +231,10 @@ const detailedPost = (post) => {
   }
   mainBody.append(newCard);
 
-  // Block button handler
+  /**
+   *  Allows the user to block other post creators. Has confirmation before execution and alerts
+   *  for responses
+   */
   blockBtn.addEventListener("click", async (Event) => {
     Event.stopImmediatePropagation();
     Event.preventDefault();
@@ -254,7 +270,10 @@ const detailedPost = (post) => {
     }
   });
 
-  // Ban button handler will prompt user for confirmation
+  /**
+   *  Moderator accounts can permanently ban any user that they think is being inappropriate.
+   *  A confirmation and warning with reason response required before banning takes effect.
+   */
   banBtn.addEventListener("click", async (Event) => {
     Event.stopImmediatePropagation();
     Event.preventDefault();
@@ -293,6 +312,12 @@ const detailedPost = (post) => {
   });
 };
 
+/**
+ *
+ * @param {*} posts List of posts to be created
+ * Builds the individual thumbnail cards for all posts in the list. If a card is clicked a detailed
+ * post is called
+ */
 const createDiscoverCards = (posts) => {
   mainBody.innerHTML = "";
   posts.forEach((post) => {
@@ -347,7 +372,10 @@ const createDiscoverCards = (posts) => {
   });
 };
 
-// call a array of latest posts
+/**
+ * Calls on the server to return a list of the latest x number of public posts. X being assigned to
+ * the amount variable in the body.
+ */
 const getDiscoverPosts = async () => {
   try {
     const options = {
@@ -372,7 +400,67 @@ const getDiscoverPosts = async () => {
   }
 };
 
-//Finds post by search for post ID
+/**
+ *  Fetches a list of posts of the currently logged in user and calls create discover cards
+ *  to generate thumbnails.
+ */
+const getHomePosts = async () => {
+  try {
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: 20,
+      }),
+    };
+
+    const response = await fetch(url + "/posts/feed", options);
+    const discoverPosts = await response.json();
+    createDiscoverCards(discoverPosts);
+    if (userType != "anonymous") {
+      getUserByID(user);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+/**
+ *  Fetches a list of posts by the accounts the current user is following
+ *  and calls create discover cards to generate thumbnails.
+ */
+const getFollowerPosts = async () => {
+  try {
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        amount: 20,
+      }),
+    };
+
+    const response = await fetch(url + "/posts/following", options);
+    const followingPosts = await response.json();
+    createDiscoverCards(followingPosts);
+    if (userType != "anonymous") {
+      getUserByID(user);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+/**
+ *
+ * @param {*} postId Id of individual post
+ *  Returns a single post depending on the postId passed.
+ */
 const getPostById = async (postId) => {
   try {
     const options = {
@@ -389,7 +477,11 @@ const getPostById = async (postId) => {
   }
 };
 
-//Deletes post by search for post ID
+/**
+ *
+ * @param {*} postId Id of individual post
+ *  Deletes a single post depending on the postId passed.
+ */
 const deletePostById = async (postId) => {
   try {
     const options = {
@@ -409,7 +501,9 @@ const deletePostById = async (postId) => {
   }
 };
 
-//Create a user post and upload to server
+/**
+ * Creates a form for the user to fill and submit a post.
+ */
 const createPost = () => {
   mainBody.innerHTML = "";
 
@@ -529,56 +623,14 @@ const createPost = () => {
   });
 };
 
-// get posts from the currently logged in user
-const getHomePosts = async () => {
-  try {
-    const options = {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: 20,
-      }),
-    };
-
-    const response = await fetch(url + "/posts/feed", options);
-    const discoverPosts = await response.json();
-    createDiscoverCards(discoverPosts);
-    if (userType != "anonymous") {
-      getUserByID(user);
-    }
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-// get posts of all the currently logged in users followers
-const getFollowerPosts = async () => {
-  try {
-    const options = {
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        amount: 20,
-      }),
-    };
-
-    const response = await fetch(url + "/posts/following", options);
-    const followingPosts = await response.json();
-    createDiscoverCards(followingPosts);
-    if (userType != "anonymous") {
-      getUserByID(user);
-    }
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
+/**
+ *
+ * @param {*} postId post ID of current focused post to create the fetch
+ * @param {*} newUpVote passes a newVote element to attach to
+ * @param {*} post details of the post in focus
+ *
+ *  Checks to see if current user has liked the post previously, then if true changes the icon displayed.
+ */
 const isLiked = async (postId, newUpVote, post) => {
   try {
     const options = {
@@ -601,6 +653,13 @@ const isLiked = async (postId, newUpVote, post) => {
   }
 };
 
+/**
+ *
+ * @param {*} userId User ID of the reciptiant follow request
+ * @param {*} followBtn button element to attach a response too
+ *  Checks if current user is already following a user and the set the button text to either follow
+ *  or un-follow.
+ */
 const isFollower = async (userId, followBtn) => {
   try {
     const options = {
@@ -621,3 +680,12 @@ const isFollower = async (userId, followBtn) => {
     console.log(e.message);
   }
 };
+
+/**
+ *  Check on page load which function to call depending on location html name
+ */
+if (window.location.pathname === "/home.html") {
+  getHomePosts();
+} else if (window.location.pathname === "/discover.html") {
+  getDiscoverPosts();
+}

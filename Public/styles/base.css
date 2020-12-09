@@ -114,8 +114,6 @@
   cursor: pointer;
 }
 
-/* Toggle classes for showing and hiding elements*/
-
 /* Identifies the active html page */
 .active-page {
   text-decoration: underline;
@@ -238,7 +236,7 @@ footer > p {
   }
 }
 
-/* for screens greater than 768px wide - tablets, ipads, lanscape smartphones*/
+/* for screens greater than 900px wide - tablets, ipads, lanscape smartphones*/
 @media screen and (min-width: 900px) {
   .main-nav {
     font-size: 1.4rem;
@@ -273,20 +271,16 @@ footer > p {
   .game-tag-div > h3 {
     text-align: start;
   }
+}
 
-  /* for screens greater than 1200px wide - laptops and desktops*/
-  @media screen and (min-width: 1300px) {
-    .main-nav {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .navbar-toggle {
-      display: none;
-    }
+/* for screens greater than 1300px wide - laptops and desktops*/
+@media screen and (min-width: 1300px) {
+  .main-nav {
+    display: flex;
+    flex-direction: row;
   }
 
-  /* for screens greater than 1600px wide - desktops and large screens*/
-  @media screen and (min-width: 1600px) {
+  .navbar-toggle {
+    display: none;
   }
 }

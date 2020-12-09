@@ -2,7 +2,9 @@
 
 const authenticateSignup = document.getElementById("js-authenticate-signup");
 const addUserForm = document.getElementById("signup-form");
-
+/**
+ * Upon signing up, if successful will automatically login and send the user to their personal feed.
+ */
 const registerUser = addUserForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = serializeJson(addUserForm);
@@ -20,7 +22,7 @@ const registerUser = addUserForm.addEventListener("submit", async (event) => {
     const response = await fetch(url + "/auth/register", fetchOptions);
     const json = await response.json();
     console.log("json response", json);
-    // save token
+
     if (json.user) {
       // save token
       sessionStorage.setItem("token", json.token);
