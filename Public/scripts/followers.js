@@ -11,7 +11,6 @@ const createBlockList = (list) => {
   }
 
   for (let i = 0; i < list.length; i++) {
-    console.log(list[i]);
     const itemDiv = document.createElement("div");
     itemDiv.classList.add("item-div");
 
@@ -74,7 +73,6 @@ const getBlockedList = async () => {
     const response = await fetch(url + "/block/", options);
     const blockedUserList = await response.json();
     if (blockedUserList != null) {
-      console.log(`${JSON.stringify(blockedUserList, null, 1)} blocked user list`);
       createBlockList(blockedUserList);
     }
   } catch (e) {

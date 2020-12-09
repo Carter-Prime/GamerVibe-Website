@@ -613,9 +613,8 @@ const isFollower = async (userId, followBtn) => {
 
     const response = await fetch(url + "/follow/" + userId, options);
     const followResponse = await response.json();
-    console.log(followResponse);
+
     if (followResponse == true) {
-      //followBtn.classList.add("hide");
       followBtn.innerText = "Un-Follow";
     }
   } catch (e) {

@@ -47,6 +47,29 @@ const logout = async () => {
   }
 };
 
+//test to see if user is banned, if true automatically logs the user out next time a page is refreshed
+const isBanned = async () => {
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+
+    const response = await fetch(url + "/ban/", options);
+    const isBanned = await response.json();
+    if (isBanned == true) {
+      console.log(isBanned);
+      logout();
+    } else {
+      console.log(isBanned);
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
 // Toggle function for mobiles and smaller screens
 const toggleMenu = () => {
   mainNav.classList.toggle("show");
@@ -71,6 +94,7 @@ if (user != null) {
     console.log("user type is: " + userType);
   }
   toggleLoggedInTabs();
+  isBanned();
 } else {
   toggleProfileBanner();
 }
