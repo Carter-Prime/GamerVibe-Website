@@ -3,7 +3,7 @@ Basics in web development project
 
 
 ## Quick set-up
-> npm -i
+> npm i
 
 ### Generate keys and certificate (below for local version)
 > openssl genrsa -out ssl-key.pem 2048\
