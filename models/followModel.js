@@ -22,7 +22,7 @@ const getFollowing = async (userid) => {
 };
 
 // Get list of users that are following given user
-const get_followers = async (userid) => {
+const getFollowers = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
@@ -40,7 +40,7 @@ const get_followers = async (userid) => {
 };
 
 // For following user
-const follow_user = async (uid, fid) => {
+const followUser = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Following(follower_id, following_id) ' +
@@ -53,7 +53,7 @@ const follow_user = async (uid, fid) => {
 };
 
 // For unfollowing user
-const unfollow_user = async (uid, fid) => {
+const unfollowUser = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'UPDATE Following ' +
@@ -85,8 +85,8 @@ const is_following = async (uid, fid) => {
 
 module.exports = {
   getFollowing,
-  get_followers,
-  follow_user,
+  getFollowers,
+  followUser,
   is_following,
-  unfollow_user,
+  unfollowUser,
 };

@@ -36,9 +36,9 @@ const block_user = async (req, res) => {
   }
 
   // If current user is following user, then cancel it
-  await followModel.unfollow_user(req.user.user_id, req.body.blockedId);
+  await followModel.unfollowUser(req.user.user_id, req.body.blockedId);
   // If user is following current user, then cancel it
-  await followModel.unfollow_user(req.body.blockedId, req.user.user_id);
+  await followModel.unfollowUser(req.body.blockedId, req.user.user_id);
 
   res.json(query);
 };

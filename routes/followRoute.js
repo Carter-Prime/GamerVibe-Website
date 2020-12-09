@@ -10,18 +10,18 @@ router.route('/').
         userActive, [
           body('user').trim().isInt(),
         ], checkBody,
-        followController.followUser).
+        followController.follow_user).
     delete(
         userActive, [
           body('user').trim().isInt(),
         ], checkBody,
-        followController.unfollowUser);
+        followController.unfollow_user);
 
 // Check if user is following given user
 router.route('/:id').
     get(
         userActive,
-        followController.isFollowingUserId,
+        followController.is_following_user_id,
     );
 
 module.exports = router;

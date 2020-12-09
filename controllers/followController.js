@@ -13,8 +13,8 @@ const get_following = async (req, res) => {
 };
 
 // Get list of users that are following current user
-const getFollowers = async (req, res) => {
-  const query = await followingModel.get_followers(req.user.user_id);
+const get_followers = async (req, res) => {
+  const query = await followingModel.getFollowers(req.user.user_id);
 
   // If there is error in query, send it to res
   return query['error'] ?
@@ -23,7 +23,7 @@ const getFollowers = async (req, res) => {
 };
 
 // Return true if user is following given id
-const isFollowingUserId = async (req, res) => {
+const is_following_user_id = async (req, res) => {
   const isFollowing = await followingModel.is_following(req.user.user_id,
       req.params.id);
 
@@ -33,7 +33,7 @@ const isFollowingUserId = async (req, res) => {
 };
 
 // For following user
-const followUser = async (req, res) => {
+const follow_user = async (req, res) => {
   if (req.user.user_id.toString() === req.body.user.toString()) {
     return res.status(400).json(errorJson('You can\'t follow yourself'));
   }
@@ -51,7 +51,7 @@ const followUser = async (req, res) => {
   }
 
   // Add following user
-  const follow = await followingModel.follow_user(req.user.user_id,
+  const follow = await followingModel.followUser(req.user.user_id,
       req.body.user);
   return follow['error'] ?
       res.status(400).json(follow) :
@@ -60,7 +60,7 @@ const followUser = async (req, res) => {
 };
 
 // For unfollowing user
-const unfollowUser = async (req, res) => {
+const unfollow_user = async (req, res) => {
   // Check if user is already following other user
   const isFollowing = await followingModel.is_following(req.user.user_id,
       req.body.user);
@@ -74,7 +74,7 @@ const unfollowUser = async (req, res) => {
   }
 
   // Unfollowing user
-  const unfollow = await followingModel.unfollow_user(req.user.user_id,
+  const unfollow = await followingModel.unfollowUser(req.user.user_id,
       req.body.user);
   return unfollow['error'] ?
       res.status(400).json(unfollow) :
@@ -84,8 +84,8 @@ const unfollowUser = async (req, res) => {
 
 module.exports = {
   get_following,
-  getFollowers,
-  followUser,
-  isFollowingUserId,
-  unfollowUser,
+  get_followers,
+  follow_user,
+  is_following_user_id,
+  unfollow_user,
 };
