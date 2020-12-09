@@ -6,7 +6,7 @@
  *  to make a call to unblock the user.
  */
 const createBlockList = (list) => {
-  mainBody.innerHTML = "";
+  //mainBody.innerHTML = "";
   blockedListContainer.innerHTML = "";
 
   if (list.length != 0) {
