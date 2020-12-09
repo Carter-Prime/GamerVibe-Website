@@ -35,7 +35,6 @@ const doFetchTags = async () => {
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
-    console.log(data);
     if (data.length === 0) {
       state.innerText = "Nothing found";
     } else {
@@ -122,16 +121,14 @@ function publishUsers(data) {
  *  Creates and populates search items and appends to html
  */
 function publishTags(data) {
-  const empty = `<h2></h2>`;
-  results.innerHTML = empty;
+  results.innerHTML = "";
 
   data.forEach((result) => {
     !result.tag ? (tagname = "name not available") : (tagname = result.tag);
-    console.log(result.tag);
 
     const item = document.createElement("p");
     item.classList.add("result-item");
-    item.innerText = item.tag;
+    item.innerText = result.tag;
     results.appendChild(item);
 
     item.addEventListener("click", async () => {

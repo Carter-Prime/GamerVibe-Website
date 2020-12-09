@@ -1,5 +1,4 @@
 /* standard card styling*/
-
 .card {
   display: flex;
   flex-direction: column;
@@ -372,38 +371,20 @@ select {
   color: var(--primaryAccentColor);
 }
 
-/* for screens greater than 480px wide - small mobile devices, portrait smart devices*/
-
-@media screen and (min-width: 480px) {
-}
-
-/* for screens greater than 700px wide - small mobile devices, portrait smart devices*/
-
-@media screen and (min-width: 700px) {
-}
-
-@media screen and (min-width: 900px) {
-  /* for screens greater than 1200px wide - laptops and desktops*/
-
-  @media screen and (min-width: 1300px) {
-    .follower-main-container {
-      display: flex;
-      flex-direction: row;
-    }
-
-    .blocked-list {
-      width: fit-content;
-      width: -moz-fit-content;
-    }
-
-    .follower-list > h1 {
-      margin-left: 5vw;
-      padding-left: 20px;
-    }
+/* for screens greater than 1300px wide - laptops and desktops*/
+@media screen and (min-width: 1300px) {
+  .follower-main-container {
+    display: flex;
+    flex-direction: row;
   }
 
-  /* for screens greater than 1600px wide - desktops and large screens*/
+  .blocked-list {
+    width: fit-content;
+    width: -moz-fit-content;
+  }
 
-  @media screen and (min-width: 1600px) {
+  .follower-list > h1 {
+    margin-left: 5vw;
+    padding-left: 20px;
   }
 }
