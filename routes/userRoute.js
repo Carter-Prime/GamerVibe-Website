@@ -74,6 +74,6 @@ router.route('/following').get(followController.get_following);
 router.route('/followers').get(followController.get_followers);
 
 // Get all posts from current user
-router.route('/posts').get(postController.getPostsByUser);
+router.route('/posts').get(postController.get_posts_by_userid);
 
 module.exports = router;

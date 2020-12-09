@@ -6,8 +6,8 @@ const postController = require('../controllers/postController');
 const userController = require('../controllers/userController');
 
 router.route('/user/:name').get(userController.update_user_by_name);
-router.route('/tagname/:tagname').get(postController.tagsByName);
-router.route('/tag/:tagname').get(postController.getPostsByTag);
-router.route('/username/:username').get(postController.getPostsByUsername);
+router.route('/tagname/:tagname').get(postController.get_tags_by_name);
+router.route('/tag/:tagname').get(postController.get_posts_by_tag);
+router.route('/username/:username').get(postController.get_posts_by_username);
 
 module.exports = router;
