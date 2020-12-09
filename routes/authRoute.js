@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const {body} = require('express-validator');
 const authController = require('../controllers/authController');
+const {checkBody} = require('../utils/customMiddlewares');
 
 // Login
 router.route('/login').post(authController.login);
@@ -21,7 +22,7 @@ router.route('/register').post(
           'password',
           `Password must match following requirements: 1 uppercase letter, minimum of 8 characters`,
       ).matches('(?=.*[A-Z]).{8,}'),
-    ],
+    ], checkBody,
     authController.register,
     authController.login,
 );

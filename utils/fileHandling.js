@@ -1,7 +1,7 @@
 'use strict'
 const fs = require('fs')
 const resize = require('./resize')
-const {errorJson} = require('./json_messages')
+const {errorJson} = require('./jsonMessages')
 
 // Make thumbnail
 const make_thumbnail = async (file, path) => {

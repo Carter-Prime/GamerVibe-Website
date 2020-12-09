@@ -1,18 +1,12 @@
 'use strict';
-const {validationResult} = require('express-validator');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
-const {errorJson, messageJson} = require('../utils/json_messages');
-const checks = require('../utils/checks');
+const {messageJson} = require('../utils/jsonMessages');
 
 // For registering new user
 const register = async (req, res, next) => {
-  // If there is errors in login parameters, then return errors
-  // else continue
-  if (checks.hasBodyErrors(req, res)) return;
-
   // Hashes password
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(req.body.password, salt);

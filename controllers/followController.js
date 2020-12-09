@@ -1,7 +1,6 @@
 'use strict';
 const followingModel = require('../models/followModel');
-const {messageJson, errorJson} = require('../utils/json_messages');
-const checks = require('../utils/checks');
+const {messageJson, errorJson} = require('../utils/jsonMessages');
 
 // Get users who current user is following
 const getFollowing = async (req, res) => {
@@ -25,26 +24,17 @@ const getFollowers = async (req, res) => {
 
 // Return true if user is following given id
 const isFollowingUserId = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
   const isFollowing = await followingModel.is_following(req.user.user_id,
       req.params.id);
 
   return isFollowing['error'] ?
       res.json(false) :
       res.json(isFollowing.length !== 0);
-}
+};
 
 // For following user
 const followUser = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  // Check body for errors
-  if (checks.hasBodyErrors(req, res)) return;
-
-  if(req.user.user_id.toString() === req.body.user.toString()) {
+  if (req.user.user_id.toString() === req.body.user.toString()) {
     return res.status(400).json(errorJson('You can\'t follow yourself'));
   }
 
@@ -71,12 +61,6 @@ const followUser = async (req, res) => {
 
 // For unfollowing user
 const unfollowUser = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  // Check body for errors
-  if (checks.hasBodyErrors(req, res)) return;
-
   // Check if user is already following other user
   const isFollowing = await followingModel.is_following(req.user.user_id,
       req.body.user);
@@ -103,5 +87,5 @@ module.exports = {
   getFollowers,
   followUser,
   isFollowingUserId,
-  unfollowUser
+  unfollowUser,
 };

@@ -1,19 +1,9 @@
 'use strict';
-const {errorJson, messageJson} = require('../utils/json_messages');
+const {errorJson, messageJson} = require('../utils/jsonMessages');
 const upvoteModel = require('../models/upvoteModel');
-const checks = require('../utils/checks');
 
 // Add upvote for post
 const addUpvote = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  // Check body for errors
-  if (checks.hasBodyErrors(req, res)) return;
-
-  // Checks if posts exists
-  if (!await checks.isPost(req, res)) return;
-
   // Check if already upvoted
   const checkUpvote = await upvoteModel.get_upvote(
       req.user.user_id,
@@ -39,17 +29,14 @@ const addUpvote = async (req, res) => {
 
 // Checks if user is already upvoted given post
 const checkUpvote = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  const query = await upvoteModel.get_upvote(req.user.user_id, req.params.id)
+  const query = await upvoteModel.get_upvote(req.user.user_id, req.params.id);
 
   return query['error'] ?
       res.json(false) :
-      res.json(query.length !== 0)
-}
+      res.json(query.length !== 0);
+};
 
 module.exports = {
   addUpvote,
-  checkUpvote
+  checkUpvote,
 };

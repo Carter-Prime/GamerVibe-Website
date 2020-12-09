@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const {errorJson, messageJson} = require('../utils/json_messages');
+const {errorJson, messageJson} = require('../utils/jsonMessages');
 
 // Make new post
 const add_new_post = async (uid, caption, imgFilename) => {

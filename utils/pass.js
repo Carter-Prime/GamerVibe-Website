@@ -7,7 +7,7 @@ const ExtractJWT = passportJWT.ExtractJwt;
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
 const {delay} = require('./delay');
-const {messageJson} = require('./json_messages');
+const {messageJson} = require('./jsonMessages');
 
 // Local strategy for email/ password login
 passport.use(new Strategy({
