@@ -11,7 +11,7 @@ const add_comment = async (req, res) => {
   );
   return addQuery['error'] ?
       res.status(400).json(addQuery) :
-      res.json(await commentModel.get_comment(addQuery['insertId']));
+      res.json(await commentModel.getComment(addQuery['insertId']));
 };
 
 module.exports = {
