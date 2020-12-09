@@ -62,12 +62,14 @@ const fetch_post = async (req, res) => {
     return res.status(400).json(post);
   }
 
-  const user = req.user;
+  const userId = req.user ?
+      req.user.user_id :
+      0;
 
   //User is not posted this post
-  if (user.user_id !== post.user_id) {
-    const follow = await followModel.isFollowing(user.user_id, post.user_id);
-    const mod = await moderatorModel.getModerator(user.user_id);
+  if (userId !== post.user_id) {
+    const follow = await followModel.isFollowing(userId, post.user_id);
+    const mod = await moderatorModel.getModerator(userId);
 
     // User is not following current user or user is not moderator
     if (follow['error'] && mod['error']) {
