@@ -61,7 +61,7 @@ router.route('/').
               if(body('private').exists().notEmpty()).
               custom((val) => val === '1' || val === '0'),
         ], checkBody,
-        userController.updateUser,
+        userController.update_user,
     );
 
 // Get user with id
