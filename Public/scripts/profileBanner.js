@@ -74,6 +74,7 @@ const setProfileBanner = (userInfo) => {
           const response = await fetch(url + "/follow/", options);
           const followPosts = await response.json();
           console.log("followPost contains: " + JSON.stringify(followPosts, null, 1));
+          followBtn.innerText = "un-Follow";
         } catch (e) {
           console.log(e.message);
         }
@@ -93,6 +94,7 @@ const setProfileBanner = (userInfo) => {
           const response = await fetch(url + "/follow/", options);
           const unfollowPosts = await response.json();
           console.log("unfollowPost contains: " + JSON.stringify(unfollowPosts, null, 1));
+          followBtn.innerText = "Follow";
         } catch (e) {
           console.log(e.message);
         }

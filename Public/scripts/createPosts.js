@@ -42,7 +42,6 @@ const createActionBar = (userType, post) => {
       getHomePosts();
     } else if (window.location.pathname === "/followers.html") {
       getFollowerPosts();
-      blockedUserListBtn.classList.remove("hide");
     } else if (window.location.pathname === "/search.html") {
       location.reload();
     } else {
@@ -329,7 +328,7 @@ const createDiscoverCards = (posts) => {
 
     newCard.addEventListener("click", async (Event) => {
       Event.preventDefault();
-      const p = await getPostById(post.content.post_id)
+      const p = await getPostById(post.content.post_id);
       detailedPost(p);
     });
 
