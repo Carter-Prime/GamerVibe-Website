@@ -43,9 +43,16 @@ router.route('/upvote').
 // Check if user is already upvoted post
 router.route('/upvote/:id').
     get(
-        passport.authenticate('jwt', passportOptions),
-        checkBody,
-        upvoteController.check_upvote,
+        (req, res, next) => {
+          // If user is logged in then attach user to req
+          // In both cases still continue
+          passport.authenticate('jwt', passportOptions, (err, user, info) => {
+            if (user) {
+              req.user = user;
+            }
+            next();
+          })(req, res, next);
+        }, upvoteController.check_upvote,
     );
 
 // Make new post
@@ -73,8 +80,7 @@ router.route('/id/:id').
             }
             next();
           })(req, res, next);
-        },
-        postController.fetch_post).
+        }, postController.fetch_post).
     delete(
         passport.authenticate('jwt', passportOptions),
         userActive,
