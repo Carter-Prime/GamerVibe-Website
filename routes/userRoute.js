@@ -61,11 +61,11 @@ router.route('/').
               if(body('private').exists().notEmpty()).
               custom((val) => val === '1' || val === '0'),
         ], checkBody,
-        userController.update_user,
+        userController.updateUser,
     );
 
 // Get user with id
-router.route('/id/:id').get(userController.get_user);
+router.route('/id/:id').get(userController.getUser);
 
 // Get users that current user is following
 router.route('/following').get(followController.get_following);

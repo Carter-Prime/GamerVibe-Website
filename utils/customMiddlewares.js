@@ -7,7 +7,7 @@ const { delete_file } = require("./fileHandling");
 
 // Checks if user is banned or deleted
 const userActive = async (req, res, next) => {
-  const user = await userModel.get_user(req.user.user_id);
+  const user = await userModel.getUser(req.user.user_id);
   if (user['error']) {
     return res.status(400).json(user);
   }

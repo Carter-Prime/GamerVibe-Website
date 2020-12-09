@@ -20,7 +20,7 @@ const getAllUsers = async () => {
 };
 
 // Get user with given id
-const get_user = async (id) => {
+const getUser = async (id) => {
   try {
     const [rows] = await promisePool.execute(
       "SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, " +
@@ -77,7 +77,7 @@ const getUserLogin = async (email) => {
 };
 
 // Update users information
-const update_user = async (params) => {
+const updateUser = async (params) => {
   try {
     const [rows] = await promisePool.execute(
       "UPDATE User " +
@@ -106,7 +106,7 @@ const addUser = async (params) => {
       "INSERT INTO User(username, email, passwd, imagename) VALUES(?,?,?,?)",
       params
     );
-    return await get_user(rows["insertId"]);
+    return await getUser(rows["insertId"]);
   } catch (e) {
     // Email or username is already in use
     if (e.code === "ER_DUP_ENTRY") {
@@ -119,7 +119,7 @@ const addUser = async (params) => {
 };
 
 // Search user with given name
-const getupdate_user_by_name = async (name) => {
+const getupdateUserByName = async (name) => {
   try {
     const [
       rows,
@@ -140,10 +140,10 @@ const getupdate_user_by_name = async (name) => {
 
 module.exports = {
   getAllUsers,
-  get_user,
+  getUser,
   getUserLogin,
   addUser,
-  update_user,
-  getupdate_user_by_name,
+  updateUser,
+  getupdateUserByName,
 
 };
