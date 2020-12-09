@@ -39,6 +39,9 @@ For login user in. Returns user information and login token.
 ### /auth/logout (get)
 For login user out.
 
+### /ban (get)
+Return true if current user is banned or deleted
+
 ### /ban (put)
 Moderator can ban users
 #### Params
