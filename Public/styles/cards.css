@@ -325,12 +325,14 @@ select {
 }
 
 .blocked-list-cards {
-  margin: 10px 20px;
+  margin-left: 20px;
+  width: 90%;
   padding: 5px;
   background-color: var(--primaryThemeColor);
   border: 1px solid var(--lightBorderColor);
   box-shadow: 0 2px 1px var(--lightBorderColor);
   border-radius: 5px;
+  overflow: hidden;
 }
 
 /* Blocked list styling*/
@@ -339,7 +341,7 @@ select {
   display: flex;
   width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   color: var(--textColor);
 }
 
@@ -351,7 +353,6 @@ select {
   display: flex;
   flex-direction: column;
   place-items: center;
-  margin-left: 50px;
   padding: 5px;
   color: var(--textColor);
   font-weight: 600;
