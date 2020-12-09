@@ -69,7 +69,7 @@ const unfollowUser = async (uid, fid) => {
 };
 
 // Checks if user is following given user
-const is_following = async (uid, fid) => {
+const isFollowing = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Following ' +
@@ -87,6 +87,6 @@ module.exports = {
   getFollowing,
   getFollowers,
   followUser,
-  is_following,
+  isFollowing,
   unfollowUser,
 };

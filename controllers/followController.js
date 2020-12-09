@@ -23,13 +23,13 @@ const get_followers = async (req, res) => {
 };
 
 // Return true if user is following given id
-const is_following_user_id = async (req, res) => {
-  const isFollowing = await followingModel.is_following(req.user.user_id,
+const isFollowing_user_id = async (req, res) => {
+  const is_following = await followingModel.isFollowing(req.user.user_id,
       req.params.id);
 
-  return isFollowing['error'] ?
+  return is_following['error'] ?
       res.json(false) :
-      res.json(isFollowing.length !== 0);
+      res.json(is_following.length !== 0);
 };
 
 // For following user
@@ -39,12 +39,12 @@ const follow_user = async (req, res) => {
   }
 
   // Check if user is already following other user
-  const isFollowing = await followingModel.is_following(req.user.user_id,
+  const is_following = await followingModel.isFollowing(req.user.user_id,
       req.body.user);
-  if (isFollowing['error']) {
+  if (is_following['error']) {
     // Error happened
-    return res.status(400).json(isFollowing);
-  } else if (isFollowing.length !== 0) {
+    return res.status(400).json(is_following);
+  } else if (is_following.length !== 0) {
     // User is already following other
     return res.json(messageJson(
         `User ${req.user.user_id} is already following user ${req.body.user}`));
@@ -62,12 +62,12 @@ const follow_user = async (req, res) => {
 // For unfollowing user
 const unfollow_user = async (req, res) => {
   // Check if user is already following other user
-  const isFollowing = await followingModel.is_following(req.user.user_id,
+  const is_following = await followingModel.isFollowing(req.user.user_id,
       req.body.user);
-  if (isFollowing['error']) {
+  if (is_following['error']) {
     // Error happened
-    return res.status(400).json(isFollowing);
-  } else if (isFollowing.length === 0) {
+    return res.status(400).json(is_following);
+  } else if (is_following.length === 0) {
     // User is not following given user
     return res.json(messageJson(
         `User ${req.user.user_id} is not following user ${req.body.user}`));
@@ -86,6 +86,6 @@ module.exports = {
   get_following,
   get_followers,
   follow_user,
-  is_following_user_id,
+  isFollowing_user_id,
   unfollow_user,
 };

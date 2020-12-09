@@ -21,7 +21,7 @@ router.route('/').
 router.route('/:id').
     get(
         userActive,
-        followController.is_following_user_id,
+        followController.isFollowing_user_id,
     );
 
 module.exports = router;
