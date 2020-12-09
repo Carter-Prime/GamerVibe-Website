@@ -42,7 +42,7 @@ const new_post = async (req, res) => {
   if (req.body.tags) {
     for (let t of req.body.tags) {
       t = encodeURI(t.trim());
-      await postTagModel.add_tag(query['insertId'], t);
+      await postTagModel.addTag(query['insertId'], t);
     }
   }
 
@@ -188,7 +188,7 @@ const add_extras_one_post = async (post) => {
   const postObj = {};
   postObj.content = post;
   postObj.comments = await commentModel.getPostComments(post.post_id);
-  postObj.tags = await postTagModel.get_tags(post.post_id);
+  postObj.tags = await postTagModel.getTags(post.post_id);
   postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
   return postObj;
 };
