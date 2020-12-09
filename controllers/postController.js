@@ -189,7 +189,7 @@ const add_extras_one_post = async (post) => {
   postObj.content = post;
   postObj.comments = await commentModel.getPostComments(post.post_id);
   postObj.tags = await postTagModel.getTags(post.post_id);
-  postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
+  postObj.upvotes = await upvoteModel.getUpvotes(post.post_id);
   return postObj;
 };
 

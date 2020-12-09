@@ -5,7 +5,7 @@ const upvoteModel = require('../models/upvoteModel');
 // Add upvote for post
 const add_upvote = async (req, res) => {
   // Check if already upvoted
-  const check_upvote = await upvoteModel.get_upvote(
+  const check_upvote = await upvoteModel.getUpvote(
       req.user.user_id,
       req.body.postId,
   );
@@ -29,7 +29,7 @@ const add_upvote = async (req, res) => {
 
 // Checks if user is already upvoted given post
 const check_upvote = async (req, res) => {
-  const query = await upvoteModel.get_upvote(req.user.user_id, req.params.id);
+  const query = await upvoteModel.getUpvote(req.user.user_id, req.params.id);
 
   return query['error'] ?
       res.json(false) :
