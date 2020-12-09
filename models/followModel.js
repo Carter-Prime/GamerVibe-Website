@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const {errorJson} = require('../utils/json_messages');
+const {errorJson} = require('../utils/jsonMessages');
 
 // Get list of users that given user is following
 const get_following = async (userid) => {

@@ -1,17 +1,12 @@
 'use strict';
 const banModel = require('../models/banModel');
 const followModel = require('../models/followModel');
+const userModel = require('../models/userModel');
 const checks = require('../utils/checks');
-const {messageJson, errorJson} = require('../utils/json_messages');
+const {messageJson, errorJson} = require('../utils/jsonMessages');
 
 // For banning user
 const ban_user = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  // Check errors from body
-  if (checks.hasBodyErrors(req, res)) return;
-
   // Check if user is moderator
   if (await checks.hasModError(req, res)) return;
 
@@ -25,7 +20,7 @@ const ban_user = async (req, res) => {
       req.body.reason,
   );
 
-  if(query['error']) {
+  if (query['error']) {
     return res.status(400).json(query);
   }
 
@@ -33,24 +28,19 @@ const ban_user = async (req, res) => {
   // and this users every follow will be canceled
   const followers = await followModel.get_followers(req.body.bannedId);
   const followings = await followModel.get_following(req.body.bannedId);
-  for(const follower of followers) {
+  for (const follower of followers) {
     await followModel.unfollow_user(follower.user_id, req.body.bannedId);
   }
-  for(const following of followings) {
+  for (const following of followings) {
     await followModel.unfollow_user(req.body.bannedId, following.user_id);
   }
 
-  res.json(messageJson(`User ${req.body.bannedId} banned for ${req.body.reason}`));
+  res.json(
+      messageJson(`User ${req.body.bannedId} banned for ${req.body.reason}`));
 };
 
 // For unbanning user
 const unban_user = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  // Check errors from body
-  if (checks.hasBodyErrors(req, res)) return;
-
   // Check if user is moderator
   if (await checks.hasModError(req, res)) return;
 
@@ -63,11 +53,17 @@ const unban_user = async (req, res) => {
 };
 
 const isBanned = async (req, res) => {
-  return res.json(await checks.isUserBanned(req));
-}
+  const user = await userModel.getUser(req.user.user_id);
+  if (user['error']) {
+    // User query returns error
+    req.logout();
+    return res.status(400).json(true);
+  }
+  return res.json(false);
+};
 
 module.exports = {
   ban_user,
   unban_user,
-  isBanned
+  isBanned,
 };

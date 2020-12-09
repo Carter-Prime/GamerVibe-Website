@@ -1,45 +1,38 @@
-"use strict";
-const postModel = require("../models/postModel");
-const { errorJson } = require("../utils/json_messages");
-const commentModel = require("../models/commentModel");
-const postTagModel = require("../models/postTagModel");
-const upvoteModel = require("../models/upvoteModel");
-const moderatorModel = require("../models/moderatorModel");
-const followModel = require("../models/followModel");
-const { delete_file, make_thumbnail } = require("../utils/my_random_stuff");
-const checks = require("../utils/checks");
+'use strict';
+const postModel = require('../models/postModel');
+const {errorJson} = require('../utils/jsonMessages');
+const commentModel = require('../models/commentModel');
+const postTagModel = require('../models/postTagModel');
+const upvoteModel = require('../models/upvoteModel');
+const moderatorModel = require('../models/moderatorModel');
+const followModel = require('../models/followModel');
+const {delete_file, make_thumbnail} = require('../utils/fileHandling');
 
 // Make new post
 const new_post = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
   // Checks if image is missing
   if (!req.file) {
-    return res.status(400).json(errorJson("Image must be JPEG or PNG"));
+    return res.status(400).json(errorJson('Image must be JPEG or PNG'));
   }
 
-  // Checks for validation errors
-  if (checks.hasBodyErrors(req, res)) return;
-
   // Makes thumbnail
-  const thumb = await make_thumbnail(req.file, "./thumbnails");
+  const thumb = await make_thumbnail(req.file, './thumbnails');
 
   // If thumbnail return error
-  if (thumb["error"]) {
+  if (thumb['error']) {
     delete_file(`./uploads/${req.file.filename}`);
     return res.status(400).json(thumb);
   }
 
   // Add new post to database
   const query = await postModel.add_new_post(
-    req.user.user_id,
-    req.body.caption,
-    req.file.filename
+      req.user.user_id,
+      req.body.caption,
+      req.file.filename,
   );
 
   // If query return error
-  if (query["error"]) {
+  if (query['error']) {
     delete_file(`./uploads/${req.file.filename}`);
     delete_file(`./thumbnails/${req.file.filename}`);
     return res.status(400).json(query);
@@ -49,26 +42,23 @@ const new_post = async (req, res) => {
   if (req.body.tags) {
     for (let t of req.body.tags) {
       t = encodeURI(t.trim());
-      await postTagModel.add_tag(query["insertId"], t);
+      await postTagModel.add_tag(query['insertId'], t);
     }
   }
 
   // Everything went fine
-  res.json(await postModel.get_post(query["insertId"]));
+  res.json(await postModel.get_post(query['insertId']));
 };
 
 // Get one post with id
 const fetch_post = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
   const postId = req.params.id;
 
   // Fetch post
   const post = await postModel.get_post(postId);
 
   // If error on content then send it to res
-  if (post["error"]) {
+  if (post['error']) {
     return res.status(400).json(post);
   }
 
@@ -80,8 +70,8 @@ const fetch_post = async (req, res) => {
     const mod = await moderatorModel.get_mod(user.user_id);
 
     // User is not following current user or user is not moderator
-    if (follow["error"] && mod["error"]) {
-      return res.status(400).json(errorJson("No rights to view this post"));
+    if (follow['error'] && mod['error']) {
+      return res.status(400).json(errorJson('No rights to view this post'));
     }
   }
 
@@ -92,20 +82,17 @@ const fetch_post = async (req, res) => {
 
 // Get discover posts
 const get_discover_posts = async (req, res) => {
-  // Check validation results
-  if (checks.hasBodyErrors(req, res)) return;
-
   const user = req.user;
 
   // Get posts from database
   const fetchedPosts = await postModel.get_discover_posts(
-    req.body.amount,
-    user ? user.user_id : 0,
-    req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER
+      req.body.amount,
+      user ? user.user_id : 0,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
   );
 
   // If error when fetching posts, send it to res
-  if (fetchedPosts["error"]) {
+  if (fetchedPosts['error']) {
     return res.status(400).json(fetchedPosts);
   }
 
@@ -117,14 +104,11 @@ const get_discover_posts = async (req, res) => {
 
 // Delete post (set posts deleted at timestamp)
 const delete_post = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
   const user = req.user;
 
   // Get post with given id
   const post = await postModel.get_post(req.params.id);
-  if (post["error"]) {
+  if (post['error']) {
     // Post not exists
     return res.status(400).json(post);
   }
@@ -136,7 +120,7 @@ const delete_post = async (req, res) => {
     allowed = false;
 
     const mod = await moderatorModel.get_mod(user.user_id);
-    if (!mod["error"]) {
+    if (!mod['error']) {
       // User is moderator
       allowed = true;
     }
@@ -144,31 +128,26 @@ const delete_post = async (req, res) => {
 
   if (!allowed) {
     // User is not allowed to delete post
-    return res
-      .status(400)
-      .json(errorJson("User don't have permission to delete this post"));
+    return res.status(400).
+        json(errorJson('User don\'t have permission to delete this post'));
   }
 
   // User can delete post
   const query = await postModel.delete_post(req.params.id);
-  return query["error"] ?
+  return query['error'] ?
       res.status(400).json(query) :
       res.json(query);
 };
 
 // Get all posts by current user
 const getPostsByUser = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-  if (checks.hasBodyErrors(req, res)) return;
-
   const posts = await postModel.get_posts_by_user(
-    req.user.user_id,
-    req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
-    req.body.amount ? req.body.amount : 30
+      req.user.user_id,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
+      req.body.amount ? req.body.amount : 30,
   );
 
-  if (posts["error"]) {
+  if (posts['error']) {
     return res.status(400).json(posts);
   }
   const featExtras = await get_extras(posts);
@@ -178,19 +157,14 @@ const getPostsByUser = async (req, res) => {
 
 // Get following posts
 const getFollowingPosts = async (req, res) => {
-  // Check that is user banned or deleted
-  if (await checks.isUserBanned(req, res)) return;
-
-  if (checks.hasBodyErrors(req, res)) return;
-
   const user = req.user;
   const query = await postModel.get_following_posts(
-    user.user_id,
-    req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
-    req.body.amount ? req.body.amount : 30
+      user.user_id,
+      req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
+      req.body.amount ? req.body.amount : 30,
   );
 
-  if (query["error"]) {
+  if (query['error']) {
     return res.status(400).json(query);
   }
 
@@ -226,12 +200,11 @@ const tagsByName = async (req, res) => {
   res.json(tags);
 };
 
-
 // Get posts by tag name
 const getPostsByTag = async (req, res) => {
   const tagname = req.params.tagname;
   const posts = await postModel.get_posts_by_tag(`${tagname}`);
-  if (posts["error"]) {
+  if (posts['error']) {
     return res.status(400).json(posts);
   }
   const featExtras = await get_extras(posts);
@@ -242,7 +215,7 @@ const getPostsByTag = async (req, res) => {
 const getPostsByUsername = async (req, res) => {
   const username = req.params.username;
   const posts = await postModel.get_posts_by_username(`${username}`);
-  if (posts["error"]) {
+  if (posts['error']) {
     return res.status(400).json(posts);
   }
   const featExtras = await get_extras(posts);

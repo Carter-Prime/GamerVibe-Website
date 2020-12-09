@@ -1,7 +1,7 @@
 'use strict';
 const pool = require('../database/db');
 const promisePool = pool.promise();
-const {errorJson, messageJson} = require('../utils/json_messages');
+const {errorJson, messageJson} = require('../utils/jsonMessages');
 
 // For banning user
 const banUser = async (mid, bid, reason) => {
