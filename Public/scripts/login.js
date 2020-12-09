@@ -9,7 +9,6 @@ const signUpLink = document.getElementById("js-signup-link");
 loginForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   const data = serializeJson(loginForm);
-  console.log(data);
   const fetchOptions = {
     method: "POST",
     headers: {

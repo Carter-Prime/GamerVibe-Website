@@ -621,3 +621,9 @@ const isFollower = async (userId, followBtn) => {
     console.log(e.message);
   }
 };
+
+if (window.location.pathname === "/home.html") {
+  getHomePosts();
+} else if (window.location.pathname === "/discover.html") {
+  getDiscoverPosts();
+}

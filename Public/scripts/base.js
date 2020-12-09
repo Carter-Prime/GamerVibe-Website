@@ -13,7 +13,6 @@ const signupTab = document.getElementById("js-signup-tab");
 const loggedInTab = document.querySelectorAll(".loggedInTab");
 const profileContainer = document.getElementById("js-profile-container");
 const likeBtn = document.getElementById("js-like-btn");
-let clickedPostId = sessionStorage.getItem("postId");
 
 // selects navigation tabs to be toggled if a user is logged in.
 const toggleLoggedInTabs = () => {
@@ -22,7 +21,48 @@ const toggleLoggedInTabs = () => {
   });
 };
 
-//  Logs out user and removes user and token
+/**
+ *  Toggle the menu for mobile and smaller screens
+ */
+const toggleMenu = () => {
+  mainNav.classList.toggle("show");
+};
+
+/**
+ *  Hides profile banner for anonymous users
+ */
+const toggleProfileBanner = () => {
+  if (profileContainer) {
+    profileContainer.style.display = "none";
+  }
+};
+
+/**
+ * test to see if user is banned, if true automatically logs the user out next time a
+ * page is refreshed
+ */
+const isBanned = async () => {
+  try {
+    const options = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+
+    const response = await fetch(url + "/ban/", options);
+    const isBanned = await response.json();
+    if (isBanned == true) {
+      logout();
+    }
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+/**
+ *  Logout of current user removing access token from server and client, along with session data.
+ */
 const logout = async () => {
   try {
     const options = {
@@ -47,51 +87,15 @@ const logout = async () => {
   }
 };
 
-//test to see if user is banned, if true automatically logs the user out next time a page is refreshed
-const isBanned = async () => {
-  try {
-    const options = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-    };
-
-    const response = await fetch(url + "/ban/", options);
-    const isBanned = await response.json();
-    if (isBanned == true) {
-      console.log(isBanned);
-      logout();
-    } else {
-      console.log(isBanned);
-    }
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-// Toggle function for mobiles and smaller screens
-const toggleMenu = () => {
-  mainNav.classList.toggle("show");
-};
-
-const toggleProfileBanner = () => {
-  if (profileContainer) {
-    console.log("toggle profile called");
-    profileContainer.style.display = "none";
-  }
-};
-
-/* main calls from here on...*/
-
-//test to see if users are logged in
+/**
+ *  Check to see type of user that is logged in and their access level. Will toggle tabs as appropriate.
+ *  Also checks to make sure the account is not banned.
+ */
 if (user != null) {
   if (userModeratorStatus == null) {
     userType = "registered";
-    console.log("user type is: " + userType);
   } else {
     userType = "moderator";
-    console.log("user type is: " + userType);
   }
   toggleLoggedInTabs();
   isBanned();
@@ -99,9 +103,11 @@ if (user != null) {
   toggleProfileBanner();
 }
 
-//event listeners
 navToggleBtn.addEventListener("click", toggleMenu);
 
+/**
+ *  Asks for confirmation before login out current user from website
+ */
 logoutTab.addEventListener("click", (Event) => {
   Event.preventDefault();
   const confirmLogout = confirm("Are you sure you want to logout?");

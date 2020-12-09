@@ -11,17 +11,17 @@ let tagname;
 
 form_users.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  console.log(input.value);
   doFetchUsers();
 });
 
 form_tags.addEventListener("click", (evt) => {
   evt.preventDefault();
-  console.log(input.value);
   doFetchTags();
 });
 
-// async/await fetch tags
+/**
+ *  Search for specific tagname and passes the result to publishTags to append them to the html.
+ */
 const doFetchTags = async () => {
   state.innerText = "Loading ...";
   state_posts.innerText = "";
@@ -48,7 +48,9 @@ const doFetchTags = async () => {
   }
 };
 
-// async/await users
+/**
+ *  Search for specific user and passes the result to publishUsers to append them to the html.
+ */
 const doFetchUsers = async () => {
   state.innerText = "Loading ...";
   state_posts.innerText = "";
@@ -62,7 +64,6 @@ const doFetchUsers = async () => {
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
-    console.log(data);
     if (data.length === 0) {
       state.innerText = "Nothing found";
     } else {
@@ -75,37 +76,34 @@ const doFetchUsers = async () => {
   }
 };
 
+/**
+ * @param {*} data list of search results of users
+ *  Creates and populates search items and appends to html
+ */
 function publishUsers(data) {
   results.innerHTML = "";
 
   data.forEach((user) => {
-    !user.username
-      ? (tagname = "name not available")
-      : (tagname = user.username);
-    console.log(user.username);
+    !user.username ? (tagname = "name not available") : (tagname = user.username);
 
-    const p = document.createElement("p");
-    p.classList.add("result-item");
-    p.innerText = user.username;
-    results.appendChild(p);
+    const item = document.createElement("p");
+    item.classList.add("result-item");
+    item.innerText = user.username;
+    results.appendChild(item);
 
-    p.addEventListener("click", async () => {
+    item.addEventListener("click", async () => {
       state_posts.innerText = "Loading ...";
-      posts_body.innerHTML = '';
+      posts_body.innerHTML = "";
       try {
         const options = {
           headers: {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(
-          url + "/search/username/" + user.username,
-          options
-        );
+        const res = await fetch(url + "/search/username/" + user.username, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
-        console.log(data);
         if (data.length === 0) {
           state_posts.innerText = `User ${user.username} has no public posts`;
         } else {
@@ -119,21 +117,25 @@ function publishUsers(data) {
   });
 }
 
+/**
+ * @param {*} data list of search results of tags
+ *  Creates and populates search items and appends to html
+ */
 function publishTags(data) {
   const empty = `<h2></h2>`;
   results.innerHTML = empty;
 
-  data.forEach((item) => {
-    !item.tag ? (tagname = "name not available") : (tagname = item.tag);
-    console.log(item.tag);
+  data.forEach((result) => {
+    !result.tag ? (tagname = "name not available") : (tagname = result.tag);
+    console.log(result.tag);
 
-    const p = document.createElement("p");
-    p.classList.add("result-item");
-    p.innerText = item.tag;
-    results.appendChild(p);
+    const item = document.createElement("p");
+    item.classList.add("result-item");
+    item.innerText = item.tag;
+    results.appendChild(item);
 
-    p.addEventListener("click", async () => {
-      posts_body.innerHTML = '';
+    item.addEventListener("click", async () => {
+      posts_body.innerHTML = "";
       state_posts.innerText = "Loading ...";
       try {
         const options = {
@@ -145,9 +147,8 @@ function publishTags(data) {
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
-        console.log(data);
         if (data.length === 0) {
-          state_posts.innerText = `No public posts found for tag ${item.tag}`;
+          state_posts.innerText = `No public posts found for tag ${result.tag}`;
         } else {
           createDiscoverCards(data);
         }

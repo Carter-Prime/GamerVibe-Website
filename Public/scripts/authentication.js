@@ -2,6 +2,9 @@
 
 let url = null;
 
+/**
+ *  Checks the location of the website and sets the url appropriately
+ */
 if (window.location.hostname == "localhost") {
   url = "https://localhost:8000";
 } else {
@@ -15,8 +18,12 @@ const userModeratorStatus = JSON.parse(sessionStorage.getItem("moderatorSince"))
 
 let userType = null;
 
-/* handles authentication access to specific webpages. If tried to access without account 
-redirects to landing page.*/
+/**
+ * handles authentication access to specific webpages.
+ * If tried to access without account redirects to landing page.
+ *
+ */
+
 if (user == null) {
   if (
     headTitle.innerText == "GamerVibe Home" ||
@@ -26,6 +33,5 @@ if (user == null) {
     window.open(url + "/index.html", "_self", false);
   } else {
     userType = "anonymous";
-    console.log("user type is: " + userType);
   }
 }
