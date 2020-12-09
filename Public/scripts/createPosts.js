@@ -685,8 +685,8 @@ const isFollower = async (userId, followBtn) => {
 /**
  *  Check on page load which function to call depending on location html name
  */
-if (window.location.pathname === "/home.html") {
+if (window.location.pathname.includes("/home.html")) {
   getHomePosts();
-} else if (window.location.pathname === "/discover.html") {
+} else if (window.location.pathname.includes("/discover.html")) {
   getDiscoverPosts();
 }
