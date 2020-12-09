@@ -327,9 +327,10 @@ const createDiscoverCards = (posts) => {
     }
     newCard.append(postCreator, newImg, detailsContainer, newCaption);
 
-    newCard.addEventListener("click", (Event) => {
+    newCard.addEventListener("click", async (Event) => {
       Event.preventDefault();
-      detailedPost(post);
+      const p = await getPostById(post.content.post_id)
+      detailedPost(p);
     });
 
     mainBody.append(newCard);
