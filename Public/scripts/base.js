@@ -36,12 +36,11 @@ const toggleProfileBanner = () => {
     profileContainer.style.display = "none";
   }
 };
-
 /**
  * test to see if user is banned, if true automatically logs the user out next time a
  * page is refreshed
  */
-const isBanned = async () => {
+const is_banned = async () => {
   try {
     const options = {
       method: "GET",
@@ -51,8 +50,8 @@ const isBanned = async () => {
     };
 
     const response = await fetch(url + "/ban/", options);
-    const isBanned = await response.json();
-    if (isBanned == true) {
+    const is_banned = await response.json();
+    if (is_banned == true) {
       logout();
     }
   } catch (e) {
@@ -98,7 +97,7 @@ if (user != null) {
     userType = "moderator";
   }
   toggleLoggedInTabs();
-  isBanned();
+  is_banned();
 } else {
   toggleProfileBanner();
 }

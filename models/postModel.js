@@ -183,7 +183,7 @@ const delete_post = async (id) => {
 };
 
 // Get all posts by user
-const get_posts_by_user = async (uid, pid, n) => {
+const getPostsByUserId = async (uid, pid, n) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, ' +
@@ -224,7 +224,7 @@ const delete_temp_post = async (id) => {
 };
 
 // Search tags with given tagname
-const getTagsByName = async (tagname) => {
+const getget_tags_by_name = async (tagname) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT t.tag ' +
@@ -240,7 +240,7 @@ const getTagsByName = async (tagname) => {
 };
 
 // Get all posts by tag
-const get_posts_by_tag = async (tagname) => {
+const getPostsByTag = async (tagname) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT p.post_id, ' +
@@ -292,7 +292,7 @@ const get_posts_by_tag = async (tagname) => {
 };
 
 // Get all posts by username
-const get_posts_by_username = async (username) => {
+const getPostsByUsername = async (username) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT p.post_id, ' +
@@ -346,10 +346,10 @@ module.exports = {
   get_discover_posts,
   delete_temp_post,
   delete_post,
-  get_posts_by_user,
+  getPostsByUserId,
   get_following_posts,
-  getTagsByName,
-  get_posts_by_tag,
-  get_posts_by_username,
+  getget_tags_by_name,
+  getPostsByTag,
+  getPostsByUsername,
   get_views,
 };

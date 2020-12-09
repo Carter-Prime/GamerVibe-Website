@@ -19,11 +19,11 @@ const getUser = async (req, res) => {
   // Wanted user is not same as current user
   if (user.user_id !== wantedUser.user_id) {
     //User is not following this user or is not moderator
-    const follow = await followModel.is_following(
+    const follow = await followModel.isFollowing(
         user.user_id,
         wantedUser.user_id,
     );
-    const mod = await moderatorModel.get_mod(user.user_id);
+    const mod = await moderatorModel.getModerator(user.user_id);
 
     // User is not following current user or user is not moderator
     if (wantedUser.private_acc === 1 && follow['error'] && mod['error']) {
@@ -106,14 +106,14 @@ const updateUser = async (req, res) => {
 };
 
 // Get users list by name
-const usersByName = async (req, res) => {
+const updateUserByName = async (req, res) => {
   const name = req.params.name;
-  const users = await userModel.getUsersByName(`%${name}%`);
+  const users = await userModel.getupdateUserByName(`%${name}%`);
   res.json(users);
 };
 
 module.exports = {
   getUser,
   updateUser,
-  usersByName,
+  updateUserByName,
 };

@@ -4,7 +4,7 @@ const promisePool = pool.promise();
 const {errorJson} = require('../utils/jsonMessages');
 
 // Get all upvotes for given post
-const get_upvotes = async (postId) => {
+const getUpvotes = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT u.user_id, u.post_id, u.liked_at ' +
@@ -19,7 +19,7 @@ const get_upvotes = async (postId) => {
 };
 
 // Add new upvote
-const add_upvote = async (uid, pid) => {
+const addUpvote = async (uid, pid) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Upvote(user_id, post_id) ' +
@@ -32,7 +32,7 @@ const add_upvote = async (uid, pid) => {
 };
 
 // Checks if user is following given post
-const get_upvote = async (uid, pid) => {
+const getUpvote = async (uid, pid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Upvote ' +
@@ -47,7 +47,7 @@ const get_upvote = async (uid, pid) => {
 };
 
 module.exports = {
-  get_upvotes,
-  add_upvote,
-  get_upvote
+  getUpvotes,
+  addUpvote,
+  getUpvote
 };

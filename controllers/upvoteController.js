@@ -3,22 +3,22 @@ const {errorJson, messageJson} = require('../utils/jsonMessages');
 const upvoteModel = require('../models/upvoteModel');
 
 // Add upvote for post
-const addUpvote = async (req, res) => {
+const add_upvote = async (req, res) => {
   // Check if already upvoted
-  const checkUpvote = await upvoteModel.get_upvote(
+  const check_upvote = await upvoteModel.getUpvote(
       req.user.user_id,
       req.body.postId,
   );
-  if (checkUpvote['error']) {
+  if (check_upvote['error']) {
     // Error happened
-    return res.status(400).json(checkUpvote);
-  } else if (checkUpvote.length !== 0) {
+    return res.status(400).json(check_upvote);
+  } else if (check_upvote.length !== 0) {
     // Already upvoted
     return res.status(400).json(errorJson('Already upvoted'));
   }
 
   // Add upvote
-  const addQuery = await upvoteModel.add_upvote(
+  const addQuery = await upvoteModel.addUpvote(
       req.user.user_id,
       req.body.postId,
   );
@@ -28,8 +28,8 @@ const addUpvote = async (req, res) => {
 };
 
 // Checks if user is already upvoted given post
-const checkUpvote = async (req, res) => {
-  const query = await upvoteModel.get_upvote(req.user.user_id, req.params.id);
+const check_upvote = async (req, res) => {
+  const query = await upvoteModel.getUpvote(req.user.user_id, req.params.id);
 
   return query['error'] ?
       res.json(false) :
@@ -37,6 +37,6 @@ const checkUpvote = async (req, res) => {
 };
 
 module.exports = {
-  addUpvote,
-  checkUpvote,
+  add_upvote,
+  check_upvote,
 };

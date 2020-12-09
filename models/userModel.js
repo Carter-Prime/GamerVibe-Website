@@ -119,7 +119,7 @@ const addUser = async (params) => {
 };
 
 // Search user with given name
-const getUsersByName = async (name) => {
+const getupdateUserByName = async (name) => {
   try {
     const [
       rows,
@@ -144,6 +144,6 @@ module.exports = {
   getUserLogin,
   addUser,
   updateUser,
-  getUsersByName,
+  getupdateUserByName,
 
 };

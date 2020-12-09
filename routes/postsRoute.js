@@ -39,7 +39,7 @@ router.route('/following').post(
       body('amount').if(body('amount').exists()).
           isInt(),
     ], checkBody,
-    postController.getFollowingPosts,
+    postController.get_following_posts,
 );
 
 // Get posts from current user
@@ -52,7 +52,7 @@ router.route('/feed').post(
       body('amount').if(body('amount').exists()).
           isInt(),
     ], checkBody,
-    postController.getPostsByUser,
+    postController.get_posts_by_userid,
 );
 
 module.exports = router;

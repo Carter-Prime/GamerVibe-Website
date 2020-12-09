@@ -4,7 +4,7 @@ const promisePool = pool.promise();
 const {errorJson} = require('../utils/jsonMessages');
 
 // Get list of users that given user is following
-const get_following = async (userid) => {
+const getFollowing = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
@@ -22,7 +22,7 @@ const get_following = async (userid) => {
 };
 
 // Get list of users that are following given user
-const get_followers = async (userid) => {
+const getFollowers = async (userid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT u.user_id, u.username, u.fname, u.lname, u.email, u.imagename, ' +
@@ -40,7 +40,7 @@ const get_followers = async (userid) => {
 };
 
 // For following user
-const follow_user = async (uid, fid) => {
+const followUser = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Following(follower_id, following_id) ' +
@@ -53,7 +53,7 @@ const follow_user = async (uid, fid) => {
 };
 
 // For unfollowing user
-const unfollow_user = async (uid, fid) => {
+const unfollowUser = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'UPDATE Following ' +
@@ -69,7 +69,7 @@ const unfollow_user = async (uid, fid) => {
 };
 
 // Checks if user is following given user
-const is_following = async (uid, fid) => {
+const isFollowing = async (uid, fid) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Following ' +
@@ -84,9 +84,9 @@ const is_following = async (uid, fid) => {
 };
 
 module.exports = {
-  get_following,
-  get_followers,
-  follow_user,
-  is_following,
-  unfollow_user,
+  getFollowing,
+  getFollowers,
+  followUser,
+  isFollowing,
+  unfollowUser,
 };

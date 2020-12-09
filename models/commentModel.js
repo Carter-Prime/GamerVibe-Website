@@ -4,7 +4,7 @@ const promisePool = pool.promise();
 const {errorJson} = require('../utils/jsonMessages');
 
 // Get comments for given post
-const get_post_comments = async (postId) => {
+const getPostComments = async (postId) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT c.comment_id, c.user_id, u.username, c.post_id, c.content, c.commented_at, c.edited_at ' +
@@ -13,16 +13,16 @@ const get_post_comments = async (postId) => {
         'AND c.user_id = u.user_id ' +
         'AND c.deleted_at IS NULL', [postId],
     );
-    // console.log('commentModel get_post_comments rows', rows);
+    // console.log('commentModel getPostComments rows', rows);
     return rows;
   } catch (e) {
-    // console.error('commentModel get_post_comments error', e.message);
+    // console.error('commentModel getPostComments error', e.message);
     return errorJson(e.message);
   }
 };
 
 // Add new comment
-const add_comment = async (uid, pid, content) => {
+const addComment = async (uid, pid, content) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Comments(user_id, post_id, content) ' +
@@ -35,7 +35,7 @@ const add_comment = async (uid, pid, content) => {
 };
 
 // Get comment by id
-const get_comment = async (id) => {
+const getComment = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Comments ' +
@@ -49,7 +49,7 @@ const get_comment = async (id) => {
 };
 
 module.exports = {
-  get_post_comments,
-  add_comment,
-  get_comment,
+  getPostComments,
+  addComment,
+  getComment,
 };

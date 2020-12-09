@@ -11,7 +11,7 @@ router.route('/').
           body('postId').trim().isInt(),
         ], checkBody,
         isPost,
-        likeController.addUpvote,
+        likeController.add_upvote,
     );
 
 module.exports = router;

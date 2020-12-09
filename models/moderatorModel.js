@@ -4,7 +4,7 @@ const promisePool = pool.promise();
 const {errorJson} = require('../utils/jsonMessages');
 
 // Get moderator with given id
-const get_mod = async (id) => {
+const getModerator = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT * FROM Moderator ' +
@@ -22,5 +22,5 @@ const get_mod = async (id) => {
 };
 
 module.exports = {
-  get_mod,
+  getModerator,
 };

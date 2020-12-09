@@ -4,7 +4,7 @@ const modModel = require('../models/moderatorModel');
 
 // Checks if current user is moderator
 const hasModError = async (req, res) => {
-  const mod = await modModel.get_mod(req.user.user_id);
+  const mod = await modModel.getModerator(req.user.user_id);
   if (mod['error']) {
     res.status(400).json(errorJson('User does not have rights to ban'));
     return true;

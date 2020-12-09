@@ -42,7 +42,7 @@ const new_post = async (req, res) => {
   if (req.body.tags) {
     for (let t of req.body.tags) {
       t = encodeURI(t.trim());
-      await postTagModel.add_tag(query['insertId'], t);
+      await postTagModel.addTag(query['insertId'], t);
     }
   }
 
@@ -66,8 +66,8 @@ const fetch_post = async (req, res) => {
 
   //User is not posted this post
   if (user.user_id !== post.user_id) {
-    const follow = await followModel.is_following(user.user_id, post.user_id);
-    const mod = await moderatorModel.get_mod(user.user_id);
+    const follow = await followModel.isFollowing(user.user_id, post.user_id);
+    const mod = await moderatorModel.getModerator(user.user_id);
 
     // User is not following current user or user is not moderator
     if (follow['error'] && mod['error']) {
@@ -119,7 +119,7 @@ const delete_post = async (req, res) => {
     // User is not posts original poster
     allowed = false;
 
-    const mod = await moderatorModel.get_mod(user.user_id);
+    const mod = await moderatorModel.getModerator(user.user_id);
     if (!mod['error']) {
       // User is moderator
       allowed = true;
@@ -140,8 +140,8 @@ const delete_post = async (req, res) => {
 };
 
 // Get all posts by current user
-const getPostsByUser = async (req, res) => {
-  const posts = await postModel.get_posts_by_user(
+const get_posts_by_userid = async (req, res) => {
+  const posts = await postModel.getPostsByUserId(
       req.user.user_id,
       req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
       req.body.amount ? req.body.amount : 30,
@@ -156,7 +156,7 @@ const getPostsByUser = async (req, res) => {
 };
 
 // Get following posts
-const getFollowingPosts = async (req, res) => {
+const get_following_posts = async (req, res) => {
   const user = req.user;
   const query = await postModel.get_following_posts(
       user.user_id,
@@ -187,23 +187,23 @@ const get_extras = async (fetchedPosts) => {
 const add_extras_one_post = async (post) => {
   const postObj = {};
   postObj.content = post;
-  postObj.comments = await commentModel.get_post_comments(post.post_id);
-  postObj.tags = await postTagModel.get_tags(post.post_id);
-  postObj.upvotes = await upvoteModel.get_upvotes(post.post_id);
+  postObj.comments = await commentModel.getPostComments(post.post_id);
+  postObj.tags = await postTagModel.getTags(post.post_id);
+  postObj.upvotes = await upvoteModel.getUpvotes(post.post_id);
   return postObj;
 };
 
 // Get tags list by tag name
-const tagsByName = async (req, res) => {
+const get_tags_by_name = async (req, res) => {
   const tagname = req.params.tagname;
-  const tags = await postModel.getTagsByName(`%${tagname}%`);
+  const tags = await postModel.getget_tags_by_name(`%${tagname}%`);
   res.json(tags);
 };
 
 // Get posts by tag name
-const getPostsByTag = async (req, res) => {
+const get_posts_by_tag = async (req, res) => {
   const tagname = req.params.tagname;
-  const posts = await postModel.get_posts_by_tag(`${tagname}`);
+  const posts = await postModel.getPostsByTag(`${tagname}`);
   if (posts['error']) {
     return res.status(400).json(posts);
   }
@@ -212,9 +212,9 @@ const getPostsByTag = async (req, res) => {
 };
 
 // Get posts by username
-const getPostsByUsername = async (req, res) => {
+const get_posts_by_username = async (req, res) => {
   const username = req.params.username;
-  const posts = await postModel.get_posts_by_username(`${username}`);
+  const posts = await postModel.getPostsByUsername(`${username}`);
   if (posts['error']) {
     return res.status(400).json(posts);
   }
@@ -227,9 +227,9 @@ module.exports = {
   fetch_post,
   delete_post,
   get_discover_posts,
-  getPostsByUser,
-  getFollowingPosts,
-  tagsByName,
-  getPostsByTag,
-  getPostsByUsername,
+  get_posts_by_userid,
+  get_following_posts,
+  get_tags_by_name,
+  get_posts_by_tag,
+  get_posts_by_username,
 };

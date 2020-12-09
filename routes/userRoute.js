@@ -68,12 +68,12 @@ router.route('/').
 router.route('/id/:id').get(userController.getUser);
 
 // Get users that current user is following
-router.route('/following').get(followController.getFollowing);
+router.route('/following').get(followController.get_following);
 
 // Get users that are following current user
-router.route('/followers').get(followController.getFollowers);
+router.route('/followers').get(followController.get_followers);
 
 // Get all posts from current user
-router.route('/posts').get(postController.getPostsByUser);
+router.route('/posts').get(postController.get_posts_by_userid);
 
 module.exports = router;

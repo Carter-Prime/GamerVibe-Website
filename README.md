@@ -1,5 +1,13 @@
 # GamerVibe-Website
-Basics in web development project
+Instagram for gamers, a place to share in game screenshots and videos on gamer persona
+
+## Functionality
+Anonymous visitors can view public posts in Discovery and searcj for pubic posts undera search.
+
+Registered users can add and delete post, like/unlike and comment posts. They can also follow other users, including those with private accounts or block users.
+
+Moderators can on top of that ban user accounts.
+
 
 
 ## Quick set-up

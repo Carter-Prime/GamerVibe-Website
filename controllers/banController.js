@@ -26,13 +26,13 @@ const ban_user = async (req, res) => {
 
   // Every user who is following this user will be unfollow
   // and this users every follow will be canceled
-  const followers = await followModel.get_followers(req.body.bannedId);
-  const followings = await followModel.get_following(req.body.bannedId);
+  const followers = await followModel.getFollowers(req.body.bannedId);
+  const followings = await followModel.getFollowing(req.body.bannedId);
   for (const follower of followers) {
-    await followModel.unfollow_user(follower.user_id, req.body.bannedId);
+    await followModel.unfollowUser(follower.user_id, req.body.bannedId);
   }
   for (const following of followings) {
-    await followModel.unfollow_user(req.body.bannedId, following.user_id);
+    await followModel.unfollowUser(req.body.bannedId, following.user_id);
   }
 
   res.json(
@@ -52,7 +52,7 @@ const unban_user = async (req, res) => {
       res.json(messageJson(`User ${req.body.bannedId} is unbanned`));
 };
 
-const isBanned = async (req, res) => {
+const is_banned = async (req, res) => {
   const user = await userModel.getUser(req.user.user_id);
   if (user['error']) {
     // User query returns error
@@ -65,5 +65,5 @@ const isBanned = async (req, res) => {
 module.exports = {
   ban_user,
   unban_user,
-  isBanned,
+  is_banned,
 };

@@ -27,18 +27,18 @@ router.route('/comment').post(
       body('postId').trim().isInt(),
       body('content').trim().isLength({min: 1, max: 255}).escape(),
     ],
-    commentController.addComment,
+    commentController.add_comment,
 );
 
 // Add new upvote to post
 router.route('/upvote').
-    post([body('postId').trim().isInt()], upvoteController.addUpvote);
+    post([body('postId').trim().isInt()], upvoteController.add_upvote);
 
 // Check if user is already upvoted post
 router.route('/upvote/:id').
     get(
         checkBody,
-        upvoteController.checkUpvote,
+        upvoteController.check_upvote,
     );
 
 // Make new post
