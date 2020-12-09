@@ -1,12 +1,14 @@
 "use strict";
 
 const mainBody = document.getElementById("js-main-body");
+const blockedUserListBtn = document.getElementById("js-blocked-list-btn");
 
 const createActionBar = (userType, post) => {
   const actionButtons = document.createElement("div");
   actionButtons.classList.add("action-button-container");
 
   const backSpan = document.createElement("span");
+  backSpan.classList.add("icon");
   backSpan.setAttribute("id", "js-back-btn");
   backSpan.innerHTML = `<i class="fas fa-arrow-left fa-2x"></i><p>Back</p>`;
 
@@ -14,6 +16,7 @@ const createActionBar = (userType, post) => {
   postCreator.innerText = post.content.username;
 
   const deleteSpan = document.createElement("span");
+  deleteSpan.classList.add("icon");
   deleteSpan.setAttribute("id", "js-delete-btn");
   deleteSpan.innerHTML = `<i class="fas fa-times fa-2x"></i><p>Delete</p>`;
 
@@ -39,6 +42,7 @@ const createActionBar = (userType, post) => {
       getHomePosts();
     } else if (window.location.pathname === "/followers.html") {
       getFollowerPosts();
+      blockedUserListBtn.classList.remove("hide");
     } else if (window.location.pathname === "/search.html") {
       location.reload();
     } else {
@@ -52,8 +56,11 @@ const createActionBar = (userType, post) => {
 const detailedPost = (post) => {
   mainBody.innerHTML = "";
 
+  if (window.location.pathname === "/followers.html") {
+    blockedUserListBtn.classList.add("hide");
+  }
+
   if (userType != "anonymous") {
-    console.log("detailed post called: " + post.content.user_id);
     getUserByID(post.content.user_id);
   }
 
@@ -245,7 +252,7 @@ const detailedPost = (post) => {
     Event.preventDefault();
     console.log("ban button pressed" + post.content.user_id);
     const check = prompt("Reason for banning?");
-    const confirmation = confirm(`"Do you want to ban ${post.content.username}?`);
+    const confirmation = confirm(`Do you want to ban ${post.content.username}?`);
     const data = post.content.user_id;
     console.log(check);
     if (check != "" && confirmation) {
