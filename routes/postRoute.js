@@ -32,13 +32,13 @@ router.route('/comment').post(
 
 // Add new upvote to post
 router.route('/upvote').
-    post([body('postId').trim().isInt()], upvoteController.addUpvote);
+    post([body('postId').trim().isInt()], upvoteController.add_upvote);
 
 // Check if user is already upvoted post
 router.route('/upvote/:id').
     get(
         checkBody,
-        upvoteController.checkUpvote,
+        upvoteController.check_upvote,
     );
 
 // Make new post

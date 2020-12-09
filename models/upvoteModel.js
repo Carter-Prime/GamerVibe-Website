@@ -19,7 +19,7 @@ const get_upvotes = async (postId) => {
 };
 
 // Add new upvote
-const add_upvote = async (uid, pid) => {
+const addUpvote = async (uid, pid) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Upvote(user_id, post_id) ' +
@@ -48,6 +48,6 @@ const get_upvote = async (uid, pid) => {
 
 module.exports = {
   get_upvotes,
-  add_upvote,
+  addUpvote,
   get_upvote
 };
