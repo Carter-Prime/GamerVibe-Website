@@ -36,7 +36,7 @@ const new_post = async (req, res) => {
   }
 
   // Add new post to database
-  const query = await postModel.add_new_post(
+  const query = await postModel.addPost(
       req.user.user_id,
       caption,
       req.file.filename,
@@ -58,7 +58,7 @@ const new_post = async (req, res) => {
   }
 
   // Everything went fine
-  res.json(await postModel.get_post(query['insertId']));
+  res.json(await postModel.getPost(query['insertId']));
 };
 
 // Get one post with id
@@ -66,7 +66,7 @@ const fetch_post = async (req, res) => {
   const postId = req.params.id;
 
   // Fetch post
-  const post = await postModel.get_post(postId);
+  const post = await postModel.getPost(postId);
 
   // If error on content then send it to res
   if (post['error']) {
@@ -98,7 +98,7 @@ const get_discover_posts = async (req, res) => {
   const user = req.user;
 
   // Get posts from database
-  const fetchedPosts = await postModel.get_discover_posts(
+  const fetchedPosts = await postModel.getDiscoverPosts(
       req.body.amount,
       user ? user.user_id : 0,
       req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
@@ -120,7 +120,7 @@ const delete_post = async (req, res) => {
   const user = req.user;
 
   // Get post with given id
-  const post = await postModel.get_post(req.params.id);
+  const post = await postModel.getPost(req.params.id);
   if (post['error']) {
     // Post not exists
     return res.status(400).json(post);
@@ -146,7 +146,7 @@ const delete_post = async (req, res) => {
   }
 
   // User can delete post
-  const query = await postModel.delete_post(req.params.id);
+  const query = await postModel.deletePost(req.params.id);
   return query['error'] ?
       res.status(400).json(query) :
       res.json(query);
@@ -171,7 +171,7 @@ const get_posts_by_userid = async (req, res) => {
 // Get following posts
 const get_following_posts = async (req, res) => {
   const user = req.user;
-  const query = await postModel.get_following_posts(
+  const query = await postModel.getFollowingPosts(
       user.user_id,
       req.body.beginId ? req.body.beginId : Number.MAX_SAFE_INTEGER,
       req.body.amount ? req.body.amount : 30,
@@ -209,7 +209,7 @@ const add_extras_one_post = async (post) => {
 // Get tags list by tag name
 const get_tags_by_name = async (req, res) => {
   const tagname = req.params.tagname;
-  const tags = await postModel.getget_tags_by_name(`%${tagname}%`);
+  const tags = await postModel.getTagsByName(`%${tagname}%`);
   res.json(tags);
 };
 

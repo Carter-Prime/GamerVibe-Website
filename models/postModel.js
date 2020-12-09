@@ -4,7 +4,7 @@ const promisePool = pool.promise();
 const {errorJson, messageJson} = require('../utils/jsonMessages');
 
 // Make new post
-const add_new_post = async (uid, caption, imgFilename) => {
+const addPost = async (uid, caption, imgFilename) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Post(user_id, caption, imgfilename) VALUES(?,?,?)',
@@ -18,7 +18,7 @@ const add_new_post = async (uid, caption, imgFilename) => {
 
 // Get multiple posts that are not given users posts
 // and are older than beginTime
-const get_discover_posts = async (n, uid, beginId) => {
+const getDiscoverPosts = async (n, uid, beginId) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT p.post_id, p.user_id, p.caption, p.views, ' +
@@ -74,7 +74,7 @@ const get_discover_posts = async (n, uid, beginId) => {
 };
 
 // Gets posts from users that user is following
-const get_following_posts = async (uid, pid, amount) => {
+const getFollowingPosts = async (uid, pid, amount) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT p.post_id, p.user_id, u.username, p.caption, p.imgfilename, ' +
@@ -120,7 +120,7 @@ const get_following_posts = async (uid, pid, amount) => {
 };
 
 // Get single post with given id
-const get_post = async (id) => {
+const getPost = async (id) => {
   try {
     await add_view(id)
     const [rows] = await promisePool.execute(
@@ -153,7 +153,7 @@ const add_view = async (id) => {
   }
 };
 
-const get_views = async (id) => {
+const getViews = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT views ' +
@@ -168,7 +168,7 @@ const get_views = async (id) => {
 };
 
 // Set posts deleted_at property
-const delete_post = async (id) => {
+const deletePost = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'UPDATE Post SET deleted_at = NOW() WHERE post_id = ? AND deleted_at IS NULL',
@@ -213,7 +213,7 @@ const getPostsByUserId = async (uid, pid, n) => {
 };
 
 // Only used when error happens when making thumbnail
-const delete_temp_post = async (id) => {
+const deleteTempPost = async (id) => {
   try {
     const [rows] = await promisePool.execute(
         'DELETE FROM Post WHERE post_id = ?', [id]);
@@ -224,7 +224,7 @@ const delete_temp_post = async (id) => {
 };
 
 // Search tags with given tagname
-const getget_tags_by_name = async (tagname) => {
+const getTagsByName = async (tagname) => {
   try {
     const [rows] = await promisePool.execute(
         'SELECT DISTINCT t.tag ' +
@@ -341,15 +341,15 @@ const getPostsByUsername = async (username) => {
 };
 
 module.exports = {
-  add_new_post,
-  get_post,
-  get_discover_posts,
-  delete_temp_post,
-  delete_post,
+  addPost,
+  getPost,
+  getDiscoverPosts,
+  deleteTempPost,
+  deletePost,
   getPostsByUserId,
-  get_following_posts,
-  getget_tags_by_name,
+  getFollowingPosts,
+  getTagsByName,
   getPostsByTag,
   getPostsByUsername,
-  get_views,
+  getViews,
 };
