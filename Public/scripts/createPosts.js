@@ -55,6 +55,7 @@ const createActionBar = (userType, post) => {
 };
 
 const detailedPost = (post) => {
+  console.log(post);
   mainBody.innerHTML = "";
 
   if (userType != "anonymous") {
@@ -79,6 +80,10 @@ const detailedPost = (post) => {
 
   const detailsContainer = document.createElement("div");
   detailsContainer.classList.add("card-details-container");
+
+  const newViews = document.createElement("p");
+  newViews.classList.add("upvotes");
+  newViews.innerText = `Views: ${post.content.views}`;
 
   const newUpVote = document.createElement("p");
   newUpVote.classList.add("upvotes");
@@ -120,12 +125,12 @@ const detailedPost = (post) => {
     for (let i = 0; i < post.tags.length; i++) {
       newTags.innerText += ` #${post.tags[i].tag}`;
     }
-    detailsContainer.append(newTags, newUpVote);
+    detailsContainer.append(newTags, newUpVote, newViews);
     newCard.append(newImg, detailsContainer, newCaption);
   } else {
     newTags.classList.add("tags");
     newTags.innerText += "Tags:";
-    detailsContainer.append(newTags, newUpVote);
+    detailsContainer.append(newTags, newUpVote, newViews);
   }
 
   // builds the comments section of a post detail card
