@@ -38,7 +38,7 @@ const new_post = async (req, res) => {
   // Add new post to database
   const query = await postModel.add_new_post(
       req.user.user_id,
-      req.body.caption,
+      caption,
       req.file.filename,
   );
 
