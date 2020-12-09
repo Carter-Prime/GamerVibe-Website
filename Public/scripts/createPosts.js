@@ -66,7 +66,6 @@ const createActionBar = (userType, post) => {
  * is performed the card is refreshed.
  */
 const detailedPost = (post) => {
-  console.log(post);
   mainBody.innerHTML = "";
 
   if (userType != "anonymous") {
