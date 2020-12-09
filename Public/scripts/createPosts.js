@@ -45,12 +45,12 @@ const createActionBar = (userType, post) => {
 
   backSpan.addEventListener("click", (Event) => {
     Event.preventDefault();
-    if (window.location.pathname === "/home.html") {
+    if (window.location.pathname.includes("/home.html")) {
       getHomePosts();
-    } else if (window.location.pathname === "/followers.html") {
+    } else if (window.location.pathname.includes("/followers.html")) {
       getFollowerPosts();
       getBlockedList();
-    } else if (window.location.pathname === "/search.html") {
+    } else if (window.location.pathname.includes("/search.html")) {
       location.reload();
     } else {
       getDiscoverPosts();
@@ -73,7 +73,7 @@ const detailedPost = (post) => {
     getUserByID(post.content.user_id);
   }
 
-  if (window.location.pathname === "/followers.html") {
+  if (window.location.pathname.includes("/followers.html")) {
     blockListSection.classList.add("hide");
     followingTitle.classList.add("hide");
   }
