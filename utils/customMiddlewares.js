@@ -28,7 +28,7 @@ const checkBody = (req, res, next) => {
 
 // Checks if posts exists
 const isPost = async (req, res, next) => {
-  const checkPost = await postModel.get_post(req.body.postId);
+  const checkPost = await postModel.getPost(req.body.postId);
   if (checkPost['error']) {
     return res.status(400).json(checkPost);
   }
