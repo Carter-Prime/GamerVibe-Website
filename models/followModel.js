@@ -59,7 +59,8 @@ const unfollow_user = async (uid, fid) => {
         'UPDATE Following ' +
         'SET canceled_at = NOW() ' +
         'WHERE follower_id = ? ' +
-        'AND following_id = ?', [uid, fid],
+        'AND following_id = ? ' +
+        'AND canceled_at IS NULL', [uid, fid],
     );
     return rows;
   } catch (e) {

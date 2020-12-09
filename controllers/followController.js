@@ -83,14 +83,14 @@ const unfollowUser = async (req, res) => {
   if (isFollowing['error']) {
     // Error happened
     return res.status(400).json(isFollowing);
-  } else if (isFollowing.length !== 0) {
+  } else if (isFollowing.length === 0) {
     // User is not following given user
     return res.json(messageJson(
         `User ${req.user.user_id} is not following user ${req.body.user}`));
   }
 
   // Unfollowing user
-  const unfollow = await followingModel.follow_user(req.user.user_id,
+  const unfollow = await followingModel.unfollow_user(req.user.user_id,
       req.body.user);
   return unfollow['error'] ?
       res.status(400).json(unfollow) :
