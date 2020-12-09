@@ -68,7 +68,7 @@ router.route('/').
 router.route('/id/:id').get(userController.getUser);
 
 // Get users that current user is following
-router.route('/following').get(followController.getFollowing);
+router.route('/following').get(followController.get_following);
 
 // Get users that are following current user
 router.route('/followers').get(followController.getFollowers);

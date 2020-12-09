@@ -48,7 +48,7 @@ const logout = async () => {
 };
 
 //test to see if user is banned, if true automatically logs the user out next time a page is refreshed
-const isBanned = async () => {
+const is_banned = async () => {
   try {
     const options = {
       method: "GET",
@@ -58,12 +58,12 @@ const isBanned = async () => {
     };
 
     const response = await fetch(url + "/ban/", options);
-    const isBanned = await response.json();
-    if (isBanned == true) {
-      console.log(isBanned);
+    const is_banned = await response.json();
+    if (is_banned == true) {
+      console.log(is_banned);
       logout();
     } else {
-      console.log(isBanned);
+      console.log(is_banned);
     }
   } catch (e) {
     console.log(e.message);
@@ -94,7 +94,7 @@ if (user != null) {
     console.log("user type is: " + userType);
   }
   toggleLoggedInTabs();
-  isBanned();
+  is_banned();
 } else {
   toggleProfileBanner();
 }

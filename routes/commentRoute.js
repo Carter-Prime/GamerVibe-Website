@@ -12,7 +12,7 @@ router.route('/').
           body('content').trim().isLength({min: 1, max: 255}).escape(),
         ], checkBody,
         isPost,
-        commentController.addComment,
+        commentController.add_comment,
     );
 
 module.exports = router;

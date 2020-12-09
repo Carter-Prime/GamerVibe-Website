@@ -2,9 +2,9 @@
 const commentModel = require('../models/commentModel');
 
 // For adding new comment to post
-const addComment = async (req, res) => {
+const add_comment = async (req, res) => {
   // Make new comment
-  const addQuery = await commentModel.add_comment(
+  const addQuery = await commentModel.addComment(
       req.user.user_id,
       req.body.postId,
       req.body.content,
@@ -15,5 +15,5 @@ const addComment = async (req, res) => {
 };
 
 module.exports = {
-  addComment,
+  add_comment,
 };

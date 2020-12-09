@@ -8,7 +8,7 @@ const {userActive, checkBody} = require('../utils/customMiddlewares');
 // Ban user
 // or remove ban from user
 router.route('/').
-    get(banController.isBanned).
+    get(banController.is_banned).
     put(
         userActive, [
           body('bannedId').trim().isInt(),

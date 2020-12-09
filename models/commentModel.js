@@ -22,7 +22,7 @@ const get_post_comments = async (postId) => {
 };
 
 // Add new comment
-const add_comment = async (uid, pid, content) => {
+const addComment = async (uid, pid, content) => {
   try {
     const [rows] = await promisePool.execute(
         'INSERT INTO Comments(user_id, post_id, content) ' +
@@ -50,6 +50,6 @@ const get_comment = async (id) => {
 
 module.exports = {
   get_post_comments,
-  add_comment,
+  addComment,
   get_comment,
 };

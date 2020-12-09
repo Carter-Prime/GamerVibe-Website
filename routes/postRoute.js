@@ -27,7 +27,7 @@ router.route('/comment').post(
       body('postId').trim().isInt(),
       body('content').trim().isLength({min: 1, max: 255}).escape(),
     ],
-    commentController.addComment,
+    commentController.add_comment,
 );
 
 // Add new upvote to post

@@ -3,8 +3,8 @@ const followingModel = require('../models/followModel');
 const {messageJson, errorJson} = require('../utils/jsonMessages');
 
 // Get users who current user is following
-const getFollowing = async (req, res) => {
-  const query = await followingModel.get_following(req.user.user_id);
+const get_following = async (req, res) => {
+  const query = await followingModel.getFollowing(req.user.user_id);
 
   // If there is error in query, send it to res
   return query['error'] ?
@@ -83,7 +83,7 @@ const unfollowUser = async (req, res) => {
 };
 
 module.exports = {
-  getFollowing,
+  get_following,
   getFollowers,
   followUser,
   isFollowingUserId,
