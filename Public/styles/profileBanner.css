@@ -9,7 +9,7 @@
   background-color: var(--contrastBackground);
   box-shadow: 0 4px 2px var(--lightBorderColor);
   color: var(--textColor);
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   width: 100%;
   height: fit-content;
 }

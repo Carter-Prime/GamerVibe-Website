@@ -55,27 +55,47 @@ const setProfileBanner = (userInfo) => {
 
     followBtn.addEventListener("click", async (Event) => {
       Event.preventDefault();
-      console.log("follow btn is clicked");
-
+      console.log("follow btn is clicked" + Event.target.innerText);
       const data = userInfo.user_id;
       console.log(data);
-      try {
-        const options = {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + sessionStorage.getItem("token"),
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: data,
-          }),
-        };
+      if (Event.target.innerText == "Follow") {
+        try {
+          const options = {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user: data,
+            }),
+          };
 
-        const response = await fetch(url + "/follow/", options);
-        const followPosts = await response.json();
-        console.log("followPost contains: " + JSON.stringify(followPosts, null, 1));
-      } catch (e) {
-        console.log(e.message);
+          const response = await fetch(url + "/follow/", options);
+          const followPosts = await response.json();
+          console.log("followPost contains: " + JSON.stringify(followPosts, null, 1));
+        } catch (e) {
+          console.log(e.message);
+        }
+      } else {
+        try {
+          const options = {
+            method: "DELETE",
+            headers: {
+              Authorization: "Bearer " + sessionStorage.getItem("token"),
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              user: data,
+            }),
+          };
+
+          const response = await fetch(url + "/follow/", options);
+          const unfollowPosts = await response.json();
+          console.log("unfollowPost contains: " + JSON.stringify(unfollowPosts, null, 1));
+        } catch (e) {
+          console.log(e.message);
+        }
       }
     });
   }

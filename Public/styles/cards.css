@@ -13,10 +13,6 @@
   border: 1px solid var(--lightBorderColor);
 }
 
-.my-post-card {
-  background-color: var(--alternativeBackground);
-}
-
 .card-details-container {
   display: flex;
   flex-direction: row;
@@ -248,7 +244,7 @@ h1 {
 }
 
 .account-labels {
-  columns: var(--textColor);
+  color: var(--textColor);
 }
 
 .radioDiv {
@@ -294,13 +290,42 @@ select {
 
 /* Follower page styling*/
 
-.follower-container {
+.follower-main-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  overflow: hidden;
+  flex: 1 1 auto;
 }
 
-.follower-btn {
+.blocked-list > h1,
+.follower-list > h1 {
+  font-size: clamp(1.5rem, 1.3846rem + 0.5128vw, 2rem);
+  color: var(--textColor);
+  margin: 5px 20px;
+
+  padding: 5px;
+}
+
+.blocked-list {
+  width: 100%;
+  background-color: var(--primaryThemeColor);
+  color: var(--textColor);
+  margin-right: 5px;
+}
+
+.follower-list {
+  width: 100%;
   margin: 5px;
+}
+
+.blocked-list-cards {
+  margin: 10px 20px;
+  padding: 5px;
+  background-color: var(--primaryThemeColor);
+  border: 1px solid var(--lightBorderColor);
+  box-shadow: 0 2px 1px var(--lightBorderColor);
+  border-radius: 5px;
 }
 
 /* Blocked list styling*/
@@ -355,6 +380,19 @@ select {
   /* for screens greater than 1200px wide - laptops and desktops*/
 
   @media screen and (min-width: 1300px) {
+    .follower-main-container {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .blocked-list {
+      width: fit-content;
+    }
+
+    .follower-list > h1 {
+      margin-left: 5vw;
+      padding-left: 20px;
+    }
   }
 
   /* for screens greater than 1600px wide - desktops and large screens*/

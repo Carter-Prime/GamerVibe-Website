@@ -1,25 +1,10 @@
 "use strict";
 
+const blockedListContainer = document.getElementById("js-blocked-list-cards");
+
 const createBlockList = (list) => {
-  if (window.location.pathname === "/followers.html") {
-    blockedUserListBtn.classList.add("hide");
-  }
   mainBody.innerHTML = "";
-  const newCard = document.createElement("div");
-  newCard.classList.add("card-detail");
-
-  const backSpan = document.createElement("span");
-  backSpan.classList.add("icon", "blocked-back-btn");
-  backSpan.setAttribute("id", "js-back-btn");
-  backSpan.innerHTML = `<i class="fas fa-arrow-left fa-2x"></i><p>Back</p>`;
-
-  backSpan.addEventListener("click", (Event) => {
-    Event.preventDefault();
-    getFollowerPosts();
-    blockedUserListBtn.classList.remove("hide");
-  });
-
-  newCard.append(backSpan);
+  blockedListContainer.innerHTML = "";
 
   for (let i = 0; i < list.length; i++) {
     console.log(list[i]);
@@ -35,7 +20,7 @@ const createBlockList = (list) => {
     unblockSpan.innerHTML = `<i class="fas fa-check"></i><p>Unblock</p>`;
 
     itemDiv.append(newHeader, unblockSpan);
-    newCard.append(itemDiv);
+    blockedListContainer.append(itemDiv);
 
     unblockSpan.addEventListener("click", async (Event) => {
       Event.stopImmediatePropagation();
@@ -71,12 +56,9 @@ const createBlockList = (list) => {
       }
     });
   }
-  mainBody.append(newCard);
 };
 
-blockedUserListBtn.addEventListener("click", async (Event) => {
-  Event.preventDefault();
-  console.log("block list button pressed");
+const getBlockedList = async () => {
   try {
     const options = {
       method: "GET",
@@ -88,12 +70,13 @@ blockedUserListBtn.addEventListener("click", async (Event) => {
     const response = await fetch(url + "/block/", options);
     const blockedUserList = await response.json();
     if (blockedUserList != null) {
+      console.log(`${JSON.stringify(blockedUserList, null, 1)} blocked user list`);
       createBlockList(blockedUserList);
     }
   } catch (e) {
     console.log(e.message);
   }
-});
+};
 
 // bannedUserListBtn.addEventListener("click", async (Event) => {
 //   Event.preventDefault();
@@ -117,3 +100,4 @@ blockedUserListBtn.addEventListener("click", async (Event) => {
 // });
 
 getFollowerPosts();
+getBlockedList();

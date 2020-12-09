@@ -56,10 +56,6 @@ const createActionBar = (userType, post) => {
 const detailedPost = (post) => {
   mainBody.innerHTML = "";
 
-  if (window.location.pathname === "/followers.html") {
-    blockedUserListBtn.classList.add("hide");
-  }
-
   if (userType != "anonymous") {
     getUserByID(post.content.user_id);
   }
@@ -608,7 +604,8 @@ const isFollower = async (userId, followBtn) => {
     const followResponse = await response.json();
     console.log(followResponse);
     if (followResponse == true) {
-      followBtn.classList.add("hide");
+      //followBtn.classList.add("hide");
+      followBtn.innerText = "Un-Follow";
     }
   } catch (e) {
     console.log(e.message);
