@@ -154,6 +154,19 @@ Uses Bearer Token to get current user. Returns list of who user is following
 ### /user/posts (get)
 Return list of posts posted by current user.
 
+## Folders
+### /
+For web pages.
+
+### /thumbnails
+Thumbnail folder.
+
+### /uploads
+Full size images.
+
+### /profile-pics
+For profile pictures
+
 
 ## Database design
 ![database deisgn](./database/database.png)
