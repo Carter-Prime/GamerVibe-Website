@@ -18,9 +18,9 @@ accountBtn.addEventListener("click", async (Event) => {
   Event.preventDefault();
   try {
     const data = serializeJson(accountForm);
-    console.log("data" + data);
 
     const putData = new FormData();
+
     putData.append("profilePic", profilePic.files[0]);
     putData.append("fname", data.fname);
     putData.append("lname", data.lname);
@@ -29,6 +29,7 @@ accountBtn.addEventListener("click", async (Event) => {
     putData.append("twitch", data.twitch);
     putData.append("private", data.private);
 
+    console.log(putData);
     const fetchOptions = {
       method: "PUT",
       headers: {

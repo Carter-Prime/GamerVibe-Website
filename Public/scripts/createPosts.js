@@ -2,6 +2,7 @@
 const mainBody = document.getElementById("js-main-body");
 const blockedListContainer = document.getElementById("js-blocked-list-cards");
 const blockListSection = document.getElementById("js-blocked-list-section");
+const followingTitle = document.getElementById("js-following-title");
 
 /**
  *
@@ -74,6 +75,7 @@ const detailedPost = (post) => {
 
   if (window.location.pathname === "/followers.html") {
     blockListSection.classList.add("hide");
+    followingTitle.classList.add("hide");
   }
 
   const newCard = document.createElement("div");
@@ -155,7 +157,7 @@ const detailedPost = (post) => {
   if (post.comments.length != 0) {
     for (let i = 0; i < post.comments.length; i++) {
       const comment = document.createElement("p");
-      comment.innerText = `${post.comments[i].username} says:
+      comment.innerHTML = `<b>${post.comments[i].username} says:</b><br>
             ${post.comments[i].content}`;
 
       userComments.append(comment);

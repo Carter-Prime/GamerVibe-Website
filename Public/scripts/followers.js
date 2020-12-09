@@ -11,8 +11,10 @@ const createBlockList = (list) => {
 
   if (list.length != 0) {
     blockListSection.classList.remove("hide");
+    followingTitle.classList.remove("hide");
   } else {
     blockListSection.classList.add("hide");
+    followingTitle.classList.remove("hide");
   }
 
   for (let i = 0; i < list.length; i++) {
