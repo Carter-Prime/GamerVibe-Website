@@ -63,7 +63,7 @@ const unban_user = async (req, res) => {
 };
 
 const isBanned = async (req, res) => {
-  return res.json(await checks.isUserBanned(req, res))
+  return res.json(await checks.isUserBanned(req));
 }
 
 module.exports = {

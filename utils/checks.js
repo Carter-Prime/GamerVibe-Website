@@ -36,12 +36,11 @@ const isPost = async (req, res) => {
 };
 
 // Checks if user is banned or deleted
-const isUserBanned = async (req, res) => {
+const isUserBanned = async (req) => {
   const user = await userModel.getUser(req.user.user_id);
   if (user['error']) {
     // User query returns error
     req.logout();
-    res.status(400).json(errorJson('User account has some problems'));
     return true
   }
   return false
