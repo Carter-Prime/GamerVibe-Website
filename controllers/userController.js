@@ -6,7 +6,7 @@ const {errorJson} = require('../utils/jsonMessages');
 const {delete_file, make_thumbnail} = require('../utils/fileHandling');
 
 // Get single user
-const getUser = async (req, res) => {
+const get_user = async (req, res) => {
   const user = req.user;
 
   // Get user
@@ -35,7 +35,7 @@ const getUser = async (req, res) => {
 };
 
 // Update users information
-const updateUser = async (req, res) => {
+const update_user = async (req, res) => {
   const profilePicPath = './profilePics';
   const profileThumbPath = './profileThumbs';
 
@@ -106,14 +106,14 @@ const updateUser = async (req, res) => {
 };
 
 // Get users list by name
-const updateUserByName = async (req, res) => {
+const update_user_by_name = async (req, res) => {
   const name = req.params.name;
   const users = await userModel.getupdateUserByName(`%${name}%`);
   res.json(users);
 };
 
 module.exports = {
-  getUser,
-  updateUser,
-  updateUserByName,
+  get_user,
+  update_user,
+  update_user_by_name,
 };
