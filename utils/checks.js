@@ -12,6 +12,11 @@ const hasModError = async (req, res) => {
   return false;
 };
 
+const clearWhitespaces = (input) => {
+  return input.replace(/\s(?=\s)/, '')
+}
+
 module.exports = {
   hasModError,
+  clearWhitespaces
 };

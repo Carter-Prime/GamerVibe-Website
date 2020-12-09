@@ -7,21 +7,32 @@ const upvoteModel = require('../models/upvoteModel');
 const moderatorModel = require('../models/moderatorModel');
 const followModel = require('../models/followModel');
 const {delete_file, make_thumbnail} = require('../utils/fileHandling');
+const {clearWhitespaces} = require('../utils/checks');
 
 // Make new post
 const new_post = async (req, res) => {
+  const thumbUrl = './thumbnails';
+  const uploadUrl = './uploads';
+
   // Checks if image is missing
   if (!req.file) {
     return res.status(400).json(errorJson('Image must be JPEG or PNG'));
   }
 
   // Makes thumbnail
-  const thumb = await make_thumbnail(req.file, './thumbnails');
+  const thumb = await make_thumbnail(req.file, thumbUrl);
 
   // If thumbnail return error
   if (thumb['error']) {
-    delete_file(`./uploads/${req.file.filename}`);
+    delete_file(`${uploadUrl}/${req.file.filename}`);
     return res.status(400).json(thumb);
+  }
+
+  const caption = clearWhitespaces(req.body.caption)
+  if(caption.length === 0) {
+    delete_file(`${uploadUrl}/${req.file.filename}`);
+    delete_file(`${thumbUrl}/${req.file.filename}`);
+    return res.status(400).json(errorJson('You can\'t add empty caption'))
   }
 
   // Add new post to database
@@ -33,8 +44,8 @@ const new_post = async (req, res) => {
 
   // If query return error
   if (query['error']) {
-    delete_file(`./uploads/${req.file.filename}`);
-    delete_file(`./thumbnails/${req.file.filename}`);
+    delete_file(`${uploadUrl}/${req.file.filename}`);
+    delete_file(`${thumbUrl}/${req.file.filename}`);
     return res.status(400).json(query);
   }
 
