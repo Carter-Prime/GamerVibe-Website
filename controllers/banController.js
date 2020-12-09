@@ -62,7 +62,12 @@ const unban_user = async (req, res) => {
       res.json(messageJson(`User ${req.body.bannedId} is unbanned`));
 };
 
+const isBanned = async (req, res) => {
+  return await checks.isUserBanned(req, res)
+}
+
 module.exports = {
   ban_user,
   unban_user,
+  isBanned
 };

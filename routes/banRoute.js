@@ -7,6 +7,7 @@ const banController = require('../controllers/banController');
 // Ban user
 // or remove ban from user
 router.route('/').
+    get(banController.isBanned).
     put([
       body('bannedId').trim().isInt(),
       body('reason').trim().isLength({min: 1, max: 255}).escape(),
