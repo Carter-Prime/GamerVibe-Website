@@ -13,7 +13,7 @@ const hasModError = async (req, res) => {
 };
 
 const clearWhitespaces = (input) => {
-  return input.replace(/\s(?=\s)/g, '');
+  return input.replace(/\s(?=\s{2,})/g, '');
 }
 
 module.exports = {
