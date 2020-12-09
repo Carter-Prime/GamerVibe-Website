@@ -21,24 +21,51 @@ const add_new_post = async (uid, caption, imgFilename) => {
 const get_discover_posts = async (n, uid, beginId) => {
   try {
     const [rows] = await promisePool.execute(
-      "SELECT p.post_id, " +
-        "p.user_id, u.username, p.caption, p.created_at, p.imgfilename " +
-        "FROM Post AS p " +
-        "LEFT JOIN User AS u " +
-        "ON u.user_id = p.user_id " +
-        "LEFT JOIN Blocking AS b " +
-        "ON b.blocker_id = ? " +
-        "AND b.blocking_id = p.user_id " +
+      "SELECT DISTINCT p.post_id, p.user_id, p.caption, u.username, p.created_at, " +
+        "p.imgfilename, " +
+        "( " +
+        "SELECT count(*) " +
+        "FROM Upvote l " +
+        "WHERE p.post_id = l.post_id " +
+        "AND l.unliked_at IS NULL " +
+        ") Upvotes, " +
+        "( " +
+        "SELECT count(*) " +
+        "FROM Following f " +
+        "WHERE f.following_id = u.user_id " +
+        "AND f.canceled_At IS NULL " +
+        ") PosterFollowers, " +
+        "( " +
+        "SELECT count(*) " +
+        "FROM Blocking AS b " +
+        "WHERE b.blocking_id = u.user_id " +
+        "AND b.unblocked_at IS NULL " +
+        ") HiddenFrom " +
+        "FROM Post AS p, User AS u, Following AS f, Blocking AS b " +
         "WHERE p.deleted_at IS NULL " +
         "AND p.banned_at IS NULL " +
         "AND u.user_id != ? " +
-        "AND u.private_acc != 1 " +
-        "AND u.banned_at IS NULL " +
+        "AND u.user_id = p.user_id " +
+        "AND u.private_acc = 0 " +
         "AND u.deleted_at IS NULL " +
-        "AND b.blocked_at IS NULL " +
+        "AND u.banned_at IS NULL " +
+        "AND ( " +
+        "SELECT COUNT(*) " +
+        "FROM Blocking as b " +
+        "WHERE b.blocker_id = ? " +
+        "AND b.blocking_id = p.user_id " +
+        "AND b.unblocked_at IS NULL" +
+        ") = 0 " +
+        "AND ( " +
+        "SELECT COUNT(*) " +
+        "FROM Following as f1 " +
+        "WHERE f1.follower_id = ? " +
+        "AND f1.following_id = p.user_id " +
+        "AND f1.canceled_at IS NULL " +
+        ") = 0 " +
         "AND p.post_id < ? " +
         "ORDER BY created_at DESC " +
-        "LIMIT ?", [uid, uid, beginId, n]
+        "LIMIT ?", [uid, uid, uid, beginId, n]
     );
     return rows;
   } catch (e) {
@@ -55,17 +82,20 @@ const get_following_posts = async (uid, pid, amount) => {
         "( " +
         "SELECT COUNT(*) " +
         "FROM Upvote l " +
-        "WHERE p.post_id = l.post_id AND l.unliked_at IS NULL " +
+        "WHERE p.post_id = l.post_id " +
+        "AND l.unliked_at IS NULL " +
         ") Upvotes, " +
         "( " +
         "SELECT COUNT(*) " +
         "FROM Following f " +
         "WHERE f.following_id = u.user_id " +
+        "AND f.canceled_at IS NULL " +
         ") PosterFollowers, " +
         "( " +
         "SELECT COUNT(*) " +
         "FROM Blocking AS b " +
         "WHERE b.blocking_id = u.user_id " +
+        "AND b.unblocked_at IS NULL " +
         ") HiddenFrom " +
         "FROM Post AS p " +
         "INNER JOIN User AS u " +

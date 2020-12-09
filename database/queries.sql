@@ -307,15 +307,13 @@ ORDER BY created_at DESC
 LIMIT 30 
 
 -- Discovery query that will not show friends and excludes posts from blocked users and deleted users--
-    -- example below for user 3
+    -- example below for user 76
 SELECT DISTINCT p.post_id,
     p.user_id,
     p.caption,
     u.username,
     p.created_at,
     p.imgfilename,
-    p.deleted_at,
-    p.banned_at,
     (
         SELECT count(post_id)
         FROM Upvote l
@@ -339,17 +337,18 @@ FROM Post AS p,
     Blocking AS b
 WHERE p.deleted_at IS NULL
     AND p.banned_at IS NULL
-    AND u.user_id != 3
+    AND u.user_id != 76
     AND u.user_id = p.user_id
-    AND (u.private_acc = 0)
+    AND u.private_acc = 0
     AND u.deleted_at IS NULL
     AND u.banned_at IS NULL
-    AND TIMESTAMPDIFF(SECOND, p.created_at, NOW()) > 0
-    AND NOT (
-        b.blocker_id = 3
-        AND b.blocking_id = u.user_id
+    AND (
+        SELECT COUNT(*)
+        FROM Blocking as b
+        WHERE b.blocker_id = 76
+        AND b.blocking_id = p.user_id
         AND b.unblocked_at IS NULL
-    )
+    ) = 0
 ORDER BY created_at DESC
 LIMIT 30;
 
@@ -409,21 +408,24 @@ ORDER BY created_at DESC
 LIMIT 30;
 
 -- Friends query 2.0
-SELECT p.post_id, p.user_id, u.username, p.caption, p.imgfilename, p.created_at, p.deleted_at, p.banned_at, f.follower_id, f.following_id, f.canceled_at,
+SELECT p.post_id, p.user_id, u.username, p.caption, p.imgfilename, p.created_at, p.deleted_at, p.banned_at,
     (
     	SELECT COUNT(*)
         FROM Upvote l
-        WHERE p.post_id = l.post_id AND l.unliked_at IS NULL
+        WHERE p.post_id = l.post_id
+        AND l.unliked_at IS NULL
 	) Upvotes,
     (
     	SELECT COUNT(*)
         FROM Following f
         WHERE f.following_id = u.user_id
+        AND f.canceled_at IS NULL
 	) PosterFollowers,
     (
         SELECT COUNT(*)
         FROM Blocking AS b
         WHERE b.blocking_id = u.user_id
+        AND b.unblocked_at IS NULL
     ) HiddenFrom
 FROM Post AS p
 INNER JOIN User AS u
