@@ -314,6 +314,8 @@ SELECT DISTINCT p.post_id,
     u.username,
     p.created_at,
     p.imgfilename,
+    p.deleted_at,
+    p.banned_at,
     (
         SELECT count(post_id)
         FROM Upvote l
@@ -337,9 +339,9 @@ FROM Post AS p,
     Blocking AS b
 WHERE p.deleted_at IS NULL
     AND p.banned_at IS NULL
-    AND u.user_id != 76
+    AND u.user_id != 3
     AND u.user_id = p.user_id
-    AND u.private_acc = 0
+    AND (u.private_acc = 0)
     AND u.deleted_at IS NULL
     AND u.banned_at IS NULL
     AND (
@@ -348,6 +350,13 @@ WHERE p.deleted_at IS NULL
         WHERE b.blocker_id = 76
         AND b.blocking_id = p.user_id
         AND b.unblocked_at IS NULL
+    ) = 0
+    AND (
+        SELECT COUNT(*)
+        FROM Following as f1
+        WHERE f1.follower_id = 76
+        AND f1.following_id = p.user_id
+        AND f1.canceled_at IS NULL
     ) = 0
 ORDER BY created_at DESC
 LIMIT 30;
