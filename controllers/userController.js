@@ -23,7 +23,7 @@ const get_user = async (req, res) => {
         user.user_id,
         wantedUser.user_id,
     );
-    const mod = await moderatorModel.get_mod(user.user_id);
+    const mod = await moderatorModel.getModerator(user.user_id);
 
     // User is not following current user or user is not moderator
     if (wantedUser.private_acc === 1 && follow['error'] && mod['error']) {
