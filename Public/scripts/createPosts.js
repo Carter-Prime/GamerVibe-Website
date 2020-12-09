@@ -1,7 +1,8 @@
 "use strict";
 
 const mainBody = document.getElementById("js-main-body");
-const blockedUserListBtn = document.getElementById("js-blocked-list-btn");
+const blockedListContainer = document.getElementById("js-blocked-list-cards");
+const blockListSection = document.getElementById("js-blocked-list-section");
 
 const createActionBar = (userType, post) => {
   const actionButtons = document.createElement("div");
@@ -42,6 +43,7 @@ const createActionBar = (userType, post) => {
       getHomePosts();
     } else if (window.location.pathname === "/followers.html") {
       getFollowerPosts();
+      getBlockedList();
     } else if (window.location.pathname === "/search.html") {
       location.reload();
     } else {
@@ -57,6 +59,10 @@ const detailedPost = (post) => {
 
   if (userType != "anonymous") {
     getUserByID(post.content.user_id);
+  }
+
+  if (window.location.pathname === "/followers.html") {
+    blockListSection.classList.add("hide");
   }
 
   const newCard = document.createElement("div");

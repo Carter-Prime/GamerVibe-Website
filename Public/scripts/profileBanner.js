@@ -75,6 +75,7 @@ const setProfileBanner = (userInfo) => {
           const followPosts = await response.json();
           console.log("followPost contains: " + JSON.stringify(followPosts, null, 1));
           followBtn.innerText = "un-Follow";
+          getUserByID(userInfo.user_id);
         } catch (e) {
           console.log(e.message);
         }
@@ -95,6 +96,7 @@ const setProfileBanner = (userInfo) => {
           const unfollowPosts = await response.json();
           console.log("unfollowPost contains: " + JSON.stringify(unfollowPosts, null, 1));
           followBtn.innerText = "Follow";
+          getUserByID(userInfo.user_id);
         } catch (e) {
           console.log(e.message);
         }

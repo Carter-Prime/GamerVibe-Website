@@ -1,10 +1,14 @@
 "use strict";
 
-const blockedListContainer = document.getElementById("js-blocked-list-cards");
-
 const createBlockList = (list) => {
   mainBody.innerHTML = "";
   blockedListContainer.innerHTML = "";
+
+  if (list.length != 0) {
+    blockListSection.classList.remove("hide");
+  } else {
+    blockListSection.classList.add("hide");
+  }
 
   for (let i = 0; i < list.length; i++) {
     console.log(list[i]);
