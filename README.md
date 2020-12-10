@@ -198,5 +198,8 @@ For profile pictures
 
 ## UI
 ![screens mobile](./screenshots/screens_mobile.png)
+
 ![screens web discovery](./screenshots/screens_web_discovery.png)
+
 ![screens web search](./screenshots/screens_web_search.png)
+
