@@ -197,6 +197,6 @@ For profile pictures
 ![database deisgn](./database/database.png)
 
 ## UI
-![screens mobile](./screenshots/screns_mobile.png)
-![screens web discovery](./screenshots/screns_web_discovery.png)
-![screens web search](./screenshots/screns_web_search.png)
+![screens mobile](./screenshots/screens_mobile.png)
+![screens web discovery](./screenshots/screens_web_discovery.png)
+![screens web search](./screenshots/screens_web_search.png)
