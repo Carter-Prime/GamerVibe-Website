@@ -1,5 +1,5 @@
 # GamerVibe-Website
-Instagram for gamers, a place to share in game screenshots and videos on gamer persona
+Instagram for gamers, a place to share in game images and gamer persona
 
 ## Demo Video
 [Demo Video Link](https://drive.google.com/file/d/1v5fgSUze6A3vtSqU9D_mQt_0lT6t0NpC/view?usp=sharing)
