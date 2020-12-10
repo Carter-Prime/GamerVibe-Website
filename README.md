@@ -4,14 +4,16 @@ Instagram for gamers, a place to share in game images and gamer persona
 ## Demo Video
 [Demo Video Link](https://drive.google.com/file/d/1v5fgSUze6A3vtSqU9D_mQt_0lT6t0NpC/view?usp=sharing)
 
-## Functionality
-Anonymous visitors can view public posts in Discovery and search for pubic posts under Search.
-
-Registered users can add and delete post, like/unlike and comment posts. They can also follow other users and block other users from their personal feeds.
-
-Moderators can on top of that ban user accounts.
-
-
+## Features
+Mobile first responsive design
+Create accounts and upload posts
+Comment on and like other users posts.
+Follow other users to keep up with their posts
+Discover new users with their latest posts
+Account management with 3 levels of access, anonymous, registered and moderators.
+Registered users can have either a public or private account.
+The ability to block unwanted user accounts.
+Search all posts by users or post tags.
 
 ## Quick set-up
 > npm i
