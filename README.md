@@ -195,3 +195,8 @@ For profile pictures
 
 ## Database design
 ![database deisgn](./database/database.png)
+
+## UI
+![screens mobile](./screenshots/screns_mobile.png)
+![screens web discovery](./screenshots/screns_web_discovery.png)
+![screens web search](./screenshots/screns_web_search.png)
