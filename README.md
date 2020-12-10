@@ -6,14 +6,23 @@ Instagram for gamers, a place to share in game images and gamer persona
 
 ## Features
 Mobile first responsive design
+
 Create accounts and upload posts
-Comment on and like other users posts.
+
+Comment on and like other users posts
+
 Follow other users to keep up with their posts
+
 Discover new users with their latest posts
-Account management with 3 levels of access, anonymous, registered and moderators.
-Registered users can have either a public or private account.
-The ability to block unwanted user accounts.
-Search all posts by users or post tags.
+
+Account management with 3 levels of access, anonymous, registered and moderators
+
+Registered users can have either a public or private account
+
+The ability to block unwanted user accounts
+
+Search all posts by users or post tags
+
 
 ## Quick set-up
 > npm i
