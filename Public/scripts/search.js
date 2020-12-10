@@ -119,7 +119,7 @@ function publishTags(data) {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(url + "/search/tagname/" + item.tag, options);
+        const res = await fetch(url + "/search/tagname/" + result.tag, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
