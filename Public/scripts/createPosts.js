@@ -555,7 +555,7 @@ const createPost = () => {
   postTags.setAttribute("maxLength", "255");
   postTags.setAttribute("name", "tags");
   postTags.setAttribute("id", "js-upload-tags-value");
-  postTags.setAttribute("placeholder", "Your tags #tagGoesHere");
+  postTags.setAttribute("placeholder", "Your tags: tagGoesHere");
   postTags.required = true;
 
   tagsDiv.append(tagsLabel, postTags);
