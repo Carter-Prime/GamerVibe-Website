@@ -23,6 +23,7 @@ ADD FOREIGN KEY (banned_by) REFERENCES Moderator(moderator_id);
 CREATE TABLE Post (
     post_id INT AUTO_INCREMENT,
     user_id INT,
+    views INT DEFAULT 0,
     caption VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP NULL,
