@@ -5,9 +5,9 @@ Instagram for gamers, a place to share in game images and gamer persona
 [Demo Video Link](https://drive.google.com/file/d/1v5fgSUze6A3vtSqU9D_mQt_0lT6t0NpC/view?usp=sharing)
 
 ## Functionality
-Anonymous visitors can view public posts in Discovery and searcj for pubic posts undera search.
+Anonymous visitors can view public posts in Discovery and search for pubic posts under Search.
 
-Registered users can add and delete post, like/unlike and comment posts. They can also follow other users, including those with private accounts or block users.
+Registered users can add and delete post, like/unlike and comment posts. They can also follow other users and block other users from their personal feeds.
 
 Moderators can on top of that ban user accounts.
 
