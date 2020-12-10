@@ -76,7 +76,7 @@
 #js-profile-img {
   display: none;
   width: 200px;
-  clip-path: circle(40px at center);
+  border-radius: 50%;
 }
 
 .btn-container {
@@ -157,7 +157,6 @@
   #js-profile-img {
     display: flex;
     width: 175px;
-    clip-path: circle(50px at center);
   }
 
   .account-faq-div {
@@ -189,6 +188,5 @@
 
   #js-profile-img {
     width: 200px;
-    clip-path: circle(80px at center);
   }
 }

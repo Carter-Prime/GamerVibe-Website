@@ -3,6 +3,7 @@ const mainBody = document.getElementById("js-main-body");
 const blockedListContainer = document.getElementById("js-blocked-list-cards");
 const blockListSection = document.getElementById("js-blocked-list-section");
 const followingTitle = document.getElementById("js-following-title");
+const state = document.getElementById("js-current-state");
 
 /**
  *
@@ -555,7 +556,7 @@ const createPost = () => {
   postTags.setAttribute("maxLength", "255");
   postTags.setAttribute("name", "tags");
   postTags.setAttribute("id", "js-upload-tags-value");
-  postTags.setAttribute("placeholder", "Your tags #tagGoesHere");
+  postTags.setAttribute("placeholder", "Your tags go here");
   postTags.required = true;
 
   tagsDiv.append(tagsLabel, postTags);
@@ -592,6 +593,7 @@ const createPost = () => {
 
   uploadBtn.addEventListener("click", async (Event) => {
     Event.preventDefault();
+    state.classList.remove("hide");
     const tags = postTags.value;
     const tagsArray = tags.trim().split(" ");
     const caption = postCaption.value;
@@ -616,7 +618,10 @@ const createPost = () => {
       const response = await fetch(url + "/post/", fetchOptions);
       const post = await response.json();
       if (post.caption != null) {
+        state.classList.add("hide");
         location.reload();
+      } else {
+        state.innerHTML = `<h1> Error with upload...</h1>`;
       }
     } catch (e) {
       console.log("error: " + e);
