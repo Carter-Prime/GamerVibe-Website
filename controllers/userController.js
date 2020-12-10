@@ -106,7 +106,7 @@ const update_user = async (req, res) => {
 };
 
 // Get users list by name
-const update_user_by_name = async (req, res) => {
+const get_users_by_name = async (req, res) => {
   const name = req.params.name;
   const users = await userModel.getupdateUserByName(`%${name}%`);
   res.json(users);
@@ -115,5 +115,5 @@ const update_user_by_name = async (req, res) => {
 module.exports = {
   get_user,
   update_user,
-  update_user_by_name,
+  get_users_by_name,
 };

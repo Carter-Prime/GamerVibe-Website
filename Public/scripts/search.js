@@ -9,20 +9,21 @@ const state_posts = document.querySelector("h4");
 let name;
 let tagname;
 
+// Submit listener on search forms (two forms, 1 input)
 form_users.addEventListener("submit", (evt) => {
   evt.preventDefault();
-  doFetchUsers();
+  results.innerHTML = "";
+  doFetch("user");
 });
 
 form_tags.addEventListener("click", (evt) => {
   evt.preventDefault();
-  doFetchTags();
+  results.innerHTML = "";
+  doFetch("tag");
 });
 
-/**
- *  Search for specific tagname and passes the result to publishTags to append them to the html.
- */
-const doFetchTags = async () => {
+// Fetch tags with tagname
+const doFetch = async (what) => {
   state.innerText = "Loading ...";
   state_posts.innerText = "";
   try {
@@ -31,42 +32,21 @@ const doFetchTags = async () => {
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    const res = await fetch(url + "/search/tagname/" + input.value, options);
+    const res = await fetch(
+      url + "/search/" + what + "/" + input.value,
+      options
+    );
     if (!res.ok) throw new Error("Data not fetched!");
     const data = await res.json();
     state.innerText = "";
     if (data.length === 0) {
       state.innerText = "Nothing found";
     } else {
-      publishTags(data);
-      state.innerText = "Results:";
-    }
-  } catch (err) {
-    console.warn(err);
-    state.innerText = "Something went wrong ...";
-  }
-};
-
-/**
- *  Search for specific user and passes the result to publishUsers to append them to the html.
- */
-const doFetchUsers = async () => {
-  state.innerText = "Loading ...";
-  state_posts.innerText = "";
-  try {
-    const options = {
-      headers: {
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-    };
-    const res = await fetch(url + "/search/user/" + input.value, options);
-    if (!res.ok) throw new Error("Data not fetched!");
-    const data = await res.json();
-    state.innerText = "";
-    if (data.length === 0) {
-      state.innerText = "Nothing found";
-    } else {
-      publishUsers(data);
+      if (what == "tag") {
+        publishTags(data);
+      } else {
+        publishUsers(data, what);
+      }
       state.innerText = "Results:";
     }
   } catch (err) {
@@ -80,11 +60,9 @@ const doFetchUsers = async () => {
  *  Creates and populates search items and appends to html
  */
 function publishUsers(data) {
-  results.innerHTML = "";
+  results.innerHTML = ""; //clear previous search
 
   data.forEach((user) => {
-    !user.username ? (tagname = "name not available") : (tagname = user.username);
-
     const item = document.createElement("p");
     item.classList.add("result-item");
     item.innerText = user.username;
@@ -99,7 +77,10 @@ function publishUsers(data) {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(url + "/search/username/" + user.username, options);
+        const res = await fetch(
+          url + "/search/username/" + user.username,
+          options
+        );
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
@@ -124,8 +105,6 @@ function publishTags(data) {
   results.innerHTML = "";
 
   data.forEach((result) => {
-    !result.tag ? (tagname = "name not available") : (tagname = result.tag);
-
     const item = document.createElement("p");
     item.classList.add("result-item");
     item.innerText = result.tag;
@@ -140,7 +119,7 @@ function publishTags(data) {
             Authorization: "Bearer " + sessionStorage.getItem("token"),
           },
         };
-        const res = await fetch(url + "/search/tag/" + item.tag, options);
+        const res = await fetch(url + "/search/tagname/" + item.tag, options);
         if (!res.ok) throw new Error("Data not fetched!");
         const data = await res.json();
         state_posts.innerText = "";
